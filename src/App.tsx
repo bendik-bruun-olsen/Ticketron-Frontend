@@ -1,10 +1,25 @@
+// App.tsx
 import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App: React.FC = () => {
   return (
-    <div className="text-center">
-      <h1 className="text-2xl font-bold">Welcome to Ticketron!</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} /> {/* Login Page */}
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <HomePage /> {/* Protected Home Page */}
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
   );
 };
 

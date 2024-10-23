@@ -1,8 +1,22 @@
+// index.tsx or main.tsx
 import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./app";
-import "./index.css";
+import { createRoot } from "react-dom/client";
+import { PublicClientApplication } from "@azure/msal-browser";
+import { MsalProvider } from "@azure/msal-react";
+import App from "./App";
+import { msalConfig } from "./authConfig";
 
-const root = document.getElementById("app") as HTMLElement;
+const msalInstance = new PublicClientApplication(msalConfig);
 
-ReactDOM.createRoot(root).render(<App />);
+const container = document.getElementById("root");
+
+if (container) {
+  const root = createRoot(container);
+  root.render(
+    <MsalProvider instance={msalInstance}>
+      <App />
+    </MsalProvider>
+  );
+} else {
+  console.error("Root element not found!");
+}
