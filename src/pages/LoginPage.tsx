@@ -4,13 +4,13 @@ import { Navigate } from "react-router-dom";
 import Login from "../components/Login";
 
 const LoginPage: React.FC = () => {
-  const isAuthenticated = useIsAuthenticated();
+	const isAuthenticated = useIsAuthenticated();
 
-  if (isAuthenticated) {
-    return <Navigate to="/home" />;
-  }
+	if (isAuthenticated) {
+		return <Navigate to="/home" />;
+	}
 
-  return <Login />;
+	return <Login />;
 };
 
 export default LoginPage;
