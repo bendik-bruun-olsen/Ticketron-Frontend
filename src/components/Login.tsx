@@ -1,7 +1,7 @@
-import React from "react";
 import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../authConfig";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const Login: React.FC = () => {
   const { instance } = useMsal();
@@ -20,8 +20,10 @@ const Login: React.FC = () => {
 
   return (
     <div>
-      <h2>Login Page</h2>
-      <button onClick={handleLogin}>Login</button>
+      <h2 className="text-3xl font-bold underline">Login Page</h2>
+      <button onClick={handleLogin} className="btn-primary w-3/4">
+        Login
+      </button>
     </div>
   );
 };
