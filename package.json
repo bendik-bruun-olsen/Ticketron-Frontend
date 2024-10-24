@@ -4,10 +4,11 @@
   "description": "AN app to store all your tickets in one place",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite && npx tailwindcss -i ./src/index.css -o ./src/output.css --watch",
     "build": "vite build",
     "serve": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:css": "npx tailwindcss -i ./src/index.css -o ./src/output.css --watch"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
   "dependencies": {
     "@azure/msal-browser": "^3.26.1",
     "@azure/msal-react": "^2.1.1",
+    "@headlessui/react": "^2.1.10",
+    "@heroicons/react": "^2.1.5",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
