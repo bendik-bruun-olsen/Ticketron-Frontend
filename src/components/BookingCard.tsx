@@ -1,13 +1,5 @@
 import React from 'react'
-
-type BookingSummary = {
-    imageUrl: string
-    title: string
-    fromDate: string
-    toDate: string
-    participants: number
-    id: string
-}
+import { BookingSummary } from './types'
 
 interface BookingCardProps {
     booking: BookingSummary
@@ -16,13 +8,22 @@ interface BookingCardProps {
 export function BookingCard({ booking }: BookingCardProps) {
     const { imageUrl, title, fromDate, toDate, participants, id } = booking
     return (
-        <>
+        <div className="w-44 flex flex-col gap-1">
             <img
-                src="https://placehold.co/173x173"
-                alt="Placeholder image"
+                src={imageUrl}
+                alt={`Picture for booking ${title}`}
                 className="rounded-xl"
-            />
-            <h2>{title}</h2>
-        </>
+            />{' '}
+            <div className="flex flex-col gap-1">
+                <h2 className="text-black font-bold">{title}</h2>
+                <p>
+                    {fromDate} - {toDate}
+                </p>
+                <p>
+                    {participants}{' '}
+                    {participants > 1 ? 'Participants' : 'Participant'}
+                </p>
+            </div>
+        </div>
     )
 }
