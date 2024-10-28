@@ -19,11 +19,10 @@ const Logout: React.FC = () => {
 
     return (
         <>
-            <input type="email" id="email" className="input" />
+            <input type="email" id="email" className="input-contained" />
             <button onClick={handleLogout} className="btn-primary">
                 Logout
             </button>
-            <button className="btn-primary w-3/4">Test</button>
         </>
     )
 }

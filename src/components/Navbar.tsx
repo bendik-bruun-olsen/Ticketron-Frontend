@@ -5,15 +5,16 @@ import { Paths } from '../../paths'
 import NavMenu from './NavMenu'
 import { ArrowUturnLeftIcon, Bars4Icon } from '@heroicons/react/24/solid'
 
-const Navbar = (): JSX.Element => {
+const Navbar: React.FC = () => {
     const [open, setOpen] = useState(false)
     const matchRoute = useLocation()
+
     return (
         <>
             <nav className="h-14 w-full flex justify-between content-center items-center p-4 border-b border-b-grey">
                 {Values[matchRoute.pathname]?.leftAction ?? <></>}
 
-                <p className="text-center">
+                <p className="text-center font-bold">
                     {Values[matchRoute.pathname]?.title ?? ''}
                 </p>
                 <button onClick={() => setOpen(true)}>
@@ -50,7 +51,15 @@ const Values = {
     [Paths.BOOKING_DETAILS]: {
         title: 'Booking Details',
         leftAction: (
-            <button>
+            <button onClick={() => history.back()}>
+                <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
+            </button>
+        ),
+    },
+    [Paths.ADD_BOOKING]: {
+        title: 'New Booking',
+        leftAction: (
+            <button onClick={() => history.back()}>
                 <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
             </button>
         ),
