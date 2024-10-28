@@ -1,14 +1,20 @@
 import React from 'react'
 
-const BookingCardProps = {
-    imageUrl: 'https://placehold.co/173x173',
-    title: '',
-    fromDate: 'June 10, 2023',
-    toDate: 'June 12, 2023',
-    participants: 1,
+type BookingSummary = {
+    imageUrl: string
+    title: string
+    fromDate: string
+    toDate: string
+    participants: number
+    id: string
 }
 
-export function BookingCard() {
+interface BookingCardProps {
+    booking: BookingSummary
+}
+
+export function BookingCard({ booking }: BookingCardProps) {
+    const { imageUrl, title, fromDate, toDate, participants, id } = booking
     return (
         <>
             <img

@@ -15,7 +15,7 @@ import SignUpPage from './src/pages/SignUpPage'
 import TicketDetailsPage from './src/pages/TicketDetailsPage'
 import UserProfilePage from './src/pages/UserProfilePage'
 import EditUserProfilePage from './src/pages/EditUserProfilePage'
-import { createBrowserRouter } from 'react-router-dom'
+import { Outlet, createBrowserRouter } from 'react-router-dom'
 import Navbar from './src/components/Navbar'
 
 const routes = [
