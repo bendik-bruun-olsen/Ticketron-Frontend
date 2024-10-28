@@ -1,4 +1,3 @@
-// index.tsx or main.tsx
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { PublicClientApplication } from '@azure/msal-browser'
