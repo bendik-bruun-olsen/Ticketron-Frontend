@@ -11,7 +11,7 @@ const Login: React.FC = () => {
         instance
             .loginPopup(loginRequest)
             .then(() => {
-                navigate('/login')
+                navigate('/')
             })
             .catch((error) => {
                 console.error('Login failed', error)
