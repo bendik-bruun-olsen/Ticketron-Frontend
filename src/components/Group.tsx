@@ -9,7 +9,7 @@ interface GroupProps {
     group: Group
 }
 
-const Group = ({ group }: GroupProps): JSX.Element => {
+const Group: React.FC<GroupProps> = ({ group }) => {
     const { title, participants } = group
     return (
         <div className="rounded-xl bg-red-200 w-60 p-4">

@@ -6,13 +6,28 @@ import {
     UserIcon,
 } from '@heroicons/react/24/solid'
 import MenuButton from './NavButton'
+import { useNavigate } from 'react-router-dom'
+import { useMsal } from '@azure/msal-react'
 
 interface MenuProps {
     isOpen: boolean
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const NavMenu = ({ isOpen, setIsOpen }: MenuProps): JSX.Element => {
+const NavMenu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
+    const { instance } = useMsal()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        instance
+            .logoutPopup()
+            .then(() => {
+                navigate('/')
+            })
+            .catch((error) => {
+                console.error('Logout failed', error)
+            })
+    }
     return (
         <main
             className={
@@ -49,7 +64,7 @@ const NavMenu = ({ isOpen, setIsOpen }: MenuProps): JSX.Element => {
                         <ArrowLeftEndOnRectangleIcon className="size-6 text-red-700" />
                     }
                     title={'Logout'}
-                    href={'/logout'}
+                    handleClick={handleLogout}
                 />
             </section>
             <section

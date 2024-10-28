@@ -3,15 +3,23 @@ import React from 'react'
 interface Buttonprops {
     icon: JSX.Element
     title: string
-    href: string
+    href?: string
+    handleClick?: () => void
 }
 
-const MenuButton = ({ icon, title, href }: Buttonprops): JSX.Element => {
+const MenuButton: React.FC<Buttonprops> = ({
+    icon,
+    title,
+    href,
+    handleClick,
+}) => {
     return (
         <button
             type="button"
             className="flex p-2 border-b-2 items-center w-full text-base text-gray-900 transition duration-75  hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-            onClick={() => location.replace(href)}
+            onClick={() =>
+                handleClick ? handleClick() : location.replace(href ?? '')
+            }
         >
             {icon}
             <p className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">
