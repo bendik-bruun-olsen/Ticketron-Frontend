@@ -1,11 +1,36 @@
-import React from "react";
+import React from 'react'
+import Group from '../components/Group'
+
+const allGroups = [
+    {
+        title: 'Workout',
+        participants: ['Anne', 'Kokila'],
+    },
+    {
+        title: 'Workout',
+        participants: ['Anne', 'Kokila'],
+    },
+    {
+        title: 'Workout',
+        participants: ['Anne', 'Kokila'],
+    },
+    {
+        title: 'Workout',
+        participants: ['Anne', 'Kokila'],
+    },
+]
 
 const GroupDetailsPage: React.FC = () => {
-	return (
-		<div>
-			<h1>Welcome to GroupDetailsPage</h1>
-		</div>
-	);
-};
+    return (
+        <div className="p-4">
+            <h1>Welcome to GroupDetailsPage</h1>
+            <div className="flex flex-col gap-4">
+                {allGroups.map((group) => (
+                    <Group group={group} />
+                ))}
+            </div>
+        </div>
+    )
+}
 
-export default GroupDetailsPage;
+export default GroupDetailsPage
