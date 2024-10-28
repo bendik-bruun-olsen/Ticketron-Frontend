@@ -6,6 +6,7 @@ import {
     UserIcon,
 } from '@heroicons/react/24/solid'
 import MenuButton from './NavButton'
+import { Paths } from '../../paths'
 
 interface MenuProps {
     isOpen: boolean
@@ -32,17 +33,17 @@ const NavMenu = ({ isOpen, setIsOpen }: MenuProps): JSX.Element => {
                 <MenuButton
                     icon={<CalendarIcon className="size-6  text-red-700" />}
                     title={'Bookings'}
-                    href={'/'}
+                    href={Paths.HOME}
                 />
                 <MenuButton
                     icon={<UserGroupIcon className="size-6 text-red-700" />}
                     title={'Groups'}
-                    href={'/groups'}
+                    href={Paths.GROUP_DETAILS}
                 />
                 <MenuButton
                     icon={<UserIcon className="size-6 text-red-700" />}
                     title={'Edit profile'}
-                    href={'/user'}
+                    href={Paths.USER_PROFILE}
                 />
                 <MenuButton
                     icon={
