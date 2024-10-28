@@ -1,45 +1,45 @@
 {
-  "name": "ticketron-frontend",
-  "version": "1.0.0",
-  "description": "AN app to store all your tickets in one place",
-  "main": "index.js",
-  "scripts": {
-    "dev": "vite && npx tailwindcss -i ./src/index.css -o ./src/output.css --watch",
-    "build": "vite build",
-    "serve": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:css": "npx tailwindcss -i ./src/index.css -o ./src/output.css --watch"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kokila-c/ticketron-frontend.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kokila-c/ticketron-frontend/issues"
-  },
-  "homepage": "https://github.com/kokila-c/ticketron-frontend#readme",
-  "dependencies": {
-    "@azure/msal-browser": "^3.26.1",
-    "@azure/msal-react": "^2.1.1",
-    "@headlessui/react": "^2.1.10",
-    "@heroicons/react": "^2.1.5",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.3",
-    "install": "^0.13.0",
-    "npm": "^10.9.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.27.0",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.9"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.14"
-  },
-  "type": "module"
+    "name": "ticketron-frontend",
+    "version": "1.0.0",
+    "description": "AN app to store all your tickets in one place",
+    "main": "index.js",
+    "scripts": {
+        "dev": "vite && npx tailwindcss -i ./src/index.css -o ./src/output.css --watch",
+        "build": "vite build",
+        "serve": "vite preview",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "style": "npx tailwindcss -i ./src/index.css -o ./src/output.css --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kokila-c/ticketron-frontend.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kokila-c/ticketron-frontend/issues"
+    },
+    "homepage": "https://github.com/kokila-c/ticketron-frontend#readme",
+    "dependencies": {
+        "@azure/msal-browser": "^3.26.1",
+        "@azure/msal-react": "^2.1.1",
+        "@headlessui/react": "^2.1.10",
+        "@heroicons/react": "^2.1.5",
+        "@types/react": "^18.3.11",
+        "@types/react-dom": "^18.3.1",
+        "@vitejs/plugin-react": "^4.3.3",
+        "install": "^0.13.0",
+        "npm": "^10.9.0",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-router-dom": "^6.27.0",
+        "typescript": "^5.6.3",
+        "vite": "^5.4.9"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.20",
+        "postcss": "^8.4.47",
+        "tailwindcss": "^3.4.14"
+    },
+    "type": "module"
 }
