@@ -4,7 +4,7 @@ export enum Paths {
     SIGN_UP = '/signup',
     USER_PROFILE = '/user',
     EDIT_USER_PROFILE = '/edit-user',
-    GROUP_DETAILS = '/group',
+    GROUP_DETAILS = '/groups',
     NEW_GROUP = '/new-group',
     ADD_GROUP = '/add-group',
     EDIT_GROUP = '/edit-group',
