@@ -2,3 +2,4 @@
 .env.production
 node_modules
 /src/output.css
+swa-config.json
