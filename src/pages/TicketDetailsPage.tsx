@@ -1,13 +1,24 @@
-import React from "react";
-import Navbar from "../components/Navbar";
+import React from 'react'
+import Navbar from '../components/Navbar'
+import TicketCard from '../components/TicketCard'
 
 const TicketDetailsPage: React.FC = () => {
-	return (
-		<div>
-			<Navbar />
-			<h2>Welcome to the Ticket Details Page</h2>
-		</div>
-	);
-};
+    return (
+        <div>
+            <Navbar />
+            <div className="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
+                <TicketCard
+                    imageUrl="https://via.placeholder.com/150"
+                    title="Ticket Name"
+                    type="Flybillett"
+                    username="Bruker Navn"
+                    price="1000kr"
+                    startDate="10.10.2024"
+                    endDate="10.10.2024"
+                />
+            </div>
+        </div>
+    )
+}
 
-export default TicketDetailsPage;
+export default TicketDetailsPage
