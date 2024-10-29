@@ -44,5 +44,5 @@ export const msalConfig = {
 }
 
 export const loginRequest = {
-    scopes: ['api://75d36570-3953-44a8-a8d7-ef388c3703fc/User.ReadWrite'],
+    scopes: ['api://df97ce3a-c8f7-4e2a-9918-fc7c693d3064/user.read'],
 }

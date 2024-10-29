@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import { BookingCard } from '../components/BookingCard'
 import BookingsList from '../components/BookingsList'
 import { useMsal } from '@azure/msal-react'
 import { loginRequest } from '../authConfig'
 import Logout from '../components/Logout'
+import Login from '../components/Login'
 
 const BookingDummy = {
     imageUrl: 'https://placehold.co/173x173',
@@ -51,8 +52,13 @@ interface ApiConfig {
 const HomePage: React.FC = () => {
     const [data, setData] = useState({})
     const { instance, accounts } = useMsal()
-    const isAuthenticated = accounts.length > 0
+    const [isAuthenticated, setIsAuthenticated] = useState(accounts.length > 0)
     let apiConfig = {} as ApiConfig
+
+    useEffect(() => {
+        setIsAuthenticated(accounts.length > 0)
+        console.log('isAuthenticated: ', isAuthenticated)
+    }, [accounts])
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -98,26 +104,30 @@ const HomePage: React.FC = () => {
 
             console.log('Fetching data with modified config: ', configWithToken)
 
-            const response = await fetch(apiConfig.url, {
+            const apiResponse = await fetch(apiConfig.url, {
                 method: apiConfig.method,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             })
-            if (!response.ok) {
+            if (!apiResponse.ok) {
                 console.log('No response from API :(')
                 return
             }
-            setData(response)
+            setData(await apiResponse.json())
         } catch (error) {
             console.log('Error fetching data: ', error)
         }
     }
 
+    useEffect(() => {
+        console.log('Data: ', data)
+    }, [data])
+
     return (
         <div className="p-4 flex flex-col gap-10">
             <h1 className="text-2xl font-bold">Welcome back, User!</h1>
-            <Logout />
+            {isAuthenticated ? <Logout /> : <Login />}
             <form onSubmit={handleSubmit}>
                 <input type="text" name="search" />
                 <button type="submit">Submit</button>
