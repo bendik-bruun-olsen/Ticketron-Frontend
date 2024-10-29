@@ -22,12 +22,10 @@ const allGroups = [
 
 const GroupDetailsPage: React.FC = () => {
     return (
-        <div className="p-4">
-            <div className="flex flex-col gap-4">
-                {allGroups.map((group) => (
-                    <Group group={group} />
-                ))}
-            </div>
+        <div className="flex flex-col gap-4">
+            {allGroups.map((group) => (
+                <Group group={group} />
+            ))}
         </div>
     )
 }

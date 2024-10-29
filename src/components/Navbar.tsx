@@ -23,8 +23,10 @@ const Navbar: React.FC = () => {
             </nav>
             <NavMenu isOpen={open} setIsOpen={setOpen} />
 
-            <div className="p-4 flex justify-center items-center w-full">
-                <Outlet />
+            <div className="p-4 mx-auto max-w-3xl">
+                <div>
+                    <Outlet />
+                </div>
             </div>
         </>
     )
