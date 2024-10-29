@@ -1,11 +1,22 @@
-import React from "react";
+import React from 'react'
 
 const EditUserProfilePage: React.FC = () => {
-	return (
-		<div>
-			<h1>Welcome to the Edit User Profile Page</h1>
-		</div>
-	);
-};
+    return (
+        <div className="p-2 flex flex-col gap-3 w-full">
+            <label className="">
+                <p className="pl-2">Name</p>
+                <input required className="input-contained" name="title" />
+            </label>
+            <label className="">
+                <p className="pl-2">Email</p>
+                <input required className="input-contained" name="title" />
+            </label>
+            <label className="">
+                <p className="pl-2">Phonenumber</p>
+                <input required className="input-contained" name="title" />
+            </label>
+        </div>
+    )
+}
 
-export default EditUserProfilePage;
+export default EditUserProfilePage

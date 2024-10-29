@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     }
 
     return (
-        <div className="p-4">
+        <div>
             <h2 className="text-3xl font-bold text-center pb-10 pt-10">
                 Welcome back!
             </h2>

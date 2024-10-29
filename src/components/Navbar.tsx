@@ -22,7 +22,10 @@ const Navbar: React.FC = () => {
                 </button>
             </nav>
             <NavMenu isOpen={open} setIsOpen={setOpen} />
-            <Outlet />
+
+            <div className="p-4 flex justify-center items-center w-full">
+                <Outlet />
+            </div>
         </>
     )
 }

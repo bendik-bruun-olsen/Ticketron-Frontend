@@ -8,7 +8,7 @@ const AddNewBookingPage: React.FC = () => {
     }
 
     return (
-        <form className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
             <label className="">
                 <p className="pl-2">Booking title</p>
                 <input required className="input-contained" name="title" />

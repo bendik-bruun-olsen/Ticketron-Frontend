@@ -7,7 +7,7 @@ const UserProfilePage: React.FC = () => {
     }
 
     return (
-        <div className="flex items-center flex-col gap-4 p-4 text-center pt-12">
+        <div className="flex items-center flex-col gap-4 text-center pt-12 w-full">
             <img
                 src="https://placehold.co/80x80"
                 width={'80px'}
