@@ -1,14 +1,17 @@
+/// <reference types="vite/client" />
+
 import { LogLevel } from '@azure/msal-browser'
 
 const isDevEnv = process.env.NODE_ENV === 'development'
 
 export const msalConfig = {
     auth: {
-        clientId: '4aa092b2-22e7-4cb7-b379-da3a640f27e0',
-        authority: 'https://login.microsoftonline.com/organizations',
-        redirectUri: isDevEnv
-            ? 'http://localhost:5173/auth/callback'
-            : 'https://white-cliff-06c7dbb03.5.azurestaticapps.net/3/auth/callback',
+        clientId: import.meta.env.VITE_AZURE_AD_CLIENT_ID,
+        authority: import.meta.env.VITE_AZURE_AD_AUTHORITY,
+        // redirectUri: isDevEnv
+        //     ? import.meta.env.VITE_AZURE_AD_DEV_REDIRECT_URI
+        //     : import.meta.env.VITE_AZURE_AD_PROD_REDIRECT_URI,
+        redirectUri: import.meta.env.BASE_URL + 'auth/callback',
     },
     system: isDevEnv
         ? {

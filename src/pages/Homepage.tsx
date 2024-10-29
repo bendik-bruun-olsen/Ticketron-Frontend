@@ -68,7 +68,7 @@ const HomePage: React.FC = () => {
         if (Id) {
             apiConfig = {
                 method: 'get',
-                url: `https://ticketron-web-cbbednduhza8hwgt.northeurope-01.azurewebsites.net/api/Booking/${Id}`,
+                url: `${import.meta.env.VITE_API_URL}/Booking/${Id}`,
             }
 
             console.log('Fetching data in handleSubmit')
