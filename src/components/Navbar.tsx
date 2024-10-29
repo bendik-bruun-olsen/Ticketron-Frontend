@@ -22,7 +22,12 @@ const Navbar: React.FC = () => {
                 </button>
             </nav>
             <NavMenu isOpen={open} setIsOpen={setOpen} />
-            <Outlet />
+
+            <div className="p-4 mx-auto max-w-screen-sm">
+                <div>
+                    <Outlet />
+                </div>
+            </div>
         </>
     )
 }
@@ -35,7 +40,7 @@ const Values = {
     [Paths.USER_PROFILE]: {
         title: 'Profile',
         leftAction: (
-            <button>
+            <button onClick={() => history.back()}>
                 <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
             </button>
         ),
@@ -43,11 +48,12 @@ const Values = {
     [Paths.EDIT_USER_PROFILE]: {
         title: 'Edit Profile',
         leftAction: (
-            <button>
+            <button onClick={() => location.replace(Paths.USER_PROFILE)}>
                 <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
             </button>
         ),
     },
+
     [Paths.BOOKING_DETAILS]: {
         title: 'Booking Details',
         leftAction: (

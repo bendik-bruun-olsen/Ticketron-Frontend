@@ -40,7 +40,11 @@ const routes = [
         element: <AddTicketPage />,
     },
     {
-        path: Paths.BOOKING_DETAILS,
+        path: `${Paths.BOOKING_DETAILS}`,
+        element: <BookingDetailsPage />,
+    },
+    {
+        path: `${Paths.BOOKING_DETAILS}`,
         element: <BookingDetailsPage />,
     },
     {

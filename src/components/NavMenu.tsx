@@ -6,6 +6,7 @@ import {
     UserIcon,
 } from '@heroicons/react/24/solid'
 import MenuButton from './NavButton'
+import { Paths } from '../../paths'
 import { useNavigate } from 'react-router-dom'
 import { useMsal } from '@azure/msal-react'
 
@@ -47,17 +48,17 @@ const NavMenu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
                 <MenuButton
                     icon={<CalendarIcon className="size-6  text-red-700" />}
                     title={'Bookings'}
-                    href={'/'}
+                    href={Paths.HOME}
                 />
                 <MenuButton
                     icon={<UserGroupIcon className="size-6 text-red-700" />}
                     title={'Groups'}
-                    href={'/groups'}
+                    href={Paths.GROUP_DETAILS}
                 />
                 <MenuButton
                     icon={<UserIcon className="size-6 text-red-700" />}
                     title={'Edit profile'}
-                    href={'/user'}
+                    href={Paths.USER_PROFILE}
                 />
                 <MenuButton
                     icon={
