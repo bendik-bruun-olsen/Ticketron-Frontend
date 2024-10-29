@@ -3,15 +3,6 @@ import Navbar from '../components/Navbar'
 import { BookingCard } from '../components/BookingCard'
 import BookingsList from '../components/BookingsList'
 
-const BookingDummy = {
-    imageUrl: 'https://placehold.co/173x173',
-    title: 'Trip to Paris',
-    fromDate: 'June 10, 2023',
-    toDate: 'June 12, 2023',
-    participants: 1,
-    id: '1',
-}
-
 const bookings = [
     {
         imageUrl: 'https://placehold.co/173x173',
@@ -27,7 +18,7 @@ const bookings = [
         fromDate: 'June 10, 2023',
         toDate: 'June 12, 2023',
         participants: 1,
-        id: '1',
+        id: '2',
     },
     {
         imageUrl: 'https://placehold.co/173x173',
@@ -35,7 +26,7 @@ const bookings = [
         fromDate: 'June 10, 2023',
         toDate: 'June 12, 2023',
         participants: 1,
-        id: '1',
+        id: '3',
     },
 ]
 

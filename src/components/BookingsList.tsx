@@ -12,7 +12,7 @@ const BookingsList = ({ bookings }: ListProps): JSX.Element => {
             <h2 className="font-bold mb-4">Upcoming travels</h2>
             <div className="grid grid-cols-2 gap-4">
                 {bookings.map((booking) => (
-                    <BookingCard booking={booking} />
+                    <BookingCard key={booking.id} booking={booking} />
                 ))}
             </div>
         </div>

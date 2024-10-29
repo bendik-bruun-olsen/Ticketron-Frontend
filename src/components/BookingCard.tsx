@@ -1,6 +1,6 @@
 import React from 'react'
 import { BookingSummary } from './types'
-import { Router } from 'react-router'
+import { Router, useParams } from 'react-router'
 import { Paths } from '../../paths'
 
 interface BookingCardProps {
