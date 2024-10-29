@@ -41,7 +41,7 @@ const bookings = [
 
 const HomePage: React.FC = () => {
     return (
-        <div className="p-4 flex flex-col gap-10">
+        <div className="flex flex-col gap-10">
             <h1 className="text-2xl font-bold">Welcome back, User!</h1>
             <BookingsList bookings={bookings} />
         </div>

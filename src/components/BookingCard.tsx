@@ -8,7 +8,7 @@ interface BookingCardProps {
 export function BookingCard({ booking }: BookingCardProps) {
     const { imageUrl, title, fromDate, toDate, participants, id } = booking
     return (
-        <div className="w-44 flex flex-col gap-1">
+        <div className="flex flex-col gap-1">
             <img
                 src={imageUrl}
                 alt={`Picture for booking ${title}`}

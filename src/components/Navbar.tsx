@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
             </nav>
             <NavMenu isOpen={open} setIsOpen={setOpen} />
 
-            <div className="p-4 mx-auto max-w-3xl">
+            <div className="p-4 mx-auto max-w-screen-sm">
                 <div>
                     <Outlet />
                 </div>
