@@ -3,21 +3,14 @@
 import { LogLevel } from '@azure/msal-browser'
 
 export const msalConfig = {
-    // auth: {
-    //     clientId: import.meta.env.VITE_AZURE_AD_CLIENT_ID,
-    //     clientId: 'bba522b8-6c6e-46a1-b557-753cbfb7ae8b',
-    //     authority: import.meta.env.VITE_AZURE_AD_AUTHORITY,
-    //     authority: 'https://ticketrontestingb2c.b2clogin.com/ticketrontestingb2c.onmicrosoft.com/B2C_1_signupsignintest1',
-    //     authority: 'https://login.microsoftonline.com/organizations',
-    //     redirectUri: import.meta.env.BASE_URL + 'auth/callback',
-    //     redirectUri:
-    //         'https://white-cliff-06c7dbb03-development.westeurope.5.azurestaticapps.net/auth/callback',
-    // },
     auth: {
-        clientId: '022c740d-bfb5-4a4e-a3ec-75a52838db97',
-        authority: 'https://login.microsoftonline.com/common',
+        // clientId: import.meta.env.VITE_AZURE_AD_CLIENT_ID,
+        clientId: 'c25154b0-eb29-4136-a072-08b3bb41e3de',
+        // authority: import.meta.env.VITE_AZURE_AD_AUTHORITY,
+        authority:
+            'https://login.microsoftonline.com/6f734ef6-d94c-4140-bacf-6bf10c7abe86',
         redirectUri:
-            ' https://white-cliff-06c7dbb03-development.westeurope.5.azurestaticapps.net/auth/callback',
+            'https://white-cliff-06c7dbb03.5.azurestaticapps.net/auth/callback',
     },
     system: {
         loggerOptions: {
@@ -51,5 +44,5 @@ export const msalConfig = {
 }
 
 export const loginRequest = {
-    scopes: ['api://df97ce3a-c8f7-4e2a-9918-fc7c693d3064/user.read'],
+    scopes: ['api://49be23aa-eb3c-48e8-b7aa-8aa96d3688c3/user.read'],
 }
