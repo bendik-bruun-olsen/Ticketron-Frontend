@@ -55,6 +55,12 @@ const HomePage: React.FC = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(accounts.length > 0)
     let apiConfig = {} as ApiConfig
 
+    const clientId = import.meta.env.VITE_AZURE_AD_CLIENT_ID
+
+    useEffect(() => {
+        console.log('Client ID: ', clientId)
+    }, [clientId])
+
     useEffect(() => {
         setIsAuthenticated(accounts.length > 0)
         console.log('isAuthenticated: ', isAuthenticated)
