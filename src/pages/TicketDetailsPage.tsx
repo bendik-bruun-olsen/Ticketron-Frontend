@@ -97,16 +97,10 @@ const TicketDetailsPage: React.FC = () => {
                     />{' '}
                 </div>
             </div>
-            <button
-                className="fab absolute bottom-6 right-6 flex items-center justify-center"
-                onClick={handleEdit}
-            >
+            <button className="fab bottom-6 right-6" onClick={handleEdit}>
                 <PencilIcon className="text-white size-6" />
             </button>
-            <button
-                className="fab absolute bottom-6 right-20 flex items-center justify-center"
-                onClick={handleDelete}
-            >
+            <button className="fab bottom-6 right-20" onClick={handleDelete}>
                 <TrashIcon className="text-white size-6" />
             </button>
         </div>

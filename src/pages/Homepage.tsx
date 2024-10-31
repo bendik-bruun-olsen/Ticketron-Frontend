@@ -40,11 +40,8 @@ const HomePage: React.FC = () => {
         <div className=" p-4 flex flex-col gap-10">
             <h1 className="text-2xl font-bold">Welcome back, User!</h1>
             <BookingsList bookings={bookings} />
-            <button
-                className="fab absolute bottom-6 right-6"
-                onClick={handleClick}
-            >
-                <PlusIcon className="text-white" />
+            <button className="fab bottom-6 right-6" onClick={handleClick}>
+                <PlusIcon className="text-white size-6" />
             </button>
         </div>
     )

@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
 
     return (
         <>
-            <nav className="h-14 w-full flex justify-between content-center items-center p-4 border-b border-b-grey">
+            <nav className="h-14 bg-white w-full flex fixed justify-between content-center items-center p-4 border-b border-b-grey">
                 {Values[matchRoute.pathname]?.leftAction ?? <></>}
 
                 <p className="text-center font-bold">
@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
             <NavMenu isOpen={open} setIsOpen={setOpen} />
 
             <div className="mx-auto max-w-screen-sm">
-                <div>
+                <div className="pt-16">
                     <Outlet />
                 </div>
             </div>
