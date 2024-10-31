@@ -1,6 +1,6 @@
 import React from 'react'
 import { BookingCard } from './BookingCard'
-import { BookingSummary } from './types'
+import { BookingSummary } from './../types'
 
 interface ListProps {
     bookings: Array<BookingSummary>

@@ -1,6 +1,5 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import TicketCard from '../components/TicketCard'
+import TicketCard from '../components/Ticket/TicketCard'
 
 const TicketDetailsPage: React.FC = () => {
     return (

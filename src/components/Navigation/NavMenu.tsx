@@ -6,7 +6,7 @@ import {
     UserIcon,
 } from '@heroicons/react/24/solid'
 import MenuButton from './NavButton'
-import { Paths } from '../../paths'
+import { Paths } from '../../../paths'
 import { useNavigate } from 'react-router-dom'
 import { useMsal } from '@azure/msal-react'
 

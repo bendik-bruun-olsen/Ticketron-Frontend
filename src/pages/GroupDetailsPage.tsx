@@ -1,5 +1,5 @@
 import React from 'react'
-import Group from '../components/Group'
+import Group from '../components/Group/Group'
 
 const allGroups = [
     {
