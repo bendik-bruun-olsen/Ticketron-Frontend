@@ -6,13 +6,29 @@ import {
     UserIcon,
 } from '@heroicons/react/24/solid'
 import MenuButton from './NavButton'
+import { Paths } from '../../paths'
+import { useNavigate } from 'react-router-dom'
+import { useMsal } from '@azure/msal-react'
 
 interface MenuProps {
     isOpen: boolean
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const NavMenu = ({ isOpen, setIsOpen }: MenuProps): JSX.Element => {
+const NavMenu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
+    const { instance } = useMsal()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        instance
+            .logoutPopup()
+            .then(() => {
+                navigate('/')
+            })
+            .catch((error) => {
+                console.error('Logout failed', error)
+            })
+    }
     return (
         <main
             className={
@@ -32,24 +48,24 @@ const NavMenu = ({ isOpen, setIsOpen }: MenuProps): JSX.Element => {
                 <MenuButton
                     icon={<CalendarIcon className="size-6  text-red-700" />}
                     title={'Bookings'}
-                    href={'/'}
+                    href={Paths.HOME}
                 />
                 <MenuButton
                     icon={<UserGroupIcon className="size-6 text-red-700" />}
                     title={'Groups'}
-                    href={'/groups'}
+                    href={Paths.GROUP_DETAILS}
                 />
                 <MenuButton
                     icon={<UserIcon className="size-6 text-red-700" />}
                     title={'Edit profile'}
-                    href={'/user'}
+                    href={Paths.USER_PROFILE}
                 />
                 <MenuButton
                     icon={
                         <ArrowLeftEndOnRectangleIcon className="size-6 text-red-700" />
                     }
                     title={'Logout'}
-                    href={'/logout'}
+                    handleClick={handleLogout}
                 />
             </section>
             <section

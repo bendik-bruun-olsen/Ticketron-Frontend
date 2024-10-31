@@ -7,11 +7,11 @@ const Login: React.FC = () => {
     const { instance } = useMsal()
     const navigate = useNavigate()
 
-    const handleLogin = () => {
+    const handleLoginMicrosoft = () => {
         instance
             .loginPopup(loginRequest)
             .then(() => {
-                navigate('/home')
+                navigate('/')
             })
             .catch((error) => {
                 console.error('Login failed', error)
@@ -20,10 +20,14 @@ const Login: React.FC = () => {
 
     return (
         <div>
-            <h2 className="text-3xl font-bold underline">Login Page</h2>
-            <input type="email" id="email" className="input" />
-            <button onClick={handleLogin} className="btn-primary w-3/4">
-                Login
+            <h2 className="text-3xl font-bold text-center pb-10 pt-10">
+                Welcome back!
+            </h2>
+            <button
+                onClick={handleLoginMicrosoft}
+                className="btn-primary w-full"
+            >
+                Login with microsoft
             </button>
         </div>
     )

@@ -1,5 +1,7 @@
 import React from 'react'
 import { BookingSummary } from './types'
+import { Router, useParams } from 'react-router'
+import { Paths } from '../../paths'
 
 interface BookingCardProps {
     booking: BookingSummary
@@ -7,8 +9,13 @@ interface BookingCardProps {
 
 export function BookingCard({ booking }: BookingCardProps) {
     const { imageUrl, title, fromDate, toDate, participants, id } = booking
+
+    const handleClick = () => {
+        location.replace(`/booking/${id}`)
+    }
+
     return (
-        <div className="w-44 flex flex-col gap-1">
+        <button className="flex flex-col gap-1 text-left" onClick={handleClick}>
             <img
                 src={imageUrl}
                 alt={`Picture for booking ${title}`}
@@ -24,6 +31,6 @@ export function BookingCard({ booking }: BookingCardProps) {
                     {participants > 1 ? 'Participants' : 'Participant'}
                 </p>
             </div>
-        </div>
+        </button>
     )
 }
