@@ -1,7 +1,6 @@
 import React from 'react'
 import { BookingSummary } from '../types'
-import { Router, useParams } from 'react-router'
-import { Paths } from '../../../paths'
+import { useNavigate } from 'react-router-dom'
 
 interface BookingCardProps {
     booking: BookingSummary
@@ -9,9 +8,10 @@ interface BookingCardProps {
 
 export function BookingCard({ booking }: BookingCardProps) {
     const { imageUrl, title, fromDate, toDate, participants, id } = booking
+    const Navigate = useNavigate()
 
     const handleClick = () => {
-        location.replace(`/booking/${id}`)
+        Navigate(`/booking/${id}`)
     }
 
     return (

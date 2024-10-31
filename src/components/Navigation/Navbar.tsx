@@ -82,4 +82,12 @@ const Values = {
             </button>
         ),
     },
+    [Paths.GROUP_DETAILS]: {
+        title: 'Groups',
+        leftAction: (
+            <button onClick={handleNavigate}>
+                <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
+            </button>
+        ),
+    },
 }
