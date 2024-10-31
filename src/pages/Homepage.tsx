@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import { BookingCard } from '../components/BookingCard'
 import BookingsList from '../components/BookingsList'
+import BackendTest from '../testing/BackendTest'
 
 const bookings = [
     {
@@ -32,10 +33,13 @@ const bookings = [
 
 const HomePage: React.FC = () => {
     return (
-        <div className="flex flex-col gap-10">
-            <h1 className="text-2xl font-bold">Welcome back, User!</h1>
-            <BookingsList bookings={bookings} />
-        </div>
+        <>
+            <div className="flex flex-col gap-10">
+                <h1 className="text-2xl font-bold">Welcome back, User!</h1>
+                <BookingsList bookings={bookings} />
+            </div>
+            <BackendTest />
+        </>
     )
 }
 
