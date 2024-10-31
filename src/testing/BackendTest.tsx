@@ -16,6 +16,12 @@ const BackendTest: React.FC = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(accounts.length > 0)
     let apiConfig = {} as ApiConfig
 
+    const redirect_url = import.meta.env.VITE_AZURE_REDIRECT_URL as string
+
+    useEffect(() => {
+        console.log('Redirect URL: ', redirect_url)
+    })
+
     useEffect(() => {
         setIsAuthenticated(() => {
             const isAuth = accounts.length > 0
