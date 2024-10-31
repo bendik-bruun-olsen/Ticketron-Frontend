@@ -9,7 +9,8 @@ export const msalConfig = {
         // authority: import.meta.env.VITE_AZURE_AD_AUTHORITY,
         authority:
             'https://login.microsoftonline.com/6f734ef6-d94c-4140-bacf-6bf10c7abe86',
-        redirectUri: 'https://localhost:5173/auth/callback',
+        redirectUri:
+            'https://white-cliff-06c7dbb03.5.azurestaticapps.net/auth/callback',
     },
     system: {
         loggerOptions: {
