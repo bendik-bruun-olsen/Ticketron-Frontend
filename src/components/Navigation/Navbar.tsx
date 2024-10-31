@@ -1,7 +1,7 @@
 // components/Navbar.tsx
 import React, { useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import { Paths } from '../../paths'
+import { Paths } from '../../../paths'
 import NavMenu from './NavMenu'
 import { ArrowUturnLeftIcon, Bars4Icon } from '@heroicons/react/24/solid'
 
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
             </nav>
             <NavMenu isOpen={open} setIsOpen={setOpen} />
 
-            <div className="p-4 mx-auto max-w-screen-sm">
+            <div className="mx-auto max-w-screen-sm">
                 <div>
                     <Outlet />
                 </div>
