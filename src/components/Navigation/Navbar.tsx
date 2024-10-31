@@ -1,6 +1,6 @@
 // components/Navbar.tsx
 import React, { useState } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Paths } from '../../../paths'
 import NavMenu from './NavMenu'
 import { ArrowUturnLeftIcon, Bars4Icon } from '@heroicons/react/24/solid'
@@ -34,13 +34,17 @@ const Navbar: React.FC = () => {
 
 export default Navbar
 
+const handleNavigate = () => {
+    history.back()
+}
+
 const Values = {
     [Paths.LOGIN]: { title: 'Login', leftAction: <></> },
     [Paths.HOME]: { title: 'Bookings', leftAction: <div></div> },
     [Paths.USER_PROFILE]: {
         title: 'Profile',
         leftAction: (
-            <button onClick={() => history.back()}>
+            <button onClick={handleNavigate}>
                 <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
             </button>
         ),
@@ -48,7 +52,7 @@ const Values = {
     [Paths.EDIT_USER_PROFILE]: {
         title: 'Edit Profile',
         leftAction: (
-            <button onClick={() => location.replace(Paths.USER_PROFILE)}>
+            <button onClick={handleNavigate}>
                 <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
             </button>
         ),
@@ -57,7 +61,7 @@ const Values = {
     [Paths.BOOKING_DETAILS]: {
         title: 'Booking Details',
         leftAction: (
-            <button onClick={() => history.back()}>
+            <button onClick={handleNavigate}>
                 <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
             </button>
         ),
@@ -65,7 +69,7 @@ const Values = {
     [Paths.ADD_BOOKING]: {
         title: 'New Booking',
         leftAction: (
-            <button onClick={() => history.back()}>
+            <button onClick={handleNavigate}>
                 <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
             </button>
         ),

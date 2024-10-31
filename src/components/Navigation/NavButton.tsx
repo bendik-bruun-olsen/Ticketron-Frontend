@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface Buttonprops {
     icon: JSX.Element
@@ -13,13 +14,12 @@ const MenuButton: React.FC<Buttonprops> = ({
     href,
     handleClick,
 }) => {
+    const navigate = useNavigate()
     return (
         <button
             type="button"
             className="flex p-2 border-b-2 items-center w-full text-base text-gray-900 transition duration-75  hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-            onClick={() =>
-                handleClick ? handleClick() : location.replace(href ?? '')
-            }
+            onClick={() => (handleClick ? handleClick() : navigate(href ?? ''))}
         >
             {icon}
             <p className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">
