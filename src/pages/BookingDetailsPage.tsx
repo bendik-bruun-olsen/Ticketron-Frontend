@@ -1,10 +1,12 @@
 import React from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import TicketCard from '../components/TicketCard'
-import Navbar from '../components/Navbar'
+import { Paths } from '../../paths'
 
 const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
+    const navigate = useNavigate()
+
     const tickets = [
         {
             imageUrl: 'https://via.placeholder.com/64',
@@ -28,8 +30,6 @@ const BookingDetailsPage: React.FC = () => {
 
     return (
         <div className="p-4 bg-gray-100 min-h-screen relative">
-            <Navbar />
-
             <div className="mb-4">
                 <input
                     type="text"
@@ -45,10 +45,16 @@ const BookingDetailsPage: React.FC = () => {
                     <TicketCard key={index} {...ticket} />
                 ))}
                 <div className="fixed bottom-4 right-4 flex space-x-2">
-                    <button className="p-4 bg-red-600 rounded-full text-white">
+                    <button
+                        className="p-4 bg-red-600 rounded-full text-white"
+                        onClick={() => navigate(Paths.ADD_TICKET)}
+                    >
                         <i className="material-icons">add</i>
                     </button>
-                    <button className="p-4 bg-red-600 rounded-full text-white">
+                    <button
+                        className="p-4 bg-red-600 rounded-full text-white"
+                        onClick={() => navigate(Paths.EDIT_TICKET)}
+                    >
                         <i className="material-icons">edit</i>
                     </button>
                 </div>
