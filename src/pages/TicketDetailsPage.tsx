@@ -4,10 +4,14 @@ import {
     CalendarDaysIcon,
     CalendarIcon,
     CreditCardIcon,
+    PencilIcon,
     TagIcon,
+    TrashIcon,
     UserIcon,
 } from '@heroicons/react/24/outline'
 import TicketDetail from '../components/Ticket/TicketDetail'
+import { Paths } from '../../paths'
+import { useNavigate } from 'react-router-dom'
 
 const DummyTicket = {
     title: 'Norway to sweden',
@@ -18,6 +22,7 @@ const DummyTicket = {
     purchasedBy: 'Navn',
     purchaseDate: '01.01.2020',
     category: 'Flybillett',
+    bookingId: 1,
 }
 
 const TicketDetailsPage: React.FC = () => {
@@ -30,7 +35,19 @@ const TicketDetailsPage: React.FC = () => {
         purchaseDate,
         category,
         purchasedBy,
+        bookingId,
     } = DummyTicket
+
+    const navigate = useNavigate()
+
+    const handleEdit = () => {
+        navigate('edit-ticket')
+    }
+
+    const handleDelete = () => {
+        navigate(`/booking/${bookingId}`)
+    }
+
     return (
         <div className="w-full">
             <img
@@ -80,6 +97,18 @@ const TicketDetailsPage: React.FC = () => {
                     />{' '}
                 </div>
             </div>
+            <button
+                className="fab absolute bottom-6 right-6 flex items-center justify-center"
+                onClick={handleEdit}
+            >
+                <PencilIcon className="text-white size-6" />
+            </button>
+            <button
+                className="fab absolute bottom-6 right-20 flex items-center justify-center"
+                onClick={handleDelete}
+            >
+                <TrashIcon className="text-white size-6" />
+            </button>
         </div>
     )
 }
