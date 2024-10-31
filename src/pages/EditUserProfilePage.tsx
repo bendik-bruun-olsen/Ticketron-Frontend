@@ -1,17 +1,20 @@
 import React from 'react'
 import { Paths } from '../../paths'
+import { useNavigate } from 'react-router-dom'
 
 const EditUserProfilePage: React.FC = () => {
+    const navigate = useNavigate()
+
     const handleSaveDetails = (e: React.FormEvent) => {
         e.preventDefault()
         const { name, email, phonenumber } = e.target as HTMLFormElement
-        location.replace(Paths.USER_PROFILE)
+        navigate(Paths.USER_PROFILE)
     }
 
     const handleUpdatePassword = (e: React.FormEvent) => {
         e.preventDefault()
         const { password, confirmPassword } = e.target as HTMLFormElement
-        location.replace(Paths.USER_PROFILE)
+        navigate(Paths.USER_PROFILE)
     }
 
     return (

@@ -29,6 +29,7 @@ const NavMenu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
                 console.error('Logout failed', error)
             })
     }
+
     return (
         <main
             className={
@@ -49,16 +50,19 @@ const NavMenu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
                     icon={<CalendarIcon className="size-6  text-red-700" />}
                     title={'Bookings'}
                     href={Paths.HOME}
+                    setIsOpen={setIsOpen}
                 />
                 <MenuButton
                     icon={<UserGroupIcon className="size-6 text-red-700" />}
                     title={'Groups'}
                     href={Paths.GROUP_DETAILS}
+                    setIsOpen={setIsOpen}
                 />
                 <MenuButton
                     icon={<UserIcon className="size-6 text-red-700" />}
                     title={'Edit profile'}
                     href={Paths.USER_PROFILE}
+                    setIsOpen={setIsOpen}
                 />
                 <MenuButton
                     icon={
@@ -66,6 +70,7 @@ const NavMenu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
                     }
                     title={'Logout'}
                     handleClick={handleLogout}
+                    setIsOpen={setIsOpen}
                 />
             </section>
             <section

@@ -1,9 +1,12 @@
 import React from 'react'
 import { Paths } from '../../paths'
+import { useNavigate } from 'react-router-dom'
 
 const UserProfilePage: React.FC = () => {
+    const navigate = useNavigate()
+
     const handleClick = (): void => {
-        location.replace(Paths.EDIT_USER_PROFILE)
+        navigate(Paths.EDIT_USER_PROFILE)
     }
 
     return (

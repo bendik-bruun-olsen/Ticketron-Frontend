@@ -3,6 +3,7 @@ import { BookingCard } from '../components/Booking/BookingCard'
 import BookingsList from '../components/Booking/BookingsList'
 import { PlusCircleIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { Paths } from '../../paths'
+import { useNavigate } from 'react-router-dom'
 
 const bookings = [
     {
@@ -32,8 +33,9 @@ const bookings = [
 ]
 
 const HomePage: React.FC = () => {
+    const navigate = useNavigate()
     const handleClick = () => {
-        location.replace(Paths.ADD_BOOKING)
+        navigate(Paths.ADD_BOOKING)
     }
 
     return (
