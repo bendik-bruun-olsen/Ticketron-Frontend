@@ -26,7 +26,7 @@ const allGroups = [
 
 const GroupDetailsPage: React.FC = () => {
     return (
-        <div className="flex flex-col gap-4">
+        <div className="p-4 flex flex-col gap-4">
             {allGroups.map((group) => (
                 <Group key={group.id} group={group} />
             ))}

@@ -15,7 +15,7 @@ const EditUserProfilePage: React.FC = () => {
     }
 
     return (
-        <div className="flex flex-col gap-9 mt-10">
+        <div className="p-4 flex flex-col gap-9 mt-10">
             <form
                 className="flex flex-col gap-4 w-full"
                 onSubmit={handleSaveDetails}

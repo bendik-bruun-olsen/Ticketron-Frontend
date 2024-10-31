@@ -15,8 +15,8 @@ const TicketDetail: React.FC<TicketDetailprops> = ({
         <div className="flex gap-4 items-center">
             {icon}
             <div>
-                <h3 className="font-bold">{title}</h3>
-                <p className="text-sm">{subtitle}</p>
+                <h3 className="font-bold text-sm">{title}</h3>
+                <p className="text-sm text-gray-500">{subtitle}</p>
             </div>
         </div>
     )
