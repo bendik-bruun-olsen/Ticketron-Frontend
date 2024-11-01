@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router'
-import TicketCard from '../components/TicketCard'
-import Navbar from '../components/Navbar'
+import TicketCard from '../components/Ticket/TicketCard'
+import Navbar from '../components/Navigation/Navbar'
 
 const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
