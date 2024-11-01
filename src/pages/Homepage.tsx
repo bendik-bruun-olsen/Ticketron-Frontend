@@ -1,7 +1,9 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import { BookingCard } from '../components/BookingCard'
-import BookingsList from '../components/BookingsList'
+import { BookingCard } from '../components/Booking/BookingCard'
+import BookingsList from '../components/Booking/BookingsList'
+import { PlusCircleIcon, PlusIcon } from '@heroicons/react/24/solid'
+import { Paths } from '../../paths'
+import { useNavigate } from 'react-router-dom'
 
 const bookings = [
     {
@@ -31,10 +33,18 @@ const bookings = [
 ]
 
 const HomePage: React.FC = () => {
+    const navigate = useNavigate()
+    const handleClick = () => {
+        navigate(Paths.ADD_BOOKING)
+    }
+
     return (
-        <div className="flex flex-col gap-10">
+        <div className=" p-4 flex flex-col gap-10">
             <h1 className="text-2xl font-bold">Welcome back, User!</h1>
             <BookingsList bookings={bookings} />
+            <button className="fab bottom-6 right-6" onClick={handleClick}>
+                <PlusIcon className="text-white size-6" />
+            </button>
         </div>
     )
 }

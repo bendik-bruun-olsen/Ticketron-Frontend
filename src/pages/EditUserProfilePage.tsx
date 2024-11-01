@@ -1,21 +1,24 @@
 import React from 'react'
 import { Paths } from '../../paths'
+import { useNavigate } from 'react-router-dom'
 
 const EditUserProfilePage: React.FC = () => {
+    const navigate = useNavigate()
+
     const handleSaveDetails = (e: React.FormEvent) => {
         e.preventDefault()
         const { name, email, phonenumber } = e.target as HTMLFormElement
-        location.replace(Paths.USER_PROFILE)
+        navigate(Paths.USER_PROFILE)
     }
 
     const handleUpdatePassword = (e: React.FormEvent) => {
         e.preventDefault()
         const { password, confirmPassword } = e.target as HTMLFormElement
-        location.replace(Paths.USER_PROFILE)
+        navigate(Paths.USER_PROFILE)
     }
 
     return (
-        <div className="flex flex-col gap-9 mt-10">
+        <div className="p-4 flex flex-col gap-9 mt-10">
             <form
                 className="flex flex-col gap-4 w-full"
                 onSubmit={handleSaveDetails}
