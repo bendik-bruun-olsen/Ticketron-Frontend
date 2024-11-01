@@ -7,8 +7,7 @@ export const msalConfig = {
         // clientId: import.meta.env.VITE_AZURE_AD_CLIENT_ID,
         clientId: 'c25154b0-eb29-4136-a072-08b3bb41e3de',
         // authority: import.meta.env.VITE_AZURE_AD_AUTHORITY,
-        authority:
-            'https://login.microsoftonline.com/6f734ef6-d94c-4140-bacf-6bf10c7abe86',
+        authority: 'https://ticketron.ciamlogin.com/',
         redirectUri:
             'https://white-cliff-06c7dbb03.5.azurestaticapps.net/auth/callback',
     },
