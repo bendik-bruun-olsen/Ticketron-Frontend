@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react'
-import { DateRangePicker } from 'flowbite-datepicker'
+import React, { useEffect, useState } from 'react'
 import { Datepicker } from 'flowbite-datepicker'
 import 'flowbite/dist/flowbite.css'
-import 'flowbite'
 
 const AddTicketPage: React.FC = () => {
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault()
-        const { title, dateFrom, dateTo, participants } =
-            e.target as HTMLFormElement
     }
+
+    const [isFormEdited, setIsFormEdited] = useState(false)
+    const handleInputChange = () => {
+        setIsFormEdited(true)
+    }
+
     useEffect(() => {
         const startDatePicker = document.getElementById(
             'datepicker-range-start'
@@ -26,14 +28,20 @@ const AddTicketPage: React.FC = () => {
             })
         }
     }, [])
+
     return (
-        <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+        <form
+            className="flex flex-col gap-4 p-4 bg-white
+             rounded-lg shadow-md"
+            onSubmit={handleSubmit}
+        >
             <input
                 required
                 className="input-contained"
                 name="ticketname"
                 placeholder="Ticket Name"
             />
+            <button className="soft-input">Upload Ticket Image</button>
             <input
                 required
                 className="input-contained"
@@ -44,68 +52,81 @@ const AddTicketPage: React.FC = () => {
                 required
                 className="input-contained"
                 name="userName"
-                placeholder="Username"
+                placeholder="User Name"
             />
-
-            <div
-                id="date-range-picker"
-                date-range-picker="true"
-                className="flex items-center"
-            >
-                <div className="relative">
-                    <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg
-                            className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                        </svg>
-                    </div>
-                    <input
-                        id="datepicker-range-start"
-                        name="start"
-                        type="text"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Select date start"
-                    />
+            <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg
+                        className="w-5 h-5 text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
+                    </svg>
                 </div>
-                <span className="mx-4 text-gray-500">to</span>
-                <div className="relative">
-                    <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg
-                            className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                        </svg>
-                    </div>
-                    <input
-                        id="datepicker-range-end"
-                        name="end"
-                        type="text"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Select date end"
-                    />
-                </div>
+                <input
+                    id="datepicker-range-start"
+                    name="startDate"
+                    type="text"
+                    className="input-contained pl-10"
+                    placeholder="Date From"
+                />
             </div>
-
+            <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg
+                        className="w-5 h-5 text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
+                    </svg>
+                </div>
+                <input
+                    id="datepicker-range-end"
+                    name="endDate"
+                    type="text"
+                    className="input-contained pl-10 "
+                    placeholder="Date To"
+                />
+            </div>
             <input
                 required
                 className="input-contained"
-                name="Price"
+                name="price"
                 placeholder="Price"
             />
             <input
                 className="input-contained"
                 name="purchasedBy"
-                placeholder="Purchased By(Optional)"
+                placeholder="Purchased By (Optional)"
             />
+            <input
+                className="input-contained"
+                name="purchasedDate"
+                placeholder="Purchased Date (Optional)"
+            />
+
+            <button
+                type="submit"
+                className={`btn-primary ${isFormEdited ? 'active' : ''}`}
+            >
+                Submit
+            </button>
         </form>
     )
 }
