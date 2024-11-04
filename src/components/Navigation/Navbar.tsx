@@ -90,4 +90,12 @@ const Values = {
             </button>
         ),
     },
+    [Paths.NEW_GROUP]: {
+        title: 'Add new group',
+        leftAction: (
+            <button onClick={handleNavigate}>
+                <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
+            </button>
+        ),
+    },
 }
