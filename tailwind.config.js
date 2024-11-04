@@ -15,8 +15,30 @@ module.exports = {
                     700: '#5D0713',
                 },
                 black: '#252525',
+                white: '#f5f5f5',
             },
         },
     },
-    plugins: [],
+    plugins: [
+        function ({ addComponents }) {
+            addComponents({
+                '.input-contained': {
+                    '@apply bg-red-200 border text-gray-900 focus:outline-none text-sm rounded-2xl focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:focus:ring-red-600 dark:focus:border-red-600 !important':
+                        {},
+                },
+
+                '.date-padding ': {
+                    '@apply padding-left: 5rem !important': {},
+                },
+
+                '.btn-primary': {
+                    '@apply text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2':
+                        {},
+                },
+                '.h1': {
+                    '@apply text-2xl font-bold': {},
+                },
+            })
+        },
+    ],
 }

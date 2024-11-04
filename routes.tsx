@@ -3,7 +3,6 @@ import { Paths } from './paths'
 import LoginPage from './src/pages/LoginPage'
 import Homepage from './src/pages/Homepage'
 import AddNewBookingPage from './src/pages/AddBookingPage'
-import AddGroupPage from './src/pages/AddGroupPage'
 import AddTicketPage from './src/pages/AddTicketPage'
 import BookingDetailsPage from './src/pages/BookingDetailsPage'
 import BookingPage from './src/pages/BookingPage'
@@ -30,10 +29,6 @@ const routes = [
     {
         path: Paths.ADD_BOOKING,
         element: <AddNewBookingPage />,
-    },
-    {
-        path: Paths.ADD_GROUP,
-        element: <AddGroupPage />,
     },
     {
         path: Paths.ADD_TICKET,
