@@ -16,12 +16,6 @@ const BackendTest: React.FC = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(accounts.length > 0)
     let apiConfig = {} as ApiConfig
 
-    const redirect_url = import.meta.env.VITE_AZURE_REDIRECT_URL as string
-
-    useEffect(() => {
-        console.log('Redirect URL: ', redirect_url)
-    })
-
     useEffect(() => {
         setIsAuthenticated(() => {
             const isAuth = accounts.length > 0
@@ -32,16 +26,12 @@ const BackendTest: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log('Handling form submission')
-
         const Id = e.currentTarget.search.value
         if (Id) {
             apiConfig = {
                 method: 'get',
                 url: `${import.meta.env.VITE_API_URL}/Booking/${Id}`,
             }
-
-            console.log('Fetching data in handleSubmit')
             fetchData(apiConfig)
         } else {
             console.log('Error in handleSubmit')
@@ -61,10 +51,6 @@ const BackendTest: React.FC = () => {
 
         try {
             const token = await acquireToken()
-            if (token) console.log('Token acquired: ', token)
-
-            console.log('Modifying apiConfig: ', apiConfig)
-
             const configWithToken = {
                 ...apiConfig,
                 headers: {
@@ -72,14 +58,13 @@ const BackendTest: React.FC = () => {
                 },
             }
 
-            console.log('Fetching data with modified config: ', configWithToken)
-
             const apiResponse = await fetch(apiConfig.url, {
                 method: apiConfig.method,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             })
+
             if (!apiResponse.ok) {
                 console.log('No response from API :(')
                 return
@@ -98,10 +83,13 @@ const BackendTest: React.FC = () => {
         <>
             {isAuthenticated ? <Logout /> : <Login />}
             {isAuthenticated && (
-                <form onSubmit={handleSubmit}>
-                    <input type="text" name="search" />
-                    <button type="submit">Submit</button>
-                </form>
+                <>
+                    <h2>Welcome back, {accounts[0]?.name}</h2>
+                    <form onSubmit={handleSubmit}>
+                        <input type="text" name="search" />
+                        <button type="submit">Submit</button>
+                    </form>
+                </>
             )}
         </>
     )
