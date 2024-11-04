@@ -32,7 +32,9 @@ const NewGroupPage: React.FC = () => {
                     />
                 </div>
             </div>
-            <PlusIcon className="fab h-10 w-10 mt-5 ml-3" color="white" />
+            <button className="fab relative h-10 w-10 mt-5 ml-3">
+                <PlusIcon className="size-6" color="white" />
+            </button>
             <div className="flex justify-center">
                 <button className="btn-primary mt-24 w-11/12 justify-center">
                     Save
