@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
 import { UserIcon, PlusIcon } from '@heroicons/react/24/outline'
+import { useNavigate } from 'react-router-dom'
 
 const NewGroupPage: React.FC = () => {
+    const navigate = useNavigate()
+
     const [groupName, setGroupName] = useState('')
 
     const editGroupName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGroupName(e.target.value)
         console.log(groupName)
+    }
+
+    const handleClick = () => {
+        navigate('/groups')
     }
 
     return (
@@ -35,7 +42,7 @@ const NewGroupPage: React.FC = () => {
             <button className="fab relative h-10 w-10 mt-5 ml-3">
                 <PlusIcon className="size-6" color="white" />
             </button>
-            <div className="flex justify-center">
+            <div className="flex justify-center" onClick={handleClick}>
                 <button className="btn-primary mt-24 w-11/12 justify-center">
                     Save
                 </button>
