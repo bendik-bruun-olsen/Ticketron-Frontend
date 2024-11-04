@@ -32,16 +32,13 @@ module.exports = {
                 },
 
                 '.btn-primary': {
-                    '@apply text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2;':
+                    '@apply text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2':
                         {},
-                }, '.h1': {
+                },
+                '.h1': {
                     '@apply text-2xl font-bold': {},
                 },
             })
         },
     ],
-            },
-        },
-    },
-    plugins: [],
 }
