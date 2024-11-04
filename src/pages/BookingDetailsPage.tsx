@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router'
-import TicketCard from '../components/TicketCard'
+import TicketCard from '../components/Ticket/TicketCard'
 import { Paths } from '../../paths'
 
 const BookingDetailsPage: React.FC = () => {
