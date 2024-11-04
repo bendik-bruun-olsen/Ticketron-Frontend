@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router'
 import TicketCard from '../components/Ticket/TicketCard'
 import Navbar from '../components/Navigation/Navbar'
+import { PencilIcon, PlusIcon } from '@heroicons/react/24/solid'
 
 const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
@@ -45,11 +46,11 @@ const BookingDetailsPage: React.FC = () => {
                     <TicketCard key={index} {...ticket} />
                 ))}
                 <div className="fixed bottom-4 right-4 flex space-x-2">
-                    <button className="p-4 bg-red-600 rounded-full text-white">
-                        <i className="material-icons">add</i>
+                    <button className="fab bottom-6 right-6">
+                        <PlusIcon className="text-white size-6" />
                     </button>
-                    <button className="p-4 bg-red-600 rounded-full text-white">
-                        <i className="material-icons">edit</i>
+                    <button className="fab bottom-6 right-6">
+                        <PencilIcon className="text-white size-6" />
                     </button>
                 </div>
             </div>
