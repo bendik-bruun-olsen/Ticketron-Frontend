@@ -17,6 +17,7 @@ const BookingDetailsPage: React.FC = () => {
             price: '1000kr',
             startDate: ' 10.10.2024',
             endDate: ' 10.10.2024',
+            id: '1',
         },
         {
             imageUrl: 'https://via.placeholder.com/64',
@@ -26,6 +27,7 @@ const BookingDetailsPage: React.FC = () => {
             price: '1000kr',
             startDate: ' 10.10.2024',
             endDate: ' 10.10.2024',
+            id: '2',
         },
     ]
 
@@ -45,14 +47,12 @@ const BookingDetailsPage: React.FC = () => {
                 {tickets.map((ticket, index) => (
                     <TicketCard key={index} {...ticket} />
                 ))}
-                <div className="fixed bottom-4 right-4 flex space-x-2">
-                    <button className="fab bottom-6 right-6">
-                        <PlusIcon className="text-white size-6" />
-                    </button>
-                    <button className="fab bottom-6 right-6">
-                        <PencilIcon className="text-white size-6" />
-                    </button>
-                </div>
+                <button className="fab bottom-6 right-6">
+                    <PlusIcon className="text-white size-6" />
+                </button>
+                <button className="fab bottom-6 right-20">
+                    <PencilIcon className="text-white size-6" />
+                </button>
             </div>
         </div>
     )

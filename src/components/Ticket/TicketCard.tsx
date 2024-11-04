@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface TicketCardProps {
     imageUrl: string
@@ -8,6 +9,7 @@ interface TicketCardProps {
     price: string
     startDate: string
     endDate: string
+    id: string
 }
 
 const TicketCard: React.FC<TicketCardProps> = ({
@@ -18,9 +20,15 @@ const TicketCard: React.FC<TicketCardProps> = ({
     price,
     startDate,
     endDate,
+    id,
 }) => {
+    const navigate = useNavigate()
+
     return (
-        <div className="flex items-center p-4 bg-white rounded-lg shadow-md border border-gray-200">
+        <button
+            className="flex items-center p-4 bg-white rounded-lg shadow-md border border-gray-200"
+            onClick={() => navigate(`./tickets/${id}`)}
+        >
             <div className="w-16 h-16 overflow-hidden rounded-lg">
                 <img
                     src={imageUrl}
@@ -43,7 +51,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
                 <p className="font-semibold text-sm">{price}</p>
                 <span className="ml-2 text-gray-400">&gt;</span>
             </div>
-        </div>
+        </button>
     )
 }
 
