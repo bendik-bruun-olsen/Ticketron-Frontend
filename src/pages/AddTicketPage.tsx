@@ -169,10 +169,7 @@ const AddTicketPage: React.FC = () => {
                 placeholder="Purchased Date (Optional)"
             />
 
-            <button
-                type="submit"
-                className={`btn-primary ${isFormEdited ? 'active' : ''}`}
-            >
+            <button type="submit" className="btn-primary">
                 Submit
             </button>
         </form>
