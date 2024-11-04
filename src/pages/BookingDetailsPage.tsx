@@ -39,7 +39,7 @@ const BookingDetailsPage: React.FC = () => {
                 />
             </div>
 
-            <h2 className="text-xl font-bold mb-4">Planetickets</h2>
+            <h2 className="text-xl font-bold mb-4">Plane tickets</h2>
 
             <div className="space-y-4">
                 {tickets.map((ticket, index) => (
