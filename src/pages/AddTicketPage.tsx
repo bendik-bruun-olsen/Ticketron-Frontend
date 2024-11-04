@@ -3,11 +3,14 @@ import { Datepicker } from 'flowbite-datepicker'
 import 'flowbite/dist/flowbite.css'
 
 const AddTicketPage: React.FC = () => {
+    const [isFormEdited, setIsFormEdited] = useState(false)
+    const [startDateSelected, setStartDateSelected] = useState(false)
+    const [endDateSelected, setEndDateSelected] = useState(false)
+
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault()
     }
 
-    const [isFormEdited, setIsFormEdited] = useState(false)
     const handleInputChange = () => {
         setIsFormEdited(true)
     }
@@ -21,19 +24,30 @@ const AddTicketPage: React.FC = () => {
             new Datepicker(startDatePicker, {
                 format: 'yyyy-mm-dd',
                 autohide: true,
+                onSelect: () => setStartDateSelected(true),
             })
             new Datepicker(endDatePicker, {
                 format: 'yyyy-mm-dd',
                 autohide: true,
+                onSelect: () => setStartDateSelected(true),
             })
         }
     }, [])
-    const handleIconClick = (id) => {
+    const handleIconClick = (id: string, iconId: string) => {
         const datePicker = document.getElementById(id)
         if (datePicker) {
             datePicker.focus()
         }
+        hideIcon(iconId)
     }
+
+    const hideIcon = (iconId: string) => {
+        const iconElement = document.getElementById(iconId)
+        if (iconElement) {
+            iconElement.style.display = 'none'
+        }
+    }
+
     return (
         <form
             className="flex flex-col gap-4 p-4 bg-white
@@ -74,9 +88,13 @@ const AddTicketPage: React.FC = () => {
                         className="input-contained pl-10"
                     />
                     <div
+                        id="start-icon"
                         className="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer"
                         onClick={() =>
-                            handleIconClick('datepicker-range-start')
+                            handleIconClick(
+                                'datepicker-range-start',
+                                'start-icon'
+                            )
                         }
                     >
                         <svg
@@ -111,8 +129,11 @@ const AddTicketPage: React.FC = () => {
                         className="input-contained pl-10"
                     />
                     <div
+                        id="end-icon"
                         className="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer"
-                        onClick={() => handleIconClick('datepicker-range-end')}
+                        onClick={() =>
+                            handleIconClick('datepicker-range-end', 'end-icon')
+                        }
                     >
                         <svg
                             className="w-5 h-5 text-gray-500"
@@ -148,7 +169,10 @@ const AddTicketPage: React.FC = () => {
                 placeholder="Purchased Date (Optional)"
             />
 
-            <button type="submit" className="btn-primary ">
+            <button
+                type="submit"
+                className={`btn-primary ${isFormEdited ? 'active' : ''}`}
+            >
                 Submit
             </button>
         </form>
