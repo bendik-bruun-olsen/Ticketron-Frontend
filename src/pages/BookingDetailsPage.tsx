@@ -1,7 +1,8 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router'
 import TicketCard from '../components/Ticket/TicketCard'
-import { Paths } from '../../paths'
+import Navbar from '../components/Navigation/Navbar'
+import { PencilIcon, PlusIcon } from '@heroicons/react/24/solid'
 
 const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
@@ -38,24 +39,18 @@ const BookingDetailsPage: React.FC = () => {
                 />
             </div>
 
-            <h2 className="text-xl font-bold mb-4">Planetickets</h2>
+            <h2 className="text-xl font-bold mb-4">Plane tickets</h2>
 
             <div className="space-y-4">
                 {tickets.map((ticket, index) => (
                     <TicketCard key={index} {...ticket} />
                 ))}
                 <div className="fixed bottom-4 right-4 flex space-x-2">
-                    <button
-                        className="p-4 bg-red-600 rounded-full text-white"
-                        onClick={() => navigate(Paths.ADD_TICKET)}
-                    >
-                        <i className="material-icons">add</i>
+                    <button className="fab bottom-6 right-6">
+                        <PlusIcon className="text-white size-6" />
                     </button>
-                    <button
-                        className="p-4 bg-red-600 rounded-full text-white"
-                        onClick={() => navigate(Paths.EDIT_TICKET)}
-                    >
-                        <i className="material-icons">edit</i>
+                    <button className="fab bottom-6 right-6">
+                        <PencilIcon className="text-white size-6" />
                     </button>
                 </div>
             </div>
