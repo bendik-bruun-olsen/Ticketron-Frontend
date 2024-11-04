@@ -23,19 +23,16 @@ module.exports = {
         function ({ addComponents }) {
             addComponents({
                 '.input-contained': {
-                    '@apply bg-red-200 border text-gray-900 focus:outline-none text-sm rounded-2xl focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:focus:ring-red-600 dark:focus:border-red-600':
+                    '@apply bg-red-200 border text-gray-900 focus:outline-none text-sm rounded-2xl focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:focus:ring-red-600 dark:focus:border-red-600 !important':
                         {},
                 },
 
-                '.input-field': {
-                    '@apply border border-white rounded-md px-4 py-2 focus:ring-red-600 focus:border-red-600 text-black dark:text-white dark:bg-black dark:border-red-600':
-                        {},
+                '.date-padding ': {
+                    '@apply padding-left: 5rem !important': {},
                 },
-                '.date-icon': {
-                    '@apply w-5 h-5 text-red-600 dark:text-red-700': {},
-                },
+
                 '.btn-primary': {
-                    '@apply bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-600':
+                    '@apply text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2;':
                         {},
                 },
             })
