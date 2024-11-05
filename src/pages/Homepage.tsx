@@ -4,7 +4,6 @@ import BookingsList from '../components/Booking/BookingsList'
 import { PlusCircleIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { Paths } from '../../paths'
 import { useNavigate } from 'react-router-dom'
-import BackendTest from '../testing/BackendTest'
 import { fetchData } from '../utils'
 import { useMsal } from '@azure/msal-react'
 
@@ -36,7 +35,6 @@ const HomePage: React.FC = () => {
                     <PlusIcon className="text-white size-6" />
                 </button>
             </div>
-            <BackendTest />
         </>
     )
 }
