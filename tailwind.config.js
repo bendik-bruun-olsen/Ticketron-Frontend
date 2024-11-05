@@ -26,13 +26,16 @@ module.exports = {
                     '@apply bg-red-200 border text-gray-900 focus:outline-none text-sm rounded-2xl focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:focus:ring-red-600 dark:focus:border-red-600 !important':
                         {},
                 },
+                '.input-contained-icon': {
+                    '@apply input-contained pl-8 !important': {},
+                },
 
                 '.date-padding ': {
                     '@apply padding-left: 5rem !important': {},
                 },
 
                 '.btn-primary': {
-                    '@apply text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2':
+                    '@apply text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 !important':
                         {},
                 },
                 '.h1': {

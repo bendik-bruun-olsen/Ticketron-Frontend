@@ -1,13 +1,15 @@
 import React from 'react'
-import { BookingSummary } from '../types'
+import { Booking, BookingSummary } from '../types'
 import { useNavigate } from 'react-router-dom'
 
 interface BookingCardProps {
-    booking: BookingSummary
+    booking: Booking
 }
 
 export function BookingCard({ booking }: BookingCardProps) {
-    const { imageUrl, title, fromDate, toDate, participants, id } = booking
+    const { title, startDate, endDate, id } = booking
+    const imageUrl = 'https://placehold.co/173x173'
+    const participants = 1
     const Navigate = useNavigate()
 
     const handleClick = () => {
@@ -17,14 +19,15 @@ export function BookingCard({ booking }: BookingCardProps) {
     return (
         <button className="flex flex-col gap-1 text-left" onClick={handleClick}>
             <img
-                src={imageUrl}
+                src={imageUrl ?? 'https://placehold.co/173x173'}
                 alt={`Picture for booking ${title}`}
                 className="rounded-xl"
             />{' '}
             <div className="flex flex-col gap-1">
                 <h2 className="text-black font-bold">{title}</h2>
                 <p>
-                    {fromDate} - {toDate}
+                    {new Date(startDate).toLocaleDateString()} -{' '}
+                    {new Date(endDate).toLocaleDateString()}
                 </p>
                 <p>
                     {participants}{' '}

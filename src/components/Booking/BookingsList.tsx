@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { BookingCard } from './BookingCard'
-import { BookingSummary } from './../types'
+import { Booking } from './../types'
 
 interface ListProps {
-    bookings: Array<BookingSummary>
+    bookings: Array<Booking>
 }
 
 const BookingsList = ({ bookings }: ListProps): JSX.Element => {
