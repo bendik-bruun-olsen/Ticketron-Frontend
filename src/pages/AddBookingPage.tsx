@@ -1,21 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { postData } from '../utils'
+import CustomDatepicker from '../components/Datepicker'
+import { Datepicker } from 'flowbite-react'
+import DaterangePicker from '../components/Datepicker'
+import { useNavigate } from 'react-router-dom'
+
+const customTheme = {
+    Datepicker: {
+        root: {},
+    },
+}
 
 const AddNewBookingPage: React.FC = () => {
-    const handleSubmit = (e: React.FormEvent): void => {
+    const [dateRange, setDateRange] = useState<{
+        startDate: Date | null
+        endDate: Date | null
+    }>({
+        startDate: new Date(),
+        endDate: new Date(),
+    })
+
+    const navigate = useNavigate()
+
+    const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault()
         const formData = new FormData(e.target as HTMLFormElement)
         const formProps = Object.fromEntries(formData)
-        const { title, dateFrom, dateTo, participants } =
-            formProps as HTMLFormElement
+        const { title } = formProps as HTMLFormElement
+
+        const body = {
+            title: title,
+            startDate: dateRange.startDate?.toISOString(),
+            endDate: dateRange.endDate?.toISOString(),
+            userId: 1,
+        }
 
         try {
-            postData('/Booking/create', {
-                title: title,
-                startDate: dateFrom,
-                endDate: dateTo,
-                userId: 1,
-            })
+            const newBooking = await postData('/Booking/create', body)
+            navigate(`/booking/${newBooking.id}`)
         } catch (error) {
             console.error(error)
         }
@@ -28,20 +50,10 @@ const AddNewBookingPage: React.FC = () => {
                 <input required className="input-contained" name="title" />
             </label>
 
-            <div className="flex gap-3">
-                <label className="">
-                    <p className="pl-2">Date from</p>
-                    <input
-                        required
-                        className="input-contained"
-                        name="dateFrom"
-                    />
-                </label>
-                <label className="">
-                    <p className="pl-2">Date to</p>
-                    <input required className="input-contained" name="dateTo" />
-                </label>{' '}
-            </div>
+            <DaterangePicker
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+            />
 
             <label className="p-2">
                 Participants
