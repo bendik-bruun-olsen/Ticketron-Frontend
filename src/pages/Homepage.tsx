@@ -4,6 +4,7 @@ import BookingsList from '../components/Booking/BookingsList'
 import { PlusCircleIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { Paths } from '../../paths'
 import { useNavigate } from 'react-router-dom'
+import BackendTest from '../testing/BackendTest'
 
 const bookings = [
     {
@@ -39,13 +40,16 @@ const HomePage: React.FC = () => {
     }
 
     return (
-        <div className=" p-4 flex flex-col gap-10">
-            <h1 className="text-2xl font-bold">Welcome back, User!</h1>
-            <BookingsList bookings={bookings} />
-            <button className="fab bottom-6 right-6" onClick={handleClick}>
-                <PlusIcon className="text-white size-6" />
-            </button>
-        </div>
+        <>
+            <div className=" p-4 flex flex-col gap-10">
+                <h1 className="text-2xl font-bold">Welcome back, User!</h1>
+                <BookingsList bookings={bookings} />
+                <button className="fab bottom-6 right-6" onClick={handleClick}>
+                    <PlusIcon className="text-white size-6" />
+                </button>
+            </div>
+            <BackendTest />
+        </>
     )
 }
 

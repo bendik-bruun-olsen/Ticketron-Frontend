@@ -1,15 +1,13 @@
 /// <reference types="vite/client" />
+
 export const msalConfig = {
-  auth: {
-    clientId: import.meta.env.VITE_AZURE_AD_CLIENT_ID,
-    authority: `https://login.microsoftonline.com/${
-      import.meta.env.VITE_AZURE_AD_TENANT_ID
-    }`,
-    redirectUri: import.meta.env.VITE_AZURE_AD_REDIRECT_URI,
-  },
-};
+    auth: {
+        clientId: import.meta.env.VITE_AZURE_AD_CLIENT_ID,
+        authority: import.meta.env.VITE_AZURE_AD_AUTHORITY,
+        redirectUri: '/auth/callback',
+    },
+}
 
 export const loginRequest = {
-  scopes: ["user.read"],
-  prompt: "select_account",
-};
+    scopes: ['api://49be23aa-eb3c-48e8-b7aa-8aa96d3688c3/user.read'],
+}
