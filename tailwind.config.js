@@ -26,6 +26,9 @@ module.exports = {
                     '@apply bg-red-200 border text-gray-900 focus:outline-none text-sm rounded-2xl focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:focus:ring-red-600 dark:focus:border-red-600 !important':
                         {},
                 },
+                '.input-contained-icon': {
+                    '@apply input-contained pl-8 !important': {},
+                },
 
                 '.date-padding ': {
                     '@apply padding-left: 5rem !important': {},
