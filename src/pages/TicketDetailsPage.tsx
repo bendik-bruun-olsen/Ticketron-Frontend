@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     CalendarDateRangeIcon,
     CalendarDaysIcon,
@@ -12,6 +12,7 @@ import {
 import TicketDetail from '../components/Ticket/TicketDetail'
 import { Paths } from '../../paths'
 import { useNavigate } from 'react-router-dom'
+import DeleteModal from '../components/DeleteModal'
 
 const DummyTicket = {
     title: 'Norway to sweden',
@@ -35,17 +36,28 @@ const TicketDetailsPage: React.FC = () => {
         purchaseDate,
         category,
         purchasedBy,
-        bookingId,
     } = DummyTicket
 
     const navigate = useNavigate()
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [bookingId, setBookingId] = useState<string | null>(null)
 
     const handleEdit = () => {
         navigate('edit-ticket')
     }
 
-    const handleDelete = () => {
+    const handleDelete = (id: string) => {
+        setBookingId(id)
+        setIsModalVisible(true)
+    }
+
+    const handleConfirmDelete = () => {
+        console.log('Item Deleted')
+        setIsModalVisible(false)
         navigate(`/booking/${bookingId}`)
+    }
+    const handleCancelDelete = () => {
+        setIsModalVisible(false)
     }
 
     return (
@@ -100,9 +112,17 @@ const TicketDetailsPage: React.FC = () => {
             <button className="fab bottom-6 right-6" onClick={handleEdit}>
                 <PencilIcon className="text-white size-6" />
             </button>
-            <button className="fab bottom-6 right-20" onClick={handleDelete}>
+            <button
+                className="fab bottom-6 right-20"
+                onClick={() => handleDelete('yourBookingIdHere')}
+            >
                 <TrashIcon className="text-white size-6" />
             </button>
+            <DeleteModal
+                isVisible={isModalVisible}
+                onCancel={handleCancelDelete}
+                onDelete={handleConfirmDelete}
+            />
         </div>
     )
 }
