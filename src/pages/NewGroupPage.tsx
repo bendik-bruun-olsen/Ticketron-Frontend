@@ -31,10 +31,10 @@ const NewGroupPage: React.FC = () => {
             <div className="mt-7 ml-2 mr-2">
                 <h1 className="h1 ml-2 mb-2.5">Add members</h1>
                 <div className="relative">
-                    <UserIcon className="h-6 w-6 p-1 absolute box-border top-1/2 left-0.5 transform -translate-y-1/2 " />
+                    <UserIcon className="size-6 p-1 absolute box-border top-1/2 left-0.5 transform -translate-y-1/2 " />
                     <input
                         type="text"
-                        className="input-contained h-50 box-border pl-6"
+                        className="input-contained-icon h-50 box-border pl-6"
                         placeholder="Member Name"
                     />
                 </div>
