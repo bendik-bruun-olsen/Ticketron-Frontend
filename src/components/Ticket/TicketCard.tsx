@@ -25,7 +25,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
     const navigate = useNavigate()
 
     return (
-        <button
+        <div
             className="flex items-center p-4 bg-white rounded-lg shadow-md border border-gray-200"
             onClick={() => navigate(`./tickets/${id}`)}
         >
@@ -51,7 +51,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
                 <p className="font-semibold text-sm">{price}</p>
                 <span className="ml-2 text-gray-400">&gt;</span>
             </div>
-        </button>
+        </div>
     )
 }
 
