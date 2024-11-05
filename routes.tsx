@@ -16,6 +16,7 @@ import UserProfilePage from './src/pages/UserProfilePage'
 import EditUserProfilePage from './src/pages/EditUserProfilePage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import Navbar from './src/components/Navigation/Navbar'
+import ProtectedRoute from './src/components/ProtectedRoute'
 
 const routes = [
     {
@@ -24,59 +25,115 @@ const routes = [
     },
     {
         path: Paths.HOME,
-        element: <Homepage />,
+        element: (
+            <ProtectedRoute>
+                <Homepage />,
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.ADD_BOOKING,
-        element: <AddNewBookingPage />,
+        element: (
+            <ProtectedRoute>
+                <AddNewBookingPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.ADD_TICKET,
-        element: <AddTicketPage />,
+        element: (
+            <ProtectedRoute>
+                <AddTicketPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: `${Paths.BOOKING_DETAILS}`,
-        element: <BookingDetailsPage />,
+        element: (
+            <ProtectedRoute>
+                <BookingDetailsPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: `${Paths.BOOKING_DETAILS}`,
-        element: <BookingDetailsPage />,
+        element: (
+            <ProtectedRoute>
+                <BookingDetailsPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.BOOKING,
-        element: <BookingPage />,
+        element: (
+            <ProtectedRoute>
+                <BookingPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.EDIT_BOOKING,
-        element: <EditBookingPage />,
+        element: (
+            <ProtectedRoute>
+                <EditBookingPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.EDIT_TICKET,
-        element: <EditTicketPage />,
+        element: (
+            <ProtectedRoute>
+                <EditTicketPage initialData={undefined} />
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.EDIT_USER_PROFILE,
-        element: <EditUserProfilePage />,
+        element: (
+            <ProtectedRoute>
+                <EditUserProfilePage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.GROUP_DETAILS,
-        element: <GroupDetailsPage />,
+        element: (
+            <ProtectedRoute>
+                <GroupDetailsPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.NEW_GROUP,
-        element: <NewGroupPage />,
+        element: (
+            <ProtectedRoute>
+                <NewGroupPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.SIGN_UP,
-        element: <SignUpPage />,
+        element: (
+            <ProtectedRoute>
+                <SignUpPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.TICKET_DETAILS,
-        element: <TicketDetailsPage />,
+        element: (
+            <ProtectedRoute>
+                <TicketDetailsPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: Paths.USER_PROFILE,
-        element: <UserProfilePage />,
+        element: (
+            <ProtectedRoute>
+                <UserProfilePage />
+            </ProtectedRoute>
+        ),
     },
 ]
 
