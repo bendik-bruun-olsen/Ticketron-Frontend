@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router'
 import TicketCard from '../components/Ticket/TicketCard'
 import Navbar from '../components/Navigation/Navbar'
 import { PencilIcon, PlusIcon } from '@heroicons/react/24/solid'
+import { Paths } from '../../paths'
 
 const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
@@ -31,6 +32,14 @@ const BookingDetailsPage: React.FC = () => {
         },
     ]
 
+    const goToAddTicketPage = () => {
+        navigate(Paths.ADD_TICKET)
+    }
+
+    const goToEditTicketPage = () => {
+        navigate(Paths.EDIT_TICKET)
+    }
+
     return (
         <div className="p-4 bg-gray-100 min-h-screen relative">
             <div className="mb-4">
@@ -47,10 +56,16 @@ const BookingDetailsPage: React.FC = () => {
                 {tickets.map((ticket, index) => (
                     <TicketCard key={index} {...ticket} />
                 ))}
-                <button className="fab bottom-6 right-6">
+                <button
+                    className="fab bottom-6 right-6"
+                    onClick={goToAddTicketPage}
+                >
                     <PlusIcon className="text-white size-6" />
                 </button>
-                <button className="fab bottom-6 right-20">
+                <button
+                    className="fab bottom-6 right-20"
+                    onClick={goToEditTicketPage}
+                >
                     <PencilIcon className="text-white size-6" />
                 </button>
             </div>
