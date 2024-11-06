@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 
 const AddTicketPage: React.FC = () => {
     const navigate = useNavigate()
+    const bookingId = 1
+    const newTicketId = 1
 
     const handleAddTicket = async (ticketData: {
         ticketName: string
@@ -29,7 +31,7 @@ const AddTicketPage: React.FC = () => {
         }
         try {
             const newTicket = await postData('/Ticket/create', body)
-            navigate(`/ticket/${newTicket.id}`)
+            navigate(`booking/${bookingId}/ticket/${newTicketId}`)
         } catch (error) {
             console.error(error)
         }
