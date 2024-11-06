@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-    CalendarDateRangeIcon,
     CalendarDaysIcon,
-    CalendarIcon,
     CreditCardIcon,
     PencilIcon,
     TagIcon,
@@ -10,23 +8,55 @@ import {
     UserIcon,
 } from '@heroicons/react/24/outline'
 import TicketDetail from '../components/Ticket/TicketDetail'
-import { Paths } from '../../paths'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import DeleteModal from '../components/DeleteModal'
-
-const DummyTicket = {
-    title: 'Norway to sweden',
-    user: 'Anne',
-    startDate: '04.04.2020',
-    endDate: '05.05.2020',
-    price: '100kr',
-    purchasedBy: 'Navn',
-    purchaseDate: '01.01.2020',
-    category: 'Flybillett',
-    bookingId: 1,
-}
+import { fetchData } from '../utils'
 
 const TicketDetailsPage: React.FC = () => {
+    const [ticketDetails, setTicketDetails] = useState<any>(null)
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const { bookingId, ticketId } = useParams<{
+        bookingId: string
+        ticketId: string
+    }>()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const getTicketDetails = async () => {
+            if (!ticketId) return
+            try {
+                const data = await fetchData(`/tickets/${ticketId}`)
+                setTicketDetails(data)
+            } catch (error) {
+                console.error('Error fetching ticket details:', error)
+            }
+        }
+
+        getTicketDetails()
+    }, [bookingId, ticketId])
+
+    const handleEdit = () => {
+        navigate(`/booking/${bookingId}/edit-ticket/${ticketId}`)
+    }
+
+    const handleDelete = () => {
+        setIsModalVisible(true)
+    }
+
+    const handleConfirmDelete = () => {
+        console.log('Item Deleted')
+        setIsModalVisible(false)
+        navigate(`/booking/${bookingId}`)
+    }
+
+    const handleCancelDelete = () => {
+        setIsModalVisible(false)
+    }
+
+    if (!ticketDetails) {
+        return <p>Loading...</p>
+    }
+
     const {
         title,
         user,
@@ -36,29 +66,7 @@ const TicketDetailsPage: React.FC = () => {
         purchaseDate,
         category,
         purchasedBy,
-    } = DummyTicket
-
-    const navigate = useNavigate()
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const [bookingId, setBookingId] = useState<string | null>(null)
-
-    const handleEdit = () => {
-        navigate('edit-ticket')
-    }
-
-    const handleDelete = (id: string) => {
-        setBookingId(id)
-        setIsModalVisible(true)
-    }
-
-    const handleConfirmDelete = () => {
-        console.log('Item Deleted')
-        setIsModalVisible(false)
-        navigate(`/booking/${bookingId}`)
-    }
-    const handleCancelDelete = () => {
-        setIsModalVisible(false)
-    }
+    } = ticketDetails
 
     return (
         <div className="w-full">
@@ -78,12 +86,12 @@ const TicketDetailsPage: React.FC = () => {
                         title={'Start Date'}
                         subtitle={startDate}
                         icon={<CalendarDaysIcon className="size-6" />}
-                    />{' '}
+                    />
                     <TicketDetail
                         title={'End Date'}
                         subtitle={endDate}
                         icon={<CalendarDaysIcon className="size-6" />}
-                    />{' '}
+                    />
                     <TicketDetail
                         title={'Price'}
                         subtitle={price}
@@ -101,12 +109,12 @@ const TicketDetailsPage: React.FC = () => {
                         title={'Purchase date'}
                         subtitle={purchaseDate}
                         icon={<CalendarDaysIcon className="size-6" />}
-                    />{' '}
+                    />
                     <TicketDetail
                         title={'Category'}
                         subtitle={category}
                         icon={<TagIcon className="size-6" />}
-                    />{' '}
+                    />
                 </div>
             </div>
             <button className="fab bottom-6 right-6" onClick={handleEdit}>
@@ -114,7 +122,7 @@ const TicketDetailsPage: React.FC = () => {
             </button>
             <button
                 className="fab bottom-6 right-20"
-                onClick={() => handleDelete('yourBookingIdHere')}
+                onClick={() => handleDelete()}
             >
                 <TrashIcon className="text-white size-6" />
             </button>
