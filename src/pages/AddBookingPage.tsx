@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { postData } from '../utils'
-import CustomDatepicker from '../components/Datepicker'
-import { Datepicker } from 'flowbite-react'
 import DaterangePicker from '../components/Datepicker'
 import { useNavigate } from 'react-router-dom'
-
-const customTheme = {
-    Datepicker: {
-        root: {},
-    },
-}
 
 const AddNewBookingPage: React.FC = () => {
     const [dateRange, setDateRange] = useState<{
