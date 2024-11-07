@@ -80,7 +80,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
             <input
                 required
                 className="input-contained"
-                name="ticketname"
+                name="ticketName"
                 placeholder="Ticket Name"
                 defaultValue={initialData?.ticketName}
                 onChange={handleInputChange}
@@ -89,7 +89,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
             <input
                 required
                 className="input-contained"
-                name="tickettype"
+                name="ticketType"
                 placeholder="Ticket Type"
                 defaultValue={initialData?.ticketType}
                 onChange={handleInputChange}

@@ -20,18 +20,15 @@ const AddTicketPage: React.FC = () => {
         purchasedDate?: string
     }) => {
         const body = {
-            ticketName: ticketData.ticketName,
-            ticketType: ticketData.ticketType,
-            userName: ticketData.userName,
+            title: ticketData.ticketName,
+            participantId: 2,
             startDate: new Date(ticketData.startDate).toISOString(),
             endDate: new Date(ticketData.endDate).toISOString(),
-            purchasedBy: ticketData.purchasedBy,
-            purchasedDate: ticketData.purchasedDate,
             userId: 1,
             bookingId: bookingId,
         }
         try {
-            const newTicket = await postData(`/api/Ticket/create`, body)
+            const newTicket = await postData(`/Ticket/create`, body)
             navigate(`./tickets/${newTicket.id}`)
         } catch (error) {
             console.error(error)

@@ -14,7 +14,7 @@ const BookingDetailsPage: React.FC = () => {
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const response = await fetchData(`./tickets`)
+                const response = await fetchData(`/ticket/booking/${bookingId}`)
 
                 if (!response.ok) throw new Error('Failed to fetch tickets')
                 const data = await response.json()
