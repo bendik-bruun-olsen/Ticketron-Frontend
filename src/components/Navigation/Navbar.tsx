@@ -20,7 +20,7 @@ const Navbar = ({ title, leftAction }: NavbarProps): JSX.Element => {
 
                 <p className="text-center font-bold">{title ?? ''}</p>
                 <button onClick={() => setOpen(true)}>
-                    <Bars4Icon className="size-6 justify-self-end text-red-600" />
+                    <Bars4Icon className="justify-self-end red-icon" />
                 </button>
             </nav>
             <NavMenu isOpen={open} setIsOpen={setOpen} />
@@ -37,7 +37,7 @@ export const ReturnButton = () => {
 
     return (
         <button onClick={handleNavigate}>
-            <ArrowUturnLeftIcon className="size-6 justify-self-end text-red-600" />
+            <ArrowUturnLeftIcon className="justify-self-end red-icon" />
         </button>
     )
 }
