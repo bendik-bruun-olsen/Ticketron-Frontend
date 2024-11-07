@@ -17,6 +17,7 @@ import EditUserProfilePage from './src/pages/EditUserProfilePage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import Navbar from './src/components/Navigation/Navbar'
 import ProtectedRoute from './src/components/ProtectedRoute'
+import CreateUser from './src/pages/CreateUser'
 
 const routes = [
     {
@@ -112,12 +113,8 @@ const routes = [
         ),
     },
     {
-        path: Paths.SIGN_UP,
-        element: (
-            <ProtectedRoute>
-                <SignUpPage />
-            </ProtectedRoute>
-        ),
+        path: Paths.CREATE_USER,
+        element: <CreateUser />,
     },
     {
         path: Paths.TICKET_DETAILS,

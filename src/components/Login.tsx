@@ -2,14 +2,17 @@ import { useMsal } from '@azure/msal-react'
 import { loginRequest } from '../authConfig'
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
+import { fetchData, postData } from '../utils'
+import { User } from './types'
 
 const Login: React.FC = () => {
     const { instance } = useMsal()
     const navigate = useNavigate()
 
-    const handleLoginMicrosoft = () => {
+    const handleLoginMicrosoft = async () => {
         instance
             .loginPopup(loginRequest)
+
             .then(() => {
                 navigate('/')
             })
