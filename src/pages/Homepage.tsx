@@ -15,11 +15,19 @@ const HomePage: React.FC = () => {
     }
 
     const [bookings, setBookings] = useState([])
+    const [error, setError] = useState<{
+        code: number
+        message: string
+    } | null>(null)
 
     useEffect(() => {
         const fetchBookings = async () => {
-            const data = await fetchData('/Booking/user/1')
-            setBookings(data)
+            try {
+                const data = await fetchData('/Booking/user/1')
+                setBookings(data)
+            } catch (error) {
+                setError({ code: error.code, message: error.message })
+            }
         }
         fetchBookings()
     }, [])
