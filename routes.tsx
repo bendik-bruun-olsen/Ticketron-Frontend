@@ -28,8 +28,8 @@ const routes = [
         path: Paths.HOME,
         element: (
             <ProtectedRoute>
-                <Navbar title={'Bookings'} leftAction={<div></div>} />{' '}
-                <Homepage />,
+                <Navbar title={'Bookings'} leftAction={<div></div>} />
+                <Homepage />
             </ProtectedRoute>
         ),
     },
