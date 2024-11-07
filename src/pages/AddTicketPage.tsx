@@ -1,10 +1,11 @@
 import React from 'react'
 import TicketForm from '../components/Ticket/TicketForm'
 import { postData } from '../utils'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const AddTicketPage: React.FC = () => {
     const navigate = useNavigate()
+    const { bookingId } = useParams<{ bookingId: string }>()
 
     const handleAddTicket = async (ticketData: {
         ticketName: string
@@ -20,16 +21,18 @@ const AddTicketPage: React.FC = () => {
             ticketName: ticketData.ticketName,
             ticketType: ticketData.ticketType,
             userName: ticketData.userName,
-            startDate: ticketData.startDate,
-            endDate: ticketData.endDate,
-            price: ticketData.price,
+            startDate: new Date(ticketData.startDate).toISOString(),
+            endDate: new Date(ticketData.endDate).toISOString(),
             purchasedBy: ticketData.purchasedBy,
             purchasedDate: ticketData.purchasedDate,
             userId: 1,
         }
         try {
-            const newTicket = await postData('/Ticket/create', body)
-            navigate(`/ticket/${newTicket.id}`)
+            const newTicket = await postData(
+                `/booking/${bookingId}/tickets/create`,
+                body
+            )
+            navigate(`/booking/${bookingId}/tickets/${newTicket.id}`)
         } catch (error) {
             console.error(error)
         }
