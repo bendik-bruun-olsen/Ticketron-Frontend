@@ -25,7 +25,7 @@ const TicketDetailsPage: React.FC = () => {
         const getTicketDetails = async () => {
             if (!ticketId) return
             try {
-                const data = await fetchData(`/tickets/${ticketId}`)
+                const data = await fetchData(`./tickets/${ticketId}`)
                 setTicketDetails(data)
             } catch (error) {
                 console.error('Error fetching ticket details:', error)
@@ -36,7 +36,7 @@ const TicketDetailsPage: React.FC = () => {
     }, [bookingId, ticketId])
 
     const handleEdit = () => {
-        navigate(`/booking/${bookingId}/edit-ticket/${ticketId}`)
+        navigate(`./edit-ticket/${ticketId}`)
     }
 
     const handleDelete = () => {

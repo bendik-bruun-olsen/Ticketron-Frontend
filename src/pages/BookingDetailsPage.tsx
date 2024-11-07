@@ -1,43 +1,60 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import TicketCard from '../components/Ticket/TicketCard'
 import Navbar from '../components/Navigation/Navbar'
 import { PencilIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { Paths } from '../../paths'
+import { fetchData } from '../utils'
 
 const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
     const navigate = useNavigate()
 
-    const tickets = [
-        {
-            imageUrl: 'https://via.placeholder.com/64',
-            title: 'Ticket Name',
-            type: 'Flybillett',
-            username: 'Bruker Navn',
-            price: '1000kr',
-            startDate: ' 10.10.2024',
-            endDate: ' 10.10.2024',
-            id: '1',
-        },
-        {
-            imageUrl: 'https://via.placeholder.com/64',
-            title: 'Ticket Name',
-            type: 'Flybillett',
-            username: 'Bruker Navn',
-            price: '1000kr',
-            startDate: ' 10.10.2024',
-            endDate: ' 10.10.2024',
-            id: '2',
-        },
-    ]
+    const [tickets, setTickets] = useState<any[]>([])
+    useEffect(() => {
+        const fetchTickets = async () => {
+            try {
+                const response = await fetchData(`./tickets`)
+
+                if (!response.ok) throw new Error('Failed to fetch tickets')
+                const data = await response.json()
+                setTickets(data)
+            } catch (error) {
+                console.error('Error fetching tickets:', error)
+            }
+        }
+        fetchTickets()
+    }, [bookingId])
+
+    // const tickets = [
+    //     {
+    //         imageUrl: 'https://via.placeholder.com/64',
+    //         title: 'Ticket Name',
+    //         type: 'Flybillett',
+    //         username: 'Bruker Navn',
+    //         price: '1000kr',
+    //         startDate: ' 10.10.2024',
+    //         endDate: ' 10.10.2024',
+    //         id: '1',
+    //     },
+    //     {
+    //         imageUrl: 'https://via.placeholder.com/64',
+    //         title: 'Ticket Name',
+    //         type: 'Flybillett',
+    //         username: 'Bruker Navn',
+    //         price: '1000kr',
+    //         startDate: ' 10.10.2024',
+    //         endDate: ' 10.10.2024',
+    //         id: '2',
+    //     },
+    // ]
 
     const goToAddTicketPage = () => {
-        navigate(Paths.ADD_TICKET)
+        navigate(`./add-ticket`)
     }
 
     const goToEditTicketPage = () => {
-        navigate(Paths.EDIT_TICKET)
+        navigate(`./edit-ticket`)
     }
 
     return (
