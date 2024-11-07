@@ -4,8 +4,8 @@ import { postData } from '../utils'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const AddTicketPage: React.FC = () => {
-    const navigate = useNavigate()
     const { bookingId } = useParams<{ bookingId: string }>()
+    const navigate = useNavigate()
 
     const handleAddTicket = async (ticketData: {
         ticketName: string

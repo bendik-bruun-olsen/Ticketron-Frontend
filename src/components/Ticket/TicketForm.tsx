@@ -43,7 +43,10 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
     useEffect(() => {
         if (initialData) {
-            setFormData(initialData)
+            setFormData({
+                ...formData,
+                ...initialData,
+            })
             setDateRange({
                 startDate: new Date(initialData.startDate || ''),
                 endDate: new Date(initialData.endDate || ''),
