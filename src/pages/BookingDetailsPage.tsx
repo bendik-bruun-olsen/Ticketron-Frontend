@@ -62,12 +62,6 @@ const BookingDetailsPage: React.FC = () => {
                 >
                     <PlusIcon className="text-white size-6" />
                 </button>
-                <button
-                    className="fab bottom-6 right-20"
-                    onClick={goToEditTicketPage}
-                >
-                    <PencilIcon className="text-white size-6" />
-                </button>
             </div>
         </div>
     )

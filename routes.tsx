@@ -14,9 +14,10 @@ import SignUpPage from './src/pages/SignUpPage'
 import TicketDetailsPage from './src/pages/TicketDetailsPage'
 import UserProfilePage from './src/pages/UserProfilePage'
 import EditUserProfilePage from './src/pages/EditUserProfilePage'
-import { Outlet, createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import Navbar from './src/components/Navigation/Navbar'
 import ProtectedRoute from './src/components/ProtectedRoute'
+import BookingsOverviewPage from './src/pages/BookingsOverviewPage'
 
 const routes = [
     {
@@ -48,26 +49,19 @@ const routes = [
         ),
     },
     {
-        path: `${Paths.BOOKING_DETAILS}`,
+        path: Paths.BOOKING_DETAILS,
         element: (
             <ProtectedRoute>
                 <BookingDetailsPage />
             </ProtectedRoute>
         ),
     },
-    {
-        path: `${Paths.BOOKING_DETAILS}`,
-        element: (
-            <ProtectedRoute>
-                <BookingDetailsPage />
-            </ProtectedRoute>
-        ),
-    },
+
     {
         path: Paths.BOOKING,
         element: (
             <ProtectedRoute>
-                <BookingPage />
+                <BookingsOverviewPage />
             </ProtectedRoute>
         ),
     },
