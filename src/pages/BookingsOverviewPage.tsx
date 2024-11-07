@@ -3,8 +3,10 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { PencilIcon } from '@heroicons/react/24/solid'
 import CategoryCard from '../components/CategoryCard'
 import { fetchData } from '../utils'
+import { useParams } from 'react-router-dom'
 
 function BookingsOverviewPage() {
+    const { bookingId } = useParams<{ bookingId: string }>()
     const bookingTitle = 'Plane'
     const bookingStartDate = '21.01.2024'
     const bookingEndDate = '10.02.2024'
@@ -13,10 +15,11 @@ function BookingsOverviewPage() {
 
     useEffect(() => {
         const fetchBookings = async () => {
-            const data = await fetchData('/Booking/user/1')
+            const data = await fetchData(`/Booking/${bookingId}`)
             setBookings(data)
         }
         fetchBookings()
+        console.log(bookings)
     }, [])
 
     return (
