@@ -4,11 +4,7 @@ import router from '../routes'
 import ErrorBoundary from './components/Error/ErrorBoundary'
 
 const App: React.FC = () => {
-    return (
-        <ErrorBoundary>
-            <RouterProvider router={router} />
-        </ErrorBoundary>
-    )
+    return <RouterProvider router={router} />
 }
 
 export default App

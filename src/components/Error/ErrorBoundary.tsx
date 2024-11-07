@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react'
+import ErrorComponent from './ErrorComponent'
 
 interface ErrorBoundaryProps {
     children: ReactNode
@@ -6,12 +7,15 @@ interface ErrorBoundaryProps {
 interface ErrorBoundaryState {
     hasError: boolean
     error: Error | null
+    errorCode: number
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    state: ErrorBoundaryState = { hasError: false, error: null }
+    state: ErrorBoundaryState = { hasError: false, error: null, errorCode: 500 }
+
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-        return { hasError: true, error }
+        const errorCode = (error as any).code || 500
+        return { hasError: true, error, errorCode }
     }
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         console.error('Uncaught error:', error, errorInfo)
@@ -19,15 +23,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     render() {
         if (this.state.hasError) {
             return (
-                <div className="p-4 text-center text-red-700">
-                    <h2 className="text-2xl font-bold">
-                        Something went wrong.
-                    </h2>
-                    <p>
-                        {this.state.error?.message ||
-                            'An unexpected error occurred.'}
-                    </p>
-                </div>
+                <ErrorComponent
+                    errorCode={this.state.errorCode}
+                    errorMessage={
+                        this.state.error?.message || 'Something went wrong'
+                    }
+                />
             )
         }
         return this.props.children

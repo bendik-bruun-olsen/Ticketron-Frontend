@@ -26,11 +26,17 @@ const HomePage: React.FC = () => {
                 const data = await fetchData('/Booking/user/1')
                 setBookings(data)
             } catch (error) {
-                setError({ code: error.code, message: error.message })
+                setError({
+                    code: (error as any).code,
+                    message: (error as any).message,
+                })
             }
         }
         fetchBookings()
     }, [])
+    // if (true) {
+    //     throw new Error('Intentional error for testing ErrorBoundary')
+    // }
 
     return (
         <>

@@ -17,6 +17,7 @@ import EditUserProfilePage from './src/pages/EditUserProfilePage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import Navbar from './src/components/Navigation/Navbar'
 import ProtectedRoute from './src/components/ProtectedRoute'
+import ErrorBoundary from './src/components/Error/ErrorBoundary'
 
 const routes = [
     {
@@ -140,7 +141,16 @@ const routes = [
 const router = createBrowserRouter([
     {
         element: <Navbar />,
-        children: routes,
+        children: [
+            {
+                element: (
+                    <ErrorBoundary>
+                        <Outlet />
+                    </ErrorBoundary>
+                ),
+                children: routes,
+            },
+        ],
     },
 ])
 
