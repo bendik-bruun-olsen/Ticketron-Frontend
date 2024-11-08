@@ -15,9 +15,10 @@ import TicketDetailsPage from './src/pages/TicketDetailsPage'
 import UserProfilePage from './src/pages/UserProfilePage'
 import EditUserProfilePage from './src/pages/EditUserProfilePage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
-import Navbar from './src/components/Navigation/Navbar'
+import Navbar, { ReturnButton } from './src/components/Navigation/Navbar'
 import ProtectedRoute from './src/components/ProtectedRoute'
 import ErrorBoundary from './src/components/Error/ErrorBoundary'
+import Layout from './src/components/Navigation/Layout'
 
 const routes = [
     {
@@ -28,7 +29,8 @@ const routes = [
         path: Paths.HOME,
         element: (
             <ProtectedRoute>
-                <Homepage />,
+                <Navbar title={'Bookings'} leftAction={<div></div>} />
+                <Homepage />
             </ProtectedRoute>
         ),
     },
@@ -36,6 +38,7 @@ const routes = [
         path: Paths.ADD_BOOKING,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Add booking'} leftAction={<ReturnButton />} />{' '}
                 <AddNewBookingPage />
             </ProtectedRoute>
         ),
@@ -44,6 +47,7 @@ const routes = [
         path: Paths.ADD_TICKET,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Add ticket'} leftAction={<ReturnButton />} />{' '}
                 <AddTicketPage />
             </ProtectedRoute>
         ),
@@ -52,14 +56,10 @@ const routes = [
         path: `${Paths.BOOKING_DETAILS}`,
         element: (
             <ProtectedRoute>
-                <BookingDetailsPage />
-            </ProtectedRoute>
-        ),
-    },
-    {
-        path: `${Paths.BOOKING_DETAILS}`,
-        element: (
-            <ProtectedRoute>
+                <Navbar
+                    title={'Booking details'}
+                    leftAction={<ReturnButton />}
+                />{' '}
                 <BookingDetailsPage />
             </ProtectedRoute>
         ),
@@ -68,6 +68,7 @@ const routes = [
         path: Paths.BOOKING,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Booking'} leftAction={<ReturnButton />} />{' '}
                 <BookingPage />
             </ProtectedRoute>
         ),
@@ -76,6 +77,7 @@ const routes = [
         path: Paths.EDIT_BOOKING,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Edit booking'} leftAction={<ReturnButton />} />{' '}
                 <EditBookingPage />
             </ProtectedRoute>
         ),
@@ -84,6 +86,7 @@ const routes = [
         path: Paths.EDIT_TICKET,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Edit ticket'} leftAction={<ReturnButton />} />
                 <EditTicketPage initialData={undefined} />
             </ProtectedRoute>
         ),
@@ -92,6 +95,7 @@ const routes = [
         path: Paths.EDIT_USER_PROFILE,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Edit user'} leftAction={<ReturnButton />} />
                 <EditUserProfilePage />
             </ProtectedRoute>
         ),
@@ -100,6 +104,7 @@ const routes = [
         path: Paths.GROUP_DETAILS,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Groups'} leftAction={<ReturnButton />} />{' '}
                 <GroupDetailsPage />
             </ProtectedRoute>
         ),
@@ -108,6 +113,7 @@ const routes = [
         path: Paths.NEW_GROUP,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Add new group'} leftAction={<ReturnButton />} />
                 <NewGroupPage />
             </ProtectedRoute>
         ),
@@ -124,6 +130,11 @@ const routes = [
         path: Paths.TICKET_DETAILS,
         element: (
             <ProtectedRoute>
+                <Navbar
+                    title={'Ticket details'}
+                    leftAction={<ReturnButton />}
+                />
+
                 <TicketDetailsPage />
             </ProtectedRoute>
         ),
@@ -132,6 +143,7 @@ const routes = [
         path: Paths.USER_PROFILE,
         element: (
             <ProtectedRoute>
+                <Navbar title={'User profile'} leftAction={<ReturnButton />} />
                 <UserProfilePage />
             </ProtectedRoute>
         ),
@@ -140,7 +152,7 @@ const routes = [
 
 const router = createBrowserRouter([
     {
-        element: <Navbar />,
+        element: <Layout />,
         children: [
             {
                 element: (
