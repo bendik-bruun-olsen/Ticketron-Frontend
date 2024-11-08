@@ -14,5 +14,5 @@ export enum Paths {
     ADD_TICKET = '/booking/:bookingId/add-ticket',
     EDIT_TICKET = '/booking/:bookingId/tickets/:ticketId/edit-ticket',
     ADD_BOOKING = '/add-booking',
-    EDIT_BOOKING = 'booking/:bookingId/edit-booking',
+    EDIT_BOOKING = '/booking/:bookingId/edit-booking',
 }

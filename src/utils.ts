@@ -72,3 +72,34 @@ export const postData = async (
         .then((response) => response.json())
         .catch((error) => console.log(error))
 }
+
+export const putData = async (
+    url: string,
+    body: Record<string, string | number | undefined>
+) => {
+    const account = msalInstance.getActiveAccount()
+    if (!account) {
+        throw Error(
+            'No active account! Verify a user has been signed in and setActiveAccount has been called.'
+        )
+    }
+    const targetUrl = `${import.meta.env.VITE_API_URL}${url}`
+    const response = await msalInstance.acquireTokenSilent({
+        ...loginRequest,
+        account: account,
+    })
+    const token = `Bearer ${response.accessToken}`
+
+    const options = {
+        method: 'PUT',
+        headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    }
+
+    return fetch(targetUrl, options)
+        .then((response) => response.json())
+        .catch((error) => console.log(error))
+}

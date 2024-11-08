@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { postData } from '../utils'
-import CustomDatepicker from '../components/Datepicker'
-import { Datepicker } from 'flowbite-react'
 import DaterangePicker from '../components/Datepicker'
 import { useNavigate } from 'react-router-dom'
-
-const customTheme = {
-    Datepicker: {
-        root: {},
-    },
-}
+import BookingForm from '../components/Booking/BookingForm'
 
 const AddNewBookingPage: React.FC = () => {
     const [dateRange, setDateRange] = useState<{
@@ -44,25 +37,11 @@ const AddNewBookingPage: React.FC = () => {
     }
 
     return (
-        <form className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>
-            <label className="">
-                <p className="pl-2">Booking title</p>
-                <input required className="input-contained" name="title" />
-            </label>
-
-            <DaterangePicker
-                dateRange={dateRange}
-                setDateRange={setDateRange}
-            />
-
-            <label className="p-2">
-                Participants
-                <input className="input-contained" name="participants" />
-            </label>
-            <button className="btn-primary ml-2" type="submit">
-                Save
-            </button>
-        </form>
+        <BookingForm
+            handleSubmit={handleSubmit}
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+        />
     )
 }
 
