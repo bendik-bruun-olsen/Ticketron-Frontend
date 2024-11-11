@@ -35,8 +35,7 @@ const EditBookingPage: React.FC = () => {
         e.preventDefault()
         const formData = new FormData(e.target as HTMLFormElement)
         const formProps = Object.fromEntries(formData)
-        const { title } = formProps as HTMLFormElement
-        const { startDate, endDate } = dateRange
+        const { title, endDate, startDate } = formProps as HTMLFormElement
 
         const body = {
             title: title,
@@ -46,7 +45,7 @@ const EditBookingPage: React.FC = () => {
         }
 
         try {
-            const updatedBooking = await putData(`/Booking/${bookingId}`, body)
+            await putData(`/Booking/${bookingId}`, body)
             navigate(`/booking/${bookingId}`)
         } catch (error) {
             console.error(error)
