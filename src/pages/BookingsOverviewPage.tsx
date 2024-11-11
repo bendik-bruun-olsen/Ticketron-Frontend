@@ -4,7 +4,6 @@ import { PencilIcon } from '@heroicons/react/24/solid'
 import CategoryCard from '../components/CategoryCard'
 import { fetchData } from '../utils'
 import { useParams } from 'react-router-dom'
-import { Dropdown } from 'flowbite-react'
 
 function BookingsOverviewPage() {
     const { bookingId } = useParams<{ bookingId: string }>()
