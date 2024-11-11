@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
     content: [
         './src/pages/**/*.{html,js,jsx,ts,tsx}',
@@ -30,6 +31,10 @@ module.exports = {
                     '@apply input-contained pl-8 !important': {},
                 },
 
+                '.red-icon': {
+                    '@apply size-6 text-red-700': {},
+                },
+
                 '.date-padding ': {
                     '@apply padding-left: 5rem !important': {},
                 },
@@ -44,6 +49,9 @@ module.exports = {
                 '.fab': {
                     '@apply p-0 w-12 h-12 bg-red-600 fixed flex items-center justify-center rounded-full hover:bg-red-700 active:shadow-lg shadow transition ease-in duration-200 focus:outline-none':
                         {},
+                },
+                '.heading-links': {
+                    '@apply flex items-center justify-between': {},
                 },
             })
         },
