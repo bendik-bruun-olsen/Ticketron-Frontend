@@ -5,7 +5,7 @@ import Homepage from './src/pages/Homepage'
 import AddNewBookingPage from './src/pages/AddBookingPage'
 import AddTicketPage from './src/pages/AddTicketPage'
 import BookingDetailsPage from './src/pages/BookingDetailsPage'
-import BookingPage from './src/pages/BookingPage'
+import BookingsPage from './src/pages/BookingsPage'
 import EditBookingPage from './src/pages/EditBookingPage'
 import EditTicketPage from './src/pages/EditTicketPage'
 import GroupDetailsPage from './src/pages/GroupDetailsPage'
@@ -17,7 +17,9 @@ import EditUserProfilePage from './src/pages/EditUserProfilePage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import Navbar, { ReturnButton } from './src/components/Navigation/Navbar'
 import ProtectedRoute from './src/components/ProtectedRoute'
+import ErrorBoundary from './src/components/Error/ErrorBoundary'
 import Layout from './src/components/Navigation/Layout'
+import BookingsOverviewPage from './src/pages/BookingsOverviewPage'
 
 const routes = [
     {
@@ -28,7 +30,7 @@ const routes = [
         path: Paths.HOME,
         element: (
             <ProtectedRoute>
-                <Navbar title={'Bookings'} leftAction={<div></div>} />
+                <Navbar title={'Home'} leftAction={<div></div>} />
                 <Homepage />
             </ProtectedRoute>
         ),
@@ -52,6 +54,15 @@ const routes = [
         ),
     },
     {
+        path: `${Paths.BOOKINGS}`,
+        element: (
+            <ProtectedRoute>
+                <Navbar title={'Bookings'} leftAction={<ReturnButton />} />{' '}
+                <BookingsPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
         path: `${Paths.BOOKING_DETAILS}`,
         element: (
             <ProtectedRoute>
@@ -63,12 +74,13 @@ const routes = [
             </ProtectedRoute>
         ),
     },
+
     {
         path: Paths.BOOKING,
         element: (
             <ProtectedRoute>
                 <Navbar title={'Booking'} leftAction={<ReturnButton />} />{' '}
-                <BookingPage />
+                <BookingsOverviewPage />
             </ProtectedRoute>
         ),
     },
@@ -152,7 +164,16 @@ const routes = [
 const router = createBrowserRouter([
     {
         element: <Layout />,
-        children: routes,
+        children: [
+            {
+                element: (
+                    <ErrorBoundary>
+                        <Outlet />
+                    </ErrorBoundary>
+                ),
+                children: routes,
+            },
+        ],
     },
 ])
 

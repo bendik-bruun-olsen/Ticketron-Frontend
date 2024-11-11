@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { BookingCard } from './BookingCard'
-import { Booking } from './../types'
+import { BookingSummary } from './types'
 
 interface ListProps {
-    bookings: Array<Booking>
+    bookings: Array<BookingSummary>
 }
 
 const BookingsList = ({ bookings }: ListProps): JSX.Element => {
     return (
         <div>
-            {/* <h2 className="font-bold mb-4">Upcoming bookings</h2> */}
+            <h2 className="font-bold mb-4">Upcoming travels</h2>
             <div className="grid grid-cols-2 gap-4">
-                {bookings?.map((booking) => (
+                {bookings.map((booking) => (
                     <BookingCard key={booking.id} booking={booking} />
                 ))}
             </div>
