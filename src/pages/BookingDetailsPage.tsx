@@ -4,6 +4,7 @@ import TicketCard from '../components/Ticket/TicketCard'
 import Navbar from '../components/Navigation/Navbar'
 import { PencilIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { Paths } from '../../paths'
+import SearchFilter from '../components/SearchFilter'
 
 const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
@@ -42,13 +43,14 @@ const BookingDetailsPage: React.FC = () => {
 
     return (
         <div className="p-4 bg-gray-100 min-h-screen relative">
-            <div className="mb-4">
+            {/* <div className="mb-4">
                 <input
                     type="text"
                     placeholder="Filter Tickets"
                     className="w-full px-4 py-2 rounded-full bg-gray-200 text-gray-600"
                 />
-            </div>
+            </div> */}
+            <SearchFilter></SearchFilter>
 
             <h2 className="text-xl font-bold mb-4">Plane tickets</h2>
 
