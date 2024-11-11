@@ -50,6 +50,9 @@ module.exports = {
                     '@apply p-0 w-12 h-12 bg-red-600 fixed flex items-center justify-center rounded-full hover:bg-red-700 active:shadow-lg shadow transition ease-in duration-200 focus:outline-none':
                         {},
                 },
+                '.heading-links': {
+                    '@apply flex items-center justify-between': {},
+                },
             })
         },
     ],

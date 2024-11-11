@@ -5,7 +5,7 @@ import Homepage from './src/pages/Homepage'
 import AddNewBookingPage from './src/pages/AddBookingPage'
 import AddTicketPage from './src/pages/AddTicketPage'
 import BookingDetailsPage from './src/pages/BookingDetailsPage'
-import BookingPage from './src/pages/BookingPage'
+import BookingsPage from './src/pages/BookingsPage'
 import EditBookingPage from './src/pages/EditBookingPage'
 import EditTicketPage from './src/pages/EditTicketPage'
 import GroupDetailsPage from './src/pages/GroupDetailsPage'
@@ -29,7 +29,7 @@ const routes = [
         path: Paths.HOME,
         element: (
             <ProtectedRoute>
-                <Navbar title={'Bookings'} leftAction={<div></div>} />
+                <Navbar title={'Home'} leftAction={<div></div>} />
                 <Homepage />
             </ProtectedRoute>
         ),
@@ -53,6 +53,15 @@ const routes = [
         ),
     },
     {
+        path: `${Paths.BOOKINGS}`,
+        element: (
+            <ProtectedRoute>
+                <Navbar title={'Bookings'} leftAction={<ReturnButton />} />{' '}
+                <BookingsPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
         path: `${Paths.BOOKING_DETAILS}`,
         element: (
             <ProtectedRoute>
@@ -69,7 +78,7 @@ const routes = [
         element: (
             <ProtectedRoute>
                 <Navbar title={'Booking'} leftAction={<ReturnButton />} />{' '}
-                <BookingPage />
+                <BookingsPage />
             </ProtectedRoute>
         ),
     },

@@ -9,7 +9,7 @@ interface ListProps {
 const BookingsList = ({ bookings }: ListProps): JSX.Element => {
     return (
         <div>
-            <h2 className="font-bold mb-4">Upcoming bookings</h2>
+            {/* <h2 className="font-bold mb-4">Upcoming bookings</h2> */}
             <div className="grid grid-cols-2 gap-4">
                 {bookings?.map((booking) => (
                     <BookingCard key={booking.id} booking={booking} />
