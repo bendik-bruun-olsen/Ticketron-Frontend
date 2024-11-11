@@ -33,11 +33,11 @@ const BookingDetailsPage: React.FC = () => {
     ]
 
     const goToAddTicketPage = () => {
-        navigate(Paths.ADD_TICKET)
+        navigate(`./add-ticket`)
     }
 
-    const goToEditTicketPage = () => {
-        navigate(Paths.EDIT_TICKET)
+    const goToEditBookingPage = () => {
+        navigate(`./edit-booking`)
     }
 
     return (
@@ -64,7 +64,7 @@ const BookingDetailsPage: React.FC = () => {
                 </button>
                 <button
                     className="fab bottom-6 right-20"
-                    onClick={goToEditTicketPage}
+                    onClick={goToEditBookingPage}
                 >
                     <PencilIcon className="text-white size-6" />
                 </button>
