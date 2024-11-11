@@ -19,6 +19,7 @@ import Navbar, { ReturnButton } from './src/components/Navigation/Navbar'
 import ProtectedRoute from './src/components/ProtectedRoute'
 import ErrorBoundary from './src/components/Error/ErrorBoundary'
 import Layout from './src/components/Navigation/Layout'
+import BookingsOverviewPage from './src/pages/BookingsOverviewPage'
 
 const routes = [
     {
@@ -73,12 +74,13 @@ const routes = [
             </ProtectedRoute>
         ),
     },
+
     {
         path: Paths.BOOKING,
         element: (
             <ProtectedRoute>
                 <Navbar title={'Booking'} leftAction={<ReturnButton />} />{' '}
-                <BookingsPage />
+                <BookingsOverviewPage />
             </ProtectedRoute>
         ),
     },
