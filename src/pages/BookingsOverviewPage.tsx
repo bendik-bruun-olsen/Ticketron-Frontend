@@ -3,14 +3,17 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import { PencilIcon } from '@heroicons/react/24/solid'
 import CategoryCard from '../components/CategoryCard'
 import { fetchData } from '../utils'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Dropdown } from 'flowbite-react'
 import { Booking } from '../components/types'
+import { Paths } from '../../paths'
 
 function BookingsOverviewPage() {
     const { bookingId } = useParams<{ bookingId: string }>()
 
     const [booking, setBooking] = useState<Booking>()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -20,10 +23,17 @@ function BookingsOverviewPage() {
         fetchBookings()
     }, [])
 
+    const goToAddTicketPage = () => {
+        navigate(`./add-ticket`)
+    }
+
+    const goToEditBookingPage = () => {
+        navigate(`./edit-booking`)
+    }
     return (
         <>
             {booking && (
-                <div className="flex flex-col">
+                <div className="flex flex-col p-4">
                     <img
                         src="https://placehold.co/600x200"
                         alt=""
@@ -55,11 +65,17 @@ function BookingsOverviewPage() {
                         </div>
                     </div>
                     <div className="flex justify-end mt-4 mr-4">
-                        <button className="fab h-10 w-10  mr-12">
+                        <button
+                            className="fab bottom-6 right-20  absolute"
+                            onClick={goToEditBookingPage}
+                        >
                             <PencilIcon className="size-6" color="white" />
                         </button>
-                        <button className="fab h-10 w-10">
-                            <PlusIcon className="size-6" color="white" />
+                        <button
+                            className="fab bottom-6 right-6"
+                            onClick={goToAddTicketPage}
+                        >
+                            <PlusIcon className="text-white size-6" />
                         </button>
                     </div>
                 </div>
