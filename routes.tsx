@@ -17,6 +17,7 @@ import EditUserProfilePage from './src/pages/EditUserProfilePage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import Navbar, { ReturnButton } from './src/components/Navigation/Navbar'
 import ProtectedRoute from './src/components/ProtectedRoute'
+import ErrorBoundary from './src/components/Error/ErrorBoundary'
 import Layout from './src/components/Navigation/Layout'
 
 const routes = [
@@ -152,7 +153,16 @@ const routes = [
 const router = createBrowserRouter([
     {
         element: <Layout />,
-        children: routes,
+        children: [
+            {
+                element: (
+                    <ErrorBoundary>
+                        <Outlet />
+                    </ErrorBoundary>
+                ),
+                children: routes,
+            },
+        ],
     },
 ])
 
