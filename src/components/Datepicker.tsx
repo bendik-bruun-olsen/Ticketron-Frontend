@@ -26,19 +26,17 @@ const DaterangePicker = ({ dateRange, setDateRange }: DaterangePickerProps) => {
 
         if (startDatePicker && endDatePicker) {
             new Datepicker(startDatePicker, {
-                format: 'yyyy-mm-dd',
+                format: 'dd.mm.yyyy',
                 autohide: true,
                 onSelect: (e) => {
-                    setDateRange({ ...dateRange, startDate: e })
                     startDatePicker.blur()
                 },
             })
 
             new Datepicker(endDatePicker, {
-                format: 'yyyy-mm-dd',
+                format: 'dd.mm.yyyy',
                 autohide: true,
                 onSelect: (e) => {
-                    setDateRange({ ...dateRange, endDate: e })
                     endDatePicker.blur()
                 },
             })
@@ -62,6 +60,13 @@ const DaterangePicker = ({ dateRange, setDateRange }: DaterangePickerProps) => {
                         type="text"
                         className="input-contained-icon !important "
                         required
+                        value={dateRange.startDate?.toLocaleDateString()}
+                        onChange={(e) => {
+                            setDateRange({
+                                ...dateRange,
+                                startDate: new Date(e.target.value),
+                            })
+                        }}
                     />
                 </div>
             </div>
@@ -79,6 +84,13 @@ const DaterangePicker = ({ dateRange, setDateRange }: DaterangePickerProps) => {
                         name="endDate"
                         type="text"
                         className="input-contained-icon pl-10"
+                        value={dateRange.startDate?.toLocaleDateString()}
+                        onChange={(e) => {
+                            setDateRange({
+                                ...dateRange,
+                                startDate: new Date(e.target.value),
+                            })
+                        }}
                     />
                 </div>
             </div>

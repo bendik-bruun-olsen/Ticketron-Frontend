@@ -31,7 +31,7 @@ const BookingForm = ({
                 endDate: new Date(booking.endDate),
             })
         }
-    }, [booking])
+    }, [])
 
     return (
         <form className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>
@@ -55,7 +55,7 @@ const BookingForm = ({
                 <input
                     className="input-contained"
                     defaultValue={
-                        booking?.participants.forEach(
+                        booking?.participants?.forEach(
                             (participant) => participant.id
                         ) ?? ''
                     }

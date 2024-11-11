@@ -12,8 +12,8 @@ const EditBookingPage: React.FC = () => {
         startDate: Date | null
         endDate: Date | null
     }>({
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: null,
+        endDate: null,
     })
 
     const navigate = useNavigate()
@@ -21,6 +21,11 @@ const EditBookingPage: React.FC = () => {
     useEffect(() => {
         const fetchBooking = async () => {
             const data = await fetchData(`/Booking/${bookingId}`)
+            setDateRange({
+                startDate: new Date(data.startDate),
+                endDate: new Date(data.endDate),
+            })
+
             setBooking(data)
         }
         fetchBooking()
@@ -31,11 +36,12 @@ const EditBookingPage: React.FC = () => {
         const formData = new FormData(e.target as HTMLFormElement)
         const formProps = Object.fromEntries(formData)
         const { title } = formProps as HTMLFormElement
+        const { startDate, endDate } = dateRange
 
         const body = {
             title: title,
-            startDate: dateRange.startDate?.toISOString(),
-            endDate: dateRange.endDate?.toISOString(),
+            startDate: new Date(startDate),
+            endDate: new Date(endDate),
             userId: 1,
         }
 
