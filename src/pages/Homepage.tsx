@@ -6,6 +6,7 @@ import { Paths } from '../../paths'
 import { Link, useNavigate } from 'react-router-dom'
 import { fetchData } from '../utils'
 import { useMsal } from '@azure/msal-react'
+import { Autocomplete } from '../components/Autocomplete'
 
 const HomePage: React.FC = () => {
     const { instance, accounts } = useMsal()
@@ -44,7 +45,7 @@ const HomePage: React.FC = () => {
                 <h1 className="text-2xl font-bold">
                     Welcome back {accounts[0]?.name}!
                 </h1>
-
+                <Autocomplete />
                 <div className="flex items-center justify-between">
                     <h2 className="font-bold mb-4">Upcoming Bookings</h2>
                     <Link
