@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { TextInput, Dropdown } from 'flowbite-react'
+import { TextInput } from 'flowbite-react'
 
 export const Autocomplete = () => {
     const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([])
     const [showSuggestions, setShowSuggestions] = useState(false)
-    const [userInput, setUserInput] = useState('')
+    const [userInput, setUserInput] = useState<string>('')
 
     const suggestions = ['Oslo', 'Stockholm', 'Helsinki', 'Copenhagen']
 
@@ -20,8 +20,7 @@ export const Autocomplete = () => {
             )
             setFilteredSuggestions(filteredSuggestions)
             setShowSuggestions(true)
-        }
-        if (userInput.length === 0) {
+        } else {
             setFilteredSuggestions([])
             setShowSuggestions(false)
         }
@@ -42,20 +41,17 @@ export const Autocomplete = () => {
                 aria-label="Search"
             />
             {showSuggestions && filteredSuggestions.length > 0 && (
-                <Dropdown
-                    className="absolute z-10 w-full mt-1 rounded-md border"
-                    style={{ position: 'absolute' }}
-                >
+                <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
                     {filteredSuggestions.map((suggestion, index) => (
-                        <Dropdown.Item
+                        <div
                             key={index}
                             onClick={() => handleSelect(suggestion)}
-                            className="cursor-pointer"
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-200"
                         >
                             {suggestion}
-                        </Dropdown.Item>
+                        </div>
                     ))}
-                </Dropdown>
+                </div>
             )}
         </div>
     )
