@@ -1,25 +1,49 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { TextInput } from 'flowbite-react'
+import { fetchData } from '../utils'
 
-export const Autocomplete = () => {
-    const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([])
+export const Autocomplete = ({ path, field }) => {
+    const [filteredSuggestions, setFilteredSuggestions] = useState([])
     const [showSuggestions, setShowSuggestions] = useState(false)
-    const [userInput, setUserInput] = useState<string>('')
+    const [userInput, setUserInput] = useState('')
 
-    const suggestions = ['Oslo', 'Stockholm', 'Helsinki', 'Copenhagen']
+    const fetchSuggestions = async (query) => {
+        try {
+            const response = await fetchData(`api/${path}?query=${query}`)
+            const data = await response.json()
+
+            const filtered = data.filter((item) =>
+                item[field]?.toLowerCase().includes(query.toLowerCase())
+            )
+
+            setFilteredSuggestions(filtered)
+            setShowSuggestions(filtered.length > 0)
+        } catch (error) {
+            console.error('Error fetching suggestions:', error)
+            setFilteredSuggestions([])
+            setShowSuggestions(false)
+        }
+    }
+
+    const debounce = (func, wait) => {
+        let timeout
+        return (...args) => {
+            clearTimeout(timeout)
+            timeout = setTimeout(() => func(...args), wait)
+        }
+    }
+
+    const debouncedFetchSuggestions = useCallback(
+        debounce(fetchSuggestions, 300),
+        [path, field]
+    )
 
     const handleInputChange = (e) => {
-        const userInput = e.target.value
-        setUserInput(userInput)
+        const input = e.target.value
+        setUserInput(input)
 
-        if (userInput.length > 0) {
-            const filteredSuggestions = suggestions.filter(
-                (suggestion) =>
-                    suggestion.toLowerCase().indexOf(userInput.toLowerCase()) >
-                    -1
-            )
-            setFilteredSuggestions(filteredSuggestions)
-            setShowSuggestions(true)
+        if (input.length > 0) {
+            debouncedFetchSuggestions(input)
         } else {
             setFilteredSuggestions([])
             setShowSuggestions(false)
@@ -27,7 +51,7 @@ export const Autocomplete = () => {
     }
 
     const handleSelect = (suggestion) => {
-        setUserInput(suggestion)
+        setUserInput(suggestion[field] || 'No response found')
         setFilteredSuggestions([])
         setShowSuggestions(false)
     }
@@ -48,7 +72,7 @@ export const Autocomplete = () => {
                             onClick={() => handleSelect(suggestion)}
                             className="px-4 py-2 cursor-pointer hover:bg-gray-200"
                         >
-                            {suggestion}
+                            {suggestion[field] || 'No response found'}
                         </div>
                     ))}
                 </div>
