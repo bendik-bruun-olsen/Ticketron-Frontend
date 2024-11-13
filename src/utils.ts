@@ -1,6 +1,10 @@
 import { useMsal } from '@azure/msal-react'
 import { loginRequest } from './authConfig'
 import { msalInstance } from './main'
+import axios from 'axios'
+
+const API_KEY = import.meta.env.VITE_PEXELS_API_KEY
+const BASE_URL = 'https://api.pexels.com/v1/search'
 
 export interface ApiConfig {
     url: string
@@ -71,4 +75,27 @@ export const postData = async (
     return fetch(targetUrl, options)
         .then((response) => response.json())
         .catch((error) => console.log(error))
+}
+
+export const getPicture = async (query: string): Promise<string | null> => {
+    if (!API_KEY) {
+        console.error('API key not found!')
+        return null
+    }
+    try {
+        const response = await axios.get(BASE_URL, {
+            headers: {
+                Authorization: API_KEY,
+            },
+            params: { query, per_page: 1 },
+        })
+        console.log('API response:', response.data)
+
+        const photo = response.data.photos[0]
+        console.log('Image URL:', photo?.src?.medium)
+        return photo ? photo.src.medium : null
+    } catch (error) {
+        console.error('Error fetching picture:', error)
+        return null
+    }
 }
