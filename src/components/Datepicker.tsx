@@ -23,7 +23,9 @@ const DaterangePicker = ({ dateRange, setDateRange }: DaterangePickerProps) => {
             <div className="mb-4">
                 <Datepicker
                     name="startDate"
-                    title="Start Date"
+                    id="startDate"
+                    language="en"
+                    className="input-contained"
                     onChange={(date) =>
                         setDateRange({ ...dateRange, startDate: date })
                     }
@@ -33,10 +35,10 @@ const DaterangePicker = ({ dateRange, setDateRange }: DaterangePickerProps) => {
             <div className="mb-4">
                 <Datepicker
                     name="endDate"
-                    title="Start Date"
                     onChange={(date) =>
                         setDateRange({ ...dateRange, endDate: date })
                     }
+                    id="input-contained"
                     value={dateRange.endDate ?? new Date()}
                 />
             </div>
