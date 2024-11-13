@@ -1,8 +1,7 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router'
 import TicketCard from '../components/Ticket/TicketCard'
-import Navbar from '../components/Navigation/Navbar'
-import { PencilIcon, PlusIcon } from '@heroicons/react/24/solid'
+import { PlusIcon } from '@heroicons/react/24/solid'
 import { Paths } from '../../paths'
 import SearchFilter from '../components/SearchFilter'
 
@@ -35,10 +34,6 @@ const BookingDetailsPage: React.FC = () => {
 
     const goToAddTicketPage = () => {
         navigate(Paths.ADD_TICKET)
-    }
-
-    const goToEditTicketPage = () => {
-        navigate(Paths.EDIT_TICKET)
     }
 
     return (
