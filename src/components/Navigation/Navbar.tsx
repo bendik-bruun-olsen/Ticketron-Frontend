@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Paths } from '../../../paths'
 import NavMenu from './NavMenu'
-import { ArrowUturnLeftIcon, Bars4Icon } from '@heroicons/react/24/solid'
+import { ArrowLeftIcon, Bars4Icon } from '@heroicons/react/24/solid'
 
 interface NavbarProps {
     title: string
@@ -37,7 +37,7 @@ export const ReturnButton = () => {
 
     return (
         <button onClick={handleNavigate}>
-            <ArrowUturnLeftIcon className="justify-self-end red-icon" />
+            <ArrowLeftIcon className="justify-self-end red-icon" />
         </button>
     )
 }

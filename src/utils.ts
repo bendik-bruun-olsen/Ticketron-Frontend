@@ -1,6 +1,7 @@
 import { useMsal } from '@azure/msal-react'
 import { loginRequest } from './authConfig'
 import { msalInstance } from './main'
+import { log } from 'console'
 
 export interface ApiConfig {
     url: string
@@ -20,6 +21,7 @@ export const fetchData = async (url: string) => {
         )
     }
     const targetUrl = `${import.meta.env.VITE_API_URL}${url}`
+    console.log(targetUrl)
     const response = await msalInstance.acquireTokenSilent({
         ...loginRequest,
         account: account,

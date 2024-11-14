@@ -34,6 +34,7 @@ const HomePage: React.FC = () => {
         }
         fetchBookings()
     }, [])
+
     // if (true) {
     //     throw new Error('Intentional error for testing ErrorBoundary')
     // }

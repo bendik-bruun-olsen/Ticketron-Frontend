@@ -33,6 +33,7 @@ const AddNewBookingPage: React.FC = () => {
             startDate: dateRange.startDate?.toISOString(),
             endDate: dateRange.endDate?.toISOString(),
             userId: 1,
+            image: 'https://via.placeholder.com/64',
         }
 
         try {

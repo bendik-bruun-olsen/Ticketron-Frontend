@@ -4,6 +4,7 @@ import {
     CalendarIcon,
     UserGroupIcon,
     UserIcon,
+    HomeIcon,
 } from '@heroicons/react/24/solid'
 import MenuButton from './NavButton'
 import { Paths } from '../../../paths'
@@ -47,9 +48,15 @@ const NavMenu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
             >
                 <h1 className="p-4 text-xl border-b-2">Menu</h1>
                 <MenuButton
+                    icon={<HomeIcon className="red-icon" />}
+                    title={'Home'}
+                    href={Paths.HOME}
+                    setIsOpen={setIsOpen}
+                />
+                <MenuButton
                     icon={<CalendarIcon className="red-icon" />}
                     title={'Bookings'}
-                    href={Paths.HOME}
+                    href={Paths.BOOKINGS}
                     setIsOpen={setIsOpen}
                 />
                 <MenuButton
