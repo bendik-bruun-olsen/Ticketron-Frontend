@@ -88,7 +88,7 @@ const routes = [
         path: Paths.EDIT_BOOKING,
         element: (
             <ProtectedRoute>
-                <Navbar title={'Edit booking'} leftAction={<ReturnButton />} />{' '}
+                <Navbar title={'Edit booking'} leftAction={<ReturnButton />} />
                 <EditBookingPage />
             </ProtectedRoute>
         ),

@@ -34,7 +34,7 @@ function BookingsOverviewPage() {
     return (
         <>
             {booking && (
-                <div className="flex flex-col p-4">
+                <div className="flex flex-col">
                     <img
                         src="https://placehold.co/600x200"
                         alt=""

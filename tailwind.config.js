@@ -31,7 +31,7 @@ module.exports = {
                         {},
                 },
                 '.input-contained-icon': {
-                    '@apply input-contained pl-8 !important': {},
+                    '@apply input-contained pl-10 !important': {},
                 },
 
                 '.red-icon': {
