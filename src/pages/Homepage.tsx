@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { BookingCard } from '../components/Booking/BookingCard'
 import BookingsList from '../components/Booking/BookingsList'
-import { PlusCircleIcon, PlusIcon } from '@heroicons/react/24/solid'
+import { PlusIcon } from '@heroicons/react/24/solid'
 import { Paths } from '../../paths'
 import { Link, useNavigate } from 'react-router-dom'
 import { fetchData } from '../utils'
 import { useMsal } from '@azure/msal-react'
 import dayjs from 'dayjs'
+
 
 const HomePage: React.FC = () => {
     const { instance, accounts } = useMsal()
@@ -42,6 +43,7 @@ const HomePage: React.FC = () => {
         }
         fetchBookings()
     }, [])
+
     // if (true) {
     //     throw new Error('Intentional error for testing ErrorBoundary')
     // }
@@ -52,7 +54,6 @@ const HomePage: React.FC = () => {
                 <h1 className="text-2xl font-bold">
                     Welcome back {accounts[0]?.name}!
                 </h1>
-
                 <div className="flex items-center justify-between">
                     <h2 className="font-bold mb-4">Upcoming Bookings</h2>
                     <Link

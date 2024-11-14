@@ -5,14 +5,14 @@ import 'flowbite/dist/flowbite.css'
 interface TicketFormProps {
     mode: 'add' | 'edit'
     initialData?: {
-        ticketName?: string
-        ticketType?: string
-        userName?: string
-        startDate?: string
-        endDate?: string
-        price?: string
-        purchasedBy?: string
-        purchasedDate?: string
+        ticketName: string
+        ticketType: string
+        userName: string
+        startDate: string
+        endDate: string
+        price: string
+        purchasedBy: string
+        purchasedDate: string
     }
     onSubmit: (data: any) => void
 }

@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const flowbite = require('flowbite-react/tailwind')
 
 module.exports = {
     content: [
@@ -6,6 +7,7 @@ module.exports = {
         './src/components/**/*.{html,js,jsx,ts,tsx}',
         './src/layouts/**/*.{html,js,jsx,ts,tsx}',
         './src/index.html',
+        flowbite.content(),
     ],
     theme: {
         extend: {
@@ -21,6 +23,7 @@ module.exports = {
         },
     },
     plugins: [
+        flowbite.plugin(),
         function ({ addComponents }) {
             addComponents({
                 '.input-contained': {
@@ -28,7 +31,7 @@ module.exports = {
                         {},
                 },
                 '.input-contained-icon': {
-                    '@apply input-contained pl-8 !important': {},
+                    '@apply input-contained pl-10 !important': {},
                 },
 
                 '.red-icon': {
