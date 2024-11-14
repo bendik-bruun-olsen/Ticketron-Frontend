@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router'
 import TicketCard from '../components/Ticket/TicketCard'
-import { PlusIcon } from '@heroicons/react/24/solid'
+import { PencilIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { Paths } from '../../paths'
 import SearchFilter from '../components/SearchFilter'
 import { Dropdown } from 'flowbite-react'
@@ -41,7 +41,11 @@ const BookingDetailsPage: React.FC = () => {
     ]
 
     const goToAddTicketPage = () => {
-        navigate(Paths.ADD_TICKET)
+        navigate(`./add-ticket`)
+    }
+
+    const goToEditBookingPage = () => {
+        navigate(`./edit-booking`)
     }
 
     return (
@@ -65,6 +69,12 @@ const BookingDetailsPage: React.FC = () => {
                     onClick={goToAddTicketPage}
                 >
                     <PlusIcon className="text-white size-6" />
+                </button>
+                <button
+                    className="fab bottom-6 right-20"
+                    onClick={goToEditBookingPage}
+                >
+                    <PencilIcon className="text-white size-6" />
                 </button>
             </div>
         </div>

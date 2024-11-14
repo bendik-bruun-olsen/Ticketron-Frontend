@@ -1,7 +1,6 @@
 import { useMsal } from '@azure/msal-react'
 import { loginRequest } from './authConfig'
 import { msalInstance } from './main'
-import { log } from 'console'
 
 const API_KEY = import.meta.env.VITE_PEXELS_API_KEY
 const BASE_URL = 'https://api.pexels.com/v1/search'
@@ -49,7 +48,7 @@ export const fetchData = async (url: string) => {
 //console.log(id) -> This will get the id of the created booking
 export const postData = async (
     url: string,
-    body: Record<string, string | number | undefined>
+    body: Record<string, string | number | undefined | boolean>
 ) => {
     const account = msalInstance.getActiveAccount()
     if (!account) {
@@ -66,6 +65,37 @@ export const postData = async (
 
     const options = {
         method: 'POST',
+        headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    }
+
+    return fetch(targetUrl, options)
+        .then((response) => response.json())
+        .catch((error) => console.log(error))
+}
+
+export const putData = async (
+    url: string,
+    body: Record<string, string | number | undefined | Date>
+) => {
+    const account = msalInstance.getActiveAccount()
+    if (!account) {
+        throw Error(
+            'No active account! Verify a user has been signed in and setActiveAccount has been called.'
+        )
+    }
+    const targetUrl = `${import.meta.env.VITE_API_URL}${url}`
+    const response = await msalInstance.acquireTokenSilent({
+        ...loginRequest,
+        account: account,
+    })
+    const token = `Bearer ${response.accessToken}`
+
+    const options = {
+        method: 'PUT',
         headers: {
             Authorization: token,
             'Content-Type': 'application/json',
