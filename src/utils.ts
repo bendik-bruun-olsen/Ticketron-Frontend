@@ -1,7 +1,6 @@
 import { useMsal } from '@azure/msal-react'
 import { loginRequest } from './authConfig'
 import { msalInstance } from './main'
-import axios from 'axios'
 
 const API_KEY = import.meta.env.VITE_PEXELS_API_KEY
 const BASE_URL = 'https://api.pexels.com/v1/search'
@@ -77,25 +76,28 @@ export const postData = async (
         .catch((error) => console.log(error))
 }
 
-export const getPicture = async (query: string): Promise<string | null> => {
+export const getPicture = async (
+    query: string
+): Promise<string | undefined> => {
     if (!API_KEY) {
         console.error('API key not found!')
-        return null
+        return
     }
-    try {
-        const response = await axios.get(BASE_URL, {
-            headers: {
-                Authorization: API_KEY,
-            },
-            params: { query, per_page: 1 },
-        })
-        console.log('API response:', response.data)
+    const params: URLSearchParams = new URLSearchParams({
+        query,
+        per_page: '1',
+    })
+    const requestURL = new URL(`${BASE_URL}?${params.toString()}`)
+    const options = {
+        method: 'GET',
+        headers: {
+            Authorization: API_KEY,
+            'Content-Type': 'application/json',
+        },
+    }
+    const photos = await fetch(requestURL, options)
+        .then((response) => response.json())
+        .catch((error) => console.log(error))
 
-        const photo = response.data.photos[0]
-        console.log('Image URL:', photo?.src?.medium)
-        return photo ? photo.src.medium : null
-    } catch (error) {
-        console.error('Error fetching picture:', error)
-        return null
-    }
+    return photos.photos[0]?.src.medium
 }
