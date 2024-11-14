@@ -34,7 +34,6 @@ const AddNewBookingPage: React.FC = () => {
         try {
             const newBooking = await postData('/Booking/create', body)
             navigate(`/booking/${newBooking.id}`)
-            console.log(imageUrl)
         } catch (error) {
             console.error(error)
         }
