@@ -114,13 +114,24 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 defaultValue={initialData?.ticketName}
                 onChange={handleInputChange}
             />
-            <input
-                type="file"
-                className="input-contained"
-                name="Upload Ticket Image"
-                onChange={handleFileChange}
-                accept="image/*"
-            />
+            <div className="relative">
+                <input
+                    type="file"
+                    id="file-upload"
+                    className="hidden"
+                    name="Upload Ticket Image"
+                    onChange={handleFileChange}
+                    accept="image/*"
+                />
+                <label htmlFor="file-upload" className="btn-primary">
+                    Upload Ticket
+                </label>
+                {selectedFile && (
+                    <span className="ml-4 text-gray-700">
+                        {selectedFile.name}
+                    </span>
+                )}
+            </div>
             <input
                 required
                 className="input-contained"
