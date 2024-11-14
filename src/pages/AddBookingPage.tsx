@@ -4,6 +4,7 @@ import CustomDatepicker from '../components/Datepicker'
 import { Datepicker } from 'flowbite-react'
 import DaterangePicker from '../components/Datepicker'
 import { useNavigate } from 'react-router-dom'
+import { getPicture } from '../utils'
 
 const customTheme = {
     Datepicker: {
@@ -27,6 +28,7 @@ const AddNewBookingPage: React.FC = () => {
         const formData = new FormData(e.target as HTMLFormElement)
         const formProps = Object.fromEntries(formData)
         const { title } = formProps as HTMLFormElement
+        const imageUrl = await getPicture(title)
 
         const body = {
             title: title,
@@ -34,11 +36,13 @@ const AddNewBookingPage: React.FC = () => {
             endDate: dateRange.endDate?.toISOString(),
             userId: 1,
             image: 'https://via.placeholder.com/64',
+            imageUrl,
         }
 
         try {
             const newBooking = await postData('/Booking/create', body)
             navigate(`/booking/${newBooking.id}`)
+            console.log(imageUrl)
         } catch (error) {
             console.error(error)
         }
