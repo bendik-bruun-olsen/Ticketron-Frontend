@@ -9,7 +9,6 @@ const NewGroupPage: React.FC = () => {
 
     const editGroupName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGroupName(e.target.value)
-        console.log(groupName)
     }
 
     const handleClick = () => {
