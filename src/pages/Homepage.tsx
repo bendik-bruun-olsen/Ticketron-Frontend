@@ -7,6 +7,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { fetchData } from '../utils'
 import { useMsal } from '@azure/msal-react'
 import { Autocomplete } from '../components/Autocomplete'
+import dayjs from 'dayjs'
+
 
 const HomePage: React.FC = () => {
     const { instance, accounts } = useMsal()
@@ -25,7 +27,14 @@ const HomePage: React.FC = () => {
         const fetchBookings = async () => {
             try {
                 const data = await fetchData('/Booking/user/1')
-                setBookings(data)
+                const filteredBookings = data
+                    .filter(
+                        (booking: any) =>
+                            dayjs(booking.date).isAfter(dayjs(), 'day') ||
+                            dayjs(booking.date).isSame(dayjs(), 'day')
+                    )
+                    .slice(0, 4)
+                setBookings(filteredBookings)
             } catch (error) {
                 setError({
                     code: (error as any).code,
