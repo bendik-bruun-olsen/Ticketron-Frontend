@@ -2,30 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Group from '../components/Group/Group'
 import { fetchData } from '../utils'
 
-const groups = [
-    {
-        title: 'Workout',
-        participants: ['Anne', 'Kokila'],
-        id: 1,
-    },
-    {
-        title: 'Workout',
-        participants: ['Anne', 'Kokila'],
-        id: 2,
-    },
-    {
-        title: 'Workout',
-        participants: ['Anne', 'Kokila'],
-        id: 3,
-    },
-    {
-        title: 'Workout',
-        participants: ['Anne', 'Kokila'],
-        id: 4,
-    },
-]
-
-const GroupDetailsPage: React.FC = () => {
+const GroupDetailsPage: React.FC = (userId) => {
     const [groups, setGroups] = useState<
         { title: string; participants: string[]; id: number }[]
     >([])
@@ -37,7 +14,7 @@ const GroupDetailsPage: React.FC = () => {
     useEffect(() => {
         const fetchGroups = async () => {
             try {
-                const data = await fetchData('/groups')
+                const data = await fetchData(`/Group/user/${userId}`)
                 setGroups(data)
             } catch (error) {
                 setError({
