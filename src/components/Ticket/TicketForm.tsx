@@ -25,6 +25,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
     const [isFormEdited, setIsFormEdited] = useState(false)
     const [startDateSelected, setStartDateSelected] = useState(false)
     const [endDateSelected, setEndDateSelected] = useState(false)
+    const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
     const [formData, setFormData] = useState({
         ticketName: '',
@@ -45,7 +46,12 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault()
-        onSubmit(formData)
+        if (selectedFile) {
+            onSubmit(formData, selectedFile)
+        }
+        if (!selectedFile) {
+            onSubmit(formData)
+        }
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +62,11 @@ const TicketForm: React.FC<TicketFormProps> = ({
         })
     }
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedFile(e.target.files[0])
+        }
+    }
     useEffect(() => {
         const startDatePicker = document.getElementById(
             'datepicker-range-start'
@@ -103,7 +114,13 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 defaultValue={initialData?.ticketName}
                 onChange={handleInputChange}
             />
-            <button className="soft-input">Upload Ticket Image</button>
+            <input
+                type="file"
+                className="input-contained"
+                name="Upload Ticket Image"
+                onChange={handleFileChange}
+                accept="image/*"
+            />
             <input
                 required
                 className="input-contained"
