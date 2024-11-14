@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router'
 import TicketCard from '../components/Ticket/TicketCard'
-import { PlusIcon } from '@heroicons/react/24/solid'
+import { PencilIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { Paths } from '../../paths'
 import SearchFilter from '../components/SearchFilter'
 import { Dropdown } from 'flowbite-react'
