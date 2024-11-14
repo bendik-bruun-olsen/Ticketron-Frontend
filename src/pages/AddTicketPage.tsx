@@ -28,7 +28,6 @@ const AddTicketPage: React.FC = () => {
     }
     return (
         <div>
-            <h1>Add Ticket</h1>
             <TicketForm mode="add" onSubmit={handleAddTicket} />
         </div>
     )
