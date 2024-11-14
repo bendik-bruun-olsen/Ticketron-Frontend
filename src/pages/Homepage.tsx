@@ -6,7 +6,6 @@ import { Paths } from '../../paths'
 import { Link, useNavigate } from 'react-router-dom'
 import { fetchData } from '../utils'
 import { useMsal } from '@azure/msal-react'
-import { Autocomplete } from '../components/Autocomplete'
 import dayjs from 'dayjs'
 
 
