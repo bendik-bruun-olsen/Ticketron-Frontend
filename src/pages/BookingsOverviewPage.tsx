@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { PencilIcon } from '@heroicons/react/24/solid'
-import CategoryCard from '../components/CategoryCard'
+import CategoryCard from '../components/Booking/CategoryCard'
 import { fetchData } from '../utils'
+import { useParams } from 'react-router-dom'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Dropdown } from 'flowbite-react'
 import { Booking } from '../components/types'
 import { Paths } from '../../paths'
+
 
 function BookingsOverviewPage() {
     const { bookingId } = useParams<{ bookingId: string }>()
