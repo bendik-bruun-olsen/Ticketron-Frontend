@@ -5,7 +5,7 @@ import Homepage from './src/pages/Homepage'
 import AddNewBookingPage from './src/pages/AddBookingPage'
 import AddTicketPage from './src/pages/AddTicketPage'
 import BookingDetailsPage from './src/pages/BookingDetailsPage'
-import BookingPage from './src/pages/BookingPage'
+import BookingsPage from './src/pages/BookingsPage'
 import EditBookingPage from './src/pages/EditBookingPage'
 import EditTicketPage from './src/pages/EditTicketPage'
 import GroupDetailsPage from './src/pages/GroupDetailsPage'
@@ -15,8 +15,11 @@ import TicketDetailsPage from './src/pages/TicketDetailsPage'
 import UserProfilePage from './src/pages/UserProfilePage'
 import EditUserProfilePage from './src/pages/EditUserProfilePage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
-import Navbar from './src/components/Navigation/Navbar'
+import Navbar, { ReturnButton } from './src/components/Navigation/Navbar'
 import ProtectedRoute from './src/components/ProtectedRoute'
+import ErrorBoundary from './src/components/Error/ErrorBoundary'
+import Layout from './src/components/Navigation/Layout'
+import BookingsOverviewPage from './src/pages/BookingsOverviewPage'
 
 const routes = [
     {
@@ -27,7 +30,8 @@ const routes = [
         path: Paths.HOME,
         element: (
             <ProtectedRoute>
-                <Homepage />,
+                <Navbar title={'Home'} leftAction={<div></div>} />
+                <Homepage />
             </ProtectedRoute>
         ),
     },
@@ -35,6 +39,7 @@ const routes = [
         path: Paths.ADD_BOOKING,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Add booking'} leftAction={<ReturnButton />} />{' '}
                 <AddNewBookingPage />
             </ProtectedRoute>
         ),
@@ -43,15 +48,17 @@ const routes = [
         path: Paths.ADD_TICKET,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Add ticket'} leftAction={<ReturnButton />} />{' '}
                 <AddTicketPage />
             </ProtectedRoute>
         ),
     },
     {
-        path: `${Paths.BOOKING_DETAILS}`,
+        path: `${Paths.BOOKINGS}`,
         element: (
             <ProtectedRoute>
-                <BookingDetailsPage />
+                <Navbar title={'Bookings'} leftAction={<ReturnButton />} />{' '}
+                <BookingsPage />
             </ProtectedRoute>
         ),
     },
@@ -59,15 +66,21 @@ const routes = [
         path: `${Paths.BOOKING_DETAILS}`,
         element: (
             <ProtectedRoute>
+                <Navbar
+                    title={'Booking details'}
+                    leftAction={<ReturnButton />}
+                />{' '}
                 <BookingDetailsPage />
             </ProtectedRoute>
         ),
     },
+
     {
         path: Paths.BOOKING,
         element: (
             <ProtectedRoute>
-                <BookingPage />
+                <Navbar title={'Booking'} leftAction={<ReturnButton />} />{' '}
+                <BookingsOverviewPage />
             </ProtectedRoute>
         ),
     },
@@ -75,6 +88,7 @@ const routes = [
         path: Paths.EDIT_BOOKING,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Edit booking'} leftAction={<ReturnButton />} />
                 <EditBookingPage />
             </ProtectedRoute>
         ),
@@ -83,6 +97,7 @@ const routes = [
         path: Paths.EDIT_TICKET,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Edit ticket'} leftAction={<ReturnButton />} />
                 <EditTicketPage initialData={undefined} />
             </ProtectedRoute>
         ),
@@ -91,6 +106,7 @@ const routes = [
         path: Paths.EDIT_USER_PROFILE,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Edit user'} leftAction={<ReturnButton />} />
                 <EditUserProfilePage />
             </ProtectedRoute>
         ),
@@ -99,6 +115,7 @@ const routes = [
         path: Paths.GROUP_DETAILS,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Groups'} leftAction={<ReturnButton />} />{' '}
                 <GroupDetailsPage />
             </ProtectedRoute>
         ),
@@ -107,6 +124,7 @@ const routes = [
         path: Paths.NEW_GROUP,
         element: (
             <ProtectedRoute>
+                <Navbar title={'Add new group'} leftAction={<ReturnButton />} />
                 <NewGroupPage />
             </ProtectedRoute>
         ),
@@ -123,6 +141,11 @@ const routes = [
         path: Paths.TICKET_DETAILS,
         element: (
             <ProtectedRoute>
+                <Navbar
+                    title={'Ticket details'}
+                    leftAction={<ReturnButton />}
+                />
+
                 <TicketDetailsPage />
             </ProtectedRoute>
         ),
@@ -131,6 +154,7 @@ const routes = [
         path: Paths.USER_PROFILE,
         element: (
             <ProtectedRoute>
+                <Navbar title={'User profile'} leftAction={<ReturnButton />} />
                 <UserProfilePage />
             </ProtectedRoute>
         ),
@@ -139,8 +163,17 @@ const routes = [
 
 const router = createBrowserRouter([
     {
-        element: <Navbar />,
-        children: routes,
+        element: <Layout />,
+        children: [
+            {
+                element: (
+                    <ErrorBoundary>
+                        <Outlet />
+                    </ErrorBoundary>
+                ),
+                children: routes,
+            },
+        ],
     },
 ])
 

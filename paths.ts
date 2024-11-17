@@ -10,9 +10,11 @@ export enum Paths {
     EDIT_GROUP = '/edit-group',
     TICKET_DETAILS = '/booking/:bookingId/tickets/:ticketId',
     BOOKING = '/booking/:bookingId',
-    BOOKING_DETAILS = '/booking/:bookingId/',
+    BOOKINGS = '/bookings',
+    BOOKING_OVERVIEW = '/booking/:bookingId/',
     ADD_TICKET = '/booking/:bookingId/add-ticket',
     EDIT_TICKET = '/booking/:bookingId/tickets/:ticketId/edit-ticket',
     ADD_BOOKING = '/add-booking',
     EDIT_BOOKING = 'booking/:bookingId/edit-booking',
+    BOOKING_DETAILS = '/booking/:bookingId/tickets',
 }

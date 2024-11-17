@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { postData } from '../utils'
+import { getPicture, postData } from '../utils'
 import DaterangePicker from '../components/Datepicker'
 import { useNavigate } from 'react-router-dom'
+import BookingForm from '../components/Booking/BookingForm'
+import { useMsal } from '@azure/msal-react'
 
 const AddNewBookingPage: React.FC = () => {
+    const { instance, accounts } = useMsal()
+
     const [dateRange, setDateRange] = useState<{
         startDate: Date | null
         endDate: Date | null
@@ -19,42 +23,32 @@ const AddNewBookingPage: React.FC = () => {
         const formData = new FormData(e.target as HTMLFormElement)
         const formProps = Object.fromEntries(formData)
         const { title } = formProps as HTMLFormElement
+        const imageUrl = await getPicture(title)
 
         const body = {
             title: title,
             startDate: dateRange.startDate?.toISOString(),
             endDate: dateRange.endDate?.toISOString(),
-            userId: 1,
+            userId: accounts[0]?.localAccountId,
+            image: 'https://via.placeholder.com/64',
+            imageUrl,
         }
 
         try {
             const newBooking = await postData('/Booking/create', body)
             navigate(`/booking/${newBooking.id}`)
+            console.log(imageUrl)
         } catch (error) {
             console.error(error)
         }
     }
 
     return (
-        <form className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>
-            <label className="">
-                <p className="pl-2">Booking title</p>
-                <input required className="input-contained" name="title" />
-            </label>
-
-            <DaterangePicker
-                dateRange={dateRange}
-                setDateRange={setDateRange}
-            />
-
-            <label className="p-2">
-                Participants
-                <input className="input-contained" name="participants" />
-            </label>
-            <button className="btn-primary ml-2" type="submit">
-                Save
-            </button>
-        </form>
+        <BookingForm
+            handleSubmit={handleSubmit}
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+        />
     )
 }
 

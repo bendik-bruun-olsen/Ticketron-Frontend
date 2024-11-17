@@ -2,6 +2,7 @@ import React from 'react'
 import TicketForm from '../components/Ticket/TicketForm'
 import { postData } from '../utils'
 import { useNavigate, useParams } from 'react-router-dom'
+import { Ticket } from '../components/types'
 
 const AddTicketPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
@@ -9,21 +10,12 @@ const AddTicketPage: React.FC = () => {
 
     // const newTicket.Id = 1
 
-    const handleAddTicket = async (ticketData: {
-        ticketName: string
-        ticketType: string
-        userName: string
-        startDate: string
-        endDate: string
-        price: string
-        purchasedBy?: string
-        purchasedDate?: string
-    }) => {
+    const handleAddTicket = async (ticket: Ticket) => {
         const body = {
-            title: ticketData.ticketName,
+            title: ticket.title,
             participantId: 2,
-            startDate: new Date(ticketData.startDate).toISOString(),
-            endDate: new Date(ticketData.endDate).toISOString(),
+            startDate: new Date(ticket.startDate).toISOString(),
+            endDate: new Date(ticket.endDate).toISOString(),
             userId: 1,
             bookingId: bookingId,
         }

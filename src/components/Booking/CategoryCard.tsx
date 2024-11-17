@@ -1,23 +1,21 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-interface TicketCardProps {
+interface CategoryCardProps {
     imageUrl: string
-    title: string
-    type: string
-    username: string
-    price: string
+    categoryTitle: string
+    participants: number
+    amountOfTickets: number
     startDate: string
     endDate: string
     id: string
 }
 
-const TicketCard: React.FC<TicketCardProps> = ({
+const CategoryCard: React.FC<CategoryCardProps> = ({
     imageUrl,
-    title,
-    type,
-    username,
-    price,
+    categoryTitle,
+    participants,
+    amountOfTickets,
     startDate,
     endDate,
     id,
@@ -27,32 +25,35 @@ const TicketCard: React.FC<TicketCardProps> = ({
     return (
         <div
             className="flex items-center p-4 bg-white rounded-lg shadow-md border border-gray-200"
-            onClick={() => navigate(`./${id}`)}
+            onClick={() => navigate(`./tickets`)}
         >
             <div className="w-16 h-16 overflow-hidden rounded-lg">
                 <img
                     src={imageUrl}
-                    alt={title}
+                    alt={categoryTitle}
                     className="object-cover w-full h-full"
                 />
             </div>
 
             <div className="flex-grow pl-4">
-                <h3 className="font-bold text-sm">{title}</h3>
-                <p className="text-gray-600 text-sm">{type}</p>
-                <p className="text-gray-600 text-sm">{username}</p>
+                <h3 className="font-bold text-sm">{categoryTitle}</h3>
+                <p className="text-gray-600 text-sm">
+                    Tickets: {amountOfTickets}
+                </p>
+                <p className="text-gray-600 text-sm">
+                    Participants: {participants}
+                </p>
                 <div className="flex justify-between text-gray-500 text-xs mt-2">
-                    <p>Fra {startDate}</p>
-                    <p>Til {endDate}</p>
+                    <p>From {startDate}</p>
+                    <p>To {endDate}</p>
                 </div>
             </div>
 
             <div className="flex items-center">
-                <p className="font-semibold text-sm">{price}</p>
                 <span className="ml-2 text-gray-400">&gt;</span>
             </div>
         </div>
     )
 }
 
-export default TicketCard
+export default CategoryCard
