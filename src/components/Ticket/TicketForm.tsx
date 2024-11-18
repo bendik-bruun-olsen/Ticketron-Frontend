@@ -22,9 +22,16 @@ const TicketForm: React.FC<TicketFormProps> = ({
     onSubmit,
 }) => {
     const [isFormEdited, setIsFormEdited] = useState(false)
-    const [startDateSelected, setStartDateSelected] = useState(false)
-    const [endDateSelected, setEndDateSelected] = useState(false)
+
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
+    const [dateRange, setDateRange] = useState<{
+        startDate: Date | null
+        endDate: Date | null
+    }>({
+        startDate: new Date(),
+        endDate: new Date(),
+    })
 
     const [formData, setFormData] = useState({
         ticketName: '',
@@ -71,38 +78,6 @@ const TicketForm: React.FC<TicketFormProps> = ({
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setSelectedFile(e.target.files[0])
-        }
-    }
-    useEffect(() => {
-        const startDatePicker = document.getElementById(
-            'datepicker-range-start'
-        )
-        const endDatePicker = document.getElementById('datepicker-range-end')
-        if (startDatePicker && endDatePicker) {
-            new Datepicker(startDatePicker, {
-                format: 'yyyy-mm-dd',
-                autohide: true,
-                onSelect: () => setStartDateSelected(true),
-            })
-            new Datepicker(endDatePicker, {
-                format: 'yyyy-mm-dd',
-                autohide: true,
-                onSelect: () => setStartDateSelected(true),
-            })
-        }
-    }, [])
-    const handleIconClick = (id: string, iconId: string) => {
-        const datePicker = document.getElementById(id)
-        if (datePicker) {
-            datePicker.focus()
-        }
-        hideIcon(iconId)
-    }
-
-    const hideIcon = (iconId: string) => {
-        const iconElement = document.getElementById(iconId)
-        if (iconElement) {
-            iconElement.style.display = 'none'
         }
     }
 
