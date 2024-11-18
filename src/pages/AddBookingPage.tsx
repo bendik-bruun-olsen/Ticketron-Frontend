@@ -4,6 +4,7 @@ import DaterangePicker from '../components/Datepicker'
 import { useNavigate } from 'react-router-dom'
 import BookingForm from '../components/Booking/BookingForm'
 import { useMsal } from '@azure/msal-react'
+import { UnregUser } from '../components/types'
 
 const AddNewBookingPage: React.FC = () => {
     const { instance, accounts } = useMsal()
@@ -16,6 +17,8 @@ const AddNewBookingPage: React.FC = () => {
         endDate: new Date(),
     })
 
+    const [selectedUsers, setSelectedUsers] = useState<Array<any | null>>([])
+
     const navigate = useNavigate()
 
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -25,6 +28,7 @@ const AddNewBookingPage: React.FC = () => {
         const { title } = formProps as HTMLFormElement
         const imageUrl = await getPicture(title)
 
+        console.log(selectedUsers)
         const body = {
             title: title,
             startDate: dateRange.startDate?.toISOString(),
@@ -32,6 +36,7 @@ const AddNewBookingPage: React.FC = () => {
             userId: accounts[0]?.localAccountId,
             image: 'https://via.placeholder.com/64',
             imageUrl,
+            participantId: selectedUsers.map((user) => user.id),
         }
 
         try {
@@ -48,6 +53,8 @@ const AddNewBookingPage: React.FC = () => {
             handleSubmit={handleSubmit}
             dateRange={dateRange}
             setDateRange={setDateRange}
+            selectedUsers={selectedUsers}
+            setSelectedUser={setSelectedUsers}
         />
     )
 }

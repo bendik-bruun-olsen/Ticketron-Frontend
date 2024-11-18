@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import DaterangePicker from '../Datepicker'
-import { Booking } from '../types'
+import { Booking, Group, User } from '../types'
+import { Autocomplete } from '../Autocomplete'
 
 interface FormProps {
     handleSubmit: (e: React.FormEvent) => Promise<void>
@@ -14,6 +15,8 @@ interface FormProps {
             endDate: Date | null
         }>
     >
+    selectedUsers: Array<any | null>
+    setSelectedUser: React.Dispatch<React.SetStateAction<Array<any | null>>>
     booking?: Booking
 }
 
@@ -22,6 +25,8 @@ const BookingForm = ({
     dateRange,
     setDateRange,
     booking,
+    setSelectedUser,
+    selectedUsers,
 }: FormProps): JSX.Element => {
     useEffect(() => {
         if (!booking) return
@@ -49,17 +54,13 @@ const BookingForm = ({
                 dateRange={dateRange}
                 setDateRange={setDateRange}
             />
-
             <label className="p-2">
                 Participants
-                <input
-                    className="input-contained"
-                    defaultValue={
-                        booking?.participants?.forEach(
-                            (participant) => participant.id
-                        ) ?? ''
-                    }
-                    name="participants"
+                <Autocomplete
+                    path={'/user'}
+                    field={'name'}
+                    selected={selectedUsers}
+                    setSelected={setSelectedUser}
                 />
             </label>
             <button className="btn-primary ml-2" type="submit">
