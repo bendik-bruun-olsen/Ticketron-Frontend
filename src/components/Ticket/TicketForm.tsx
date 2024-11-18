@@ -22,6 +22,9 @@ const TicketForm: React.FC<TicketFormProps> = ({
     onSubmit,
 }) => {
     const [isFormEdited, setIsFormEdited] = useState(false)
+
+    const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
     const [dateRange, setDateRange] = useState<{
         startDate: Date | null
         endDate: Date | null
@@ -56,11 +59,12 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault()
-        onSubmit({
-            ...formData,
-            startDate: dateRange.startDate?.toISOString(),
-            endDate: dateRange.endDate?.toISOString(),
-        })
+        if (selectedFile) {
+            onSubmit(formData, selectedFile)
+        }
+        if (!selectedFile) {
+            onSubmit(formData)
+        }
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +73,12 @@ const TicketForm: React.FC<TicketFormProps> = ({
             ...formData,
             [e.target.name]: e.target.value,
         })
+    }
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedFile(e.target.files[0])
+        }
     }
 
     return (
@@ -85,7 +95,24 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 defaultValue={initialData?.ticketName}
                 onChange={handleInputChange}
             />
-            <button className="soft-input">Upload Ticket Image</button>
+            <div className="relative">
+                <input
+                    type="file"
+                    id="file-upload"
+                    className="hidden"
+                    name="Upload Ticket Image"
+                    onChange={handleFileChange}
+                    accept="image/*"
+                />
+                <label htmlFor="file-upload" className="btn-primary">
+                    Upload Ticket
+                </label>
+                {selectedFile && (
+                    <span className="ml-4 text-gray-700">
+                        {selectedFile.name}
+                    </span>
+                )}
+            </div>
             <input
                 required
                 className="input-contained"
