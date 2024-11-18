@@ -3,8 +3,11 @@ import { getPicture, postData } from '../utils'
 import DaterangePicker from '../components/Datepicker'
 import { useNavigate } from 'react-router-dom'
 import BookingForm from '../components/Booking/BookingForm'
+import { useMsal } from '@azure/msal-react'
 
 const AddNewBookingPage: React.FC = () => {
+    const { instance, accounts } = useMsal()
+
     const [dateRange, setDateRange] = useState<{
         startDate: Date | null
         endDate: Date | null
@@ -26,7 +29,7 @@ const AddNewBookingPage: React.FC = () => {
             title: title,
             startDate: dateRange.startDate?.toISOString(),
             endDate: dateRange.endDate?.toISOString(),
-            userId: 1,
+            userId: accounts[0]?.localAccountId,
             image: 'https://via.placeholder.com/64',
             imageUrl,
         }

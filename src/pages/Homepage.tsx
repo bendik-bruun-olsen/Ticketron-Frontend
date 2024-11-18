@@ -8,7 +8,6 @@ import { fetchData } from '../utils'
 import { useMsal } from '@azure/msal-react'
 import dayjs from 'dayjs'
 
-
 const HomePage: React.FC = () => {
     const { instance, accounts } = useMsal()
     const navigate = useNavigate()
@@ -25,7 +24,9 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const data = await fetchData('/Booking/user/1')
+                const data = await fetchData(
+                    `/Booking/user/${accounts[0]?.localAccountId}`
+                )
                 const filteredBookings = data
                     .filter(
                         (booking: any) =>
@@ -41,6 +42,7 @@ const HomePage: React.FC = () => {
                 })
             }
         }
+
         fetchBookings()
     }, [])
 
