@@ -23,7 +23,7 @@ export const fetchData = async (url: string) => {
         )
     }
     const targetUrl = `${import.meta.env.VITE_API_URL}${url}`
-    console.log(targetUrl)
+
     const response = await msalInstance.acquireTokenSilent({
         ...loginRequest,
         account: account,
