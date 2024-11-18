@@ -17,11 +17,9 @@ const BookingPage: React.FC = () => {
 
     const [upcomingBookings, setUpcomingBookings] = useState([])
     const [historyBookings, setHistoryBookings] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const fetchBookings = async () => {
-            setIsLoading(true)
             const data = await fetchData(
                 `/Booking/user/${accounts[0]?.localAccountId}`
             )
@@ -42,14 +40,10 @@ const BookingPage: React.FC = () => {
 
             setUpcomingBookings(upcomingBookings)
             setHistoryBookings(historyBookings)
-            setIsLoading(false)
         }
         fetchBookings()
     }, [])
 
-    if (isLoading) {
-        return <div>Loading...</div>
-    }
     return (
         <>
             <div className=" p-4 flex flex-col gap-10">
