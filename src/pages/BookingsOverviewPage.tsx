@@ -6,6 +6,7 @@ import { fetchData } from '../utils'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Booking } from '../components/types'
 import { Paths } from '../../paths'
+import Snackbar from '../components/Snackbar'
 
 function BookingsOverviewPage() {
     const { bookingId } = useParams<{ bookingId: string }>()
@@ -14,13 +15,37 @@ function BookingsOverviewPage() {
 
     const navigate = useNavigate()
 
+    const [snackbar, setSnackbar] = useState<{
+        message: string
+        type: 'success' | 'error' | 'info'
+        visible: boolean
+    }>({
+        message: '',
+        type: 'info',
+        visible: false,
+    })
+
     useEffect(() => {
         const fetchBookings = async () => {
-            const data = await fetchData(`/Booking/${bookingId}`)
-            setBooking(data)
+            try {
+                const data = await fetchData(`/Booking/${bookingId}`)
+                setBooking(data)
+                setSnackbar({
+                    message: 'Booking fetched successfully!',
+                    type: 'success',
+                    visible: true,
+                })
+            } catch (error) {
+                console.error(error)
+                setSnackbar({
+                    message: 'Failed to fetch booking.',
+                    type: 'error',
+                    visible: true,
+                })
+            }
         }
         fetchBookings()
-    }, [])
+    }, [bookingId])
 
     const goToAddTicketPage = () => {
         navigate(`./add-ticket`)
@@ -29,6 +54,11 @@ function BookingsOverviewPage() {
     const goToEditBookingPage = () => {
         navigate(`./edit-booking`)
     }
+
+    const handleCloseSnackbar = () => {
+        setSnackbar((prev) => ({ ...prev, visible: false }))
+    }
+
     return (
         <>
             {booking && (
@@ -78,6 +108,13 @@ function BookingsOverviewPage() {
                         </button>
                     </div>
                 </div>
+            )}
+            {snackbar.visible && (
+                <Snackbar
+                    message={snackbar.message}
+                    type={snackbar.type}
+                    onClose={handleCloseSnackbar}
+                />
             )}
         </>
     )
