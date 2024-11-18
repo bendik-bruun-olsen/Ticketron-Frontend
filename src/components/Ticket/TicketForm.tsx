@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Datepicker } from 'flowbite-datepicker'
-import 'flowbite/dist/flowbite.css'
+import DaterangePicker from '../Datepicker'
 
 interface TicketFormProps {
     mode: 'add' | 'edit'
@@ -40,7 +39,14 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
     useEffect(() => {
         if (initialData) {
-            setFormData(initialData)
+            setFormData({
+                ...formData,
+                ...initialData,
+            })
+            setDateRange({
+                startDate: new Date(initialData.startDate || ''),
+                endDate: new Date(initialData.endDate || ''),
+            })
         }
     }, [initialData])
 
@@ -109,7 +115,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
             <input
                 required
                 className="input-contained"
-                name="ticketname"
+                name="ticketName"
                 placeholder="Ticket Name"
                 defaultValue={initialData?.ticketName}
                 onChange={handleInputChange}
@@ -135,7 +141,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
             <input
                 required
                 className="input-contained"
-                name="tickettype"
+                name="ticketType"
                 placeholder="Ticket Type"
                 defaultValue={initialData?.ticketType}
                 onChange={handleInputChange}
@@ -148,87 +154,10 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 defaultValue={initialData?.userName}
                 onChange={handleInputChange}
             />
-            <div className="mb-4">
-                <label
-                    htmlFor="datepicker-range-start"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                    Start Date
-                </label>
-                <div className="relative">
-                    <input
-                        id="datepicker-range-start"
-                        name="startDate"
-                        type="text"
-                        className="input-contained pl-10"
-                        defaultValue={initialData?.startDate}
-                    />
-                    <div
-                        id="start-icon"
-                        className="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer"
-                        onClick={() =>
-                            handleIconClick(
-                                'datepicker-range-start',
-                                'start-icon'
-                            )
-                        }
-                    >
-                        <svg
-                            className="w-5 h-5 text-gray-500"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                            ></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div className="mb-4">
-                <label
-                    htmlFor="datepicker-range-end"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                    End Date
-                </label>
-                <div className="relative">
-                    <input
-                        id="datepicker-range-end"
-                        name="endDate"
-                        type="text"
-                        className="input-contained pl-10"
-                        defaultValue={initialData?.endDate}
-                    />
-                    <div
-                        id="end-icon"
-                        className="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer"
-                        onClick={() =>
-                            handleIconClick('datepicker-range-end', 'end-icon')
-                        }
-                    >
-                        <svg
-                            className="w-5 h-5 text-gray-500"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                            ></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
+            <DaterangePicker
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+            />
             <input
                 required
                 className="input-contained"
