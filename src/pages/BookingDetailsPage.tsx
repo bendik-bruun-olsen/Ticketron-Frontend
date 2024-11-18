@@ -63,10 +63,13 @@ const BookingDetailsPage: React.FC = () => {
             <SearchFilter></SearchFilter>
             <div className="flex flex-row items-baseline">
                 <h2 className="text-xl font-bold mb-4">Plane tickets</h2>
-                <Dropdown inline>
-                    {dropdowns.map((dropdown, index) => (
-                        <Dropdown.Item key={index}>{dropdown}</Dropdown.Item>
-                    ))}
+                <Dropdown inline label="Options">
+                    <Dropdown.Item onClick={goToAddTicketPage}>
+                        Add Ticket
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={goToEditTicketPage}>
+                        Edit Ticket
+                    </Dropdown.Item>
                 </Dropdown>
             </div>
 
@@ -82,7 +85,7 @@ const BookingDetailsPage: React.FC = () => {
                 </button>
                 <button
                     className="fab bottom-6 right-20"
-                    onClick={goToEditBookingPage}
+                    onClick={goToEditTicketPage}
                 >
                     <PencilIcon className="text-white size-6" />
                 </button>
