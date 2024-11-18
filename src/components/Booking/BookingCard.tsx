@@ -36,11 +36,13 @@ export function BookingCard({ booking }: BookingCardProps) {
 
     return (
         <button className="flex flex-col gap-1 text-left" onClick={handleClick}>
-            <img
-                src={imageUrl ?? 'https://placehold.co/173x173'}
-                alt={`Picture for booking ${title}`}
-                className="rounded-xl"
-            />{' '}
+            <div className="h-48 w-48">
+                <img
+                    src={imageUrl ?? 'https://placehold.co/173x173'}
+                    alt={`Picture for booking ${title}`}
+                    className="rounded-xl object-cover h-full w-full object-center"
+                />
+            </div>
             <div className="flex flex-col gap-1">
                 <h2 className="text-black font-bold">{title}</h2>
                 <p>

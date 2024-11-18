@@ -3,10 +3,13 @@ import BookingForm from '../components/Booking/BookingForm'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fetchData, postData, putData } from '../utils'
 import { Booking } from '../components/types'
+import { useMsal } from '@azure/msal-react'
 
 const EditBookingPage: React.FC = () => {
+    const { instance, accounts } = useMsal()
     const { bookingId } = useParams<{ bookingId: string }>()
     const [booking, setBooking] = useState<Booking>()
+    const [selectedUsers, setSelectedUsers] = useState<any[]>([])
 
     const [dateRange, setDateRange] = useState<{
         startDate: Date | null
@@ -38,14 +41,14 @@ const EditBookingPage: React.FC = () => {
         const { title, endDate, startDate } = formProps as HTMLFormElement
 
         const body = {
+            id: bookingId,
             title: title,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
-            userId: 1,
         }
 
         try {
-            await putData(`/Booking/${bookingId}`, body)
+            await putData(`/Booking/update`, body)
             navigate(`/booking/${bookingId}`)
         } catch (error) {
             console.error(error)
@@ -57,6 +60,8 @@ const EditBookingPage: React.FC = () => {
             handleSubmit={handleSubmit}
             dateRange={dateRange}
             setDateRange={setDateRange}
+            selectedUsers={selectedUsers}
+            setSelectedUser={setSelectedUsers}
         />
     )
 }
