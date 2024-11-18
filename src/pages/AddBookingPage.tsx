@@ -4,6 +4,7 @@ import DaterangePicker from '../components/Datepicker'
 import { useNavigate } from 'react-router-dom'
 import BookingForm from '../components/Booking/BookingForm'
 import { useMsal } from '@azure/msal-react'
+import Snackbar from '../components/Snackbar'
 
 const AddNewBookingPage: React.FC = () => {
     const { instance, accounts } = useMsal()
@@ -17,6 +18,15 @@ const AddNewBookingPage: React.FC = () => {
     })
 
     const navigate = useNavigate()
+    const [snackbar, setSnackbar] = useState<{
+        message: string
+        type: 'success' | 'error' | 'info'
+        visible: boolean
+    }>({
+        message: '',
+        type: 'info',
+        visible: false,
+    })
 
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault()
@@ -37,17 +47,39 @@ const AddNewBookingPage: React.FC = () => {
         try {
             const newBooking = await postData('/Booking/create', body)
             navigate(`/booking/${newBooking.id}`)
+            setSnackbar({
+                message: 'Booking created successfully!',
+                type: 'success',
+                visible: true,
+            })
         } catch (error) {
             console.error(error)
+            setSnackbar({
+                message: 'Failed to create booking.',
+                type: 'error',
+                visible: true,
+            })
         }
+    }
+    const handleCloseSnackbar = () => {
+        setSnackbar((prev) => ({ ...prev, visible: false }))
     }
 
     return (
-        <BookingForm
-            handleSubmit={handleSubmit}
-            dateRange={dateRange}
-            setDateRange={setDateRange}
-        />
+        <>
+            <BookingForm
+                handleSubmit={handleSubmit}
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+            />
+            {snackbar.visible && (
+                <Snackbar
+                    message={snackbar.message}
+                    type={snackbar.type}
+                    onClose={handleCloseSnackbar}
+                />
+            )}
+        </>
     )
 }
 
