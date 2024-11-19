@@ -3,6 +3,8 @@ import BookingForm from '../components/Booking/BookingForm'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fetchData, postData, putData } from '../utils'
 import { Booking } from '../components/types'
+import Snackbar from '../components/Snackbar'
+
 import { useMsal } from '@azure/msal-react'
 
 const EditBookingPage: React.FC = () => {
@@ -20,19 +22,37 @@ const EditBookingPage: React.FC = () => {
     })
 
     const navigate = useNavigate()
+    const [snackbar, setSnackbar] = useState<{
+        message: string
+        type: 'success' | 'error' | 'info'
+        visible: boolean
+    }>({
+        message: '',
+        type: 'info',
+        visible: false,
+    })
 
     useEffect(() => {
         const fetchBooking = async () => {
-            const data = await fetchData(`/Booking/${bookingId}`)
-            setDateRange({
-                startDate: new Date(data.startDate),
-                endDate: new Date(data.endDate),
-            })
+            try {
+                const data = await fetchData(`/Booking/${bookingId}`)
+                setDateRange({
+                    startDate: new Date(data.startDate),
+                    endDate: new Date(data.endDate),
+                })
 
-            setBooking(data)
+                setBooking(data)
+            } catch (error) {
+                console.error(error)
+                setSnackbar({
+                    message: 'Failed to fetch booking.',
+                    type: 'error',
+                    visible: true,
+                })
+            }
+            fetchBooking()
         }
-        fetchBooking()
-    }, [])
+    }, [bookingId])
 
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault()
@@ -50,12 +70,26 @@ const EditBookingPage: React.FC = () => {
         try {
             await putData(`/Booking/update`, body)
             navigate(`/booking/${bookingId}`)
+            setSnackbar({
+                message: 'Booking updated successfully!',
+                type: 'success',
+                visible: true,
+            })
         } catch (error) {
             console.error(error)
+            setSnackbar({
+                message: 'Failed to update booking.',
+                type: 'error',
+                visible: true,
+            })
         }
     }
+    const handleCloseSnackbar = () => {
+        setSnackbar((prev) => ({ ...prev, visible: false }))
+    }
     return (
-        <BookingForm
+        <>
+            <BookingForm
             booking={booking}
             handleSubmit={handleSubmit}
             dateRange={dateRange}
@@ -63,6 +97,14 @@ const EditBookingPage: React.FC = () => {
             selectedUsers={selectedUsers}
             setSelectedUser={setSelectedUsers}
         />
+            {snackbar.visible && (
+                <Snackbar
+                    message={snackbar.message}
+                    type={snackbar.type}
+                    onClose={handleCloseSnackbar}
+                />
+            )}
+        </>
     )
 }
 
