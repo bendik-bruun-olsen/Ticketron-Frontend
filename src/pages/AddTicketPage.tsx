@@ -15,23 +15,27 @@ const AddTicketPage: React.FC = () => {
     const handleAddTicket = async (ticket: Ticket) => {
         const body = {
             title: ticket.title,
-            participantId: 2,
+            // participantId: 2,
             startDate: new Date(ticket.startDate).toISOString(),
             endDate: new Date(ticket.endDate).toISOString(),
-            userId: accounts[0]?.localAccountId,
+            AssignedUserId: accounts[0]?.localAccountId,
             bookingId: bookingId,
+            category: 'Testing',
         }
         try {
             const newTicket = await postData(`/Ticket/create`, body)
-            setTickets((prevTickets) => [...prevTickets, newTicket])
-            navigate(`./tickets/${newTicket.id}`)
+            if (newTicket && newTicket.id) {
+                setTickets((prevTickets) => [...prevTickets, newTicket])
+                navigate(`/booking/${bookingId}/tickets/${newTicket.id}`)
+            } else {
+                throw new Error('Failed to create ticket')
+            }
         } catch (error) {
             console.error(error)
         }
     }
     return (
         <div>
-            <h1>Add Ticket</h1>
             <TicketForm mode="add" onSubmit={handleAddTicket} />
         </div>
     )

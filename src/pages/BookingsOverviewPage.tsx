@@ -6,21 +6,26 @@ import { fetchData } from '../utils'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Booking } from '../components/types'
 import { Paths } from '../../paths'
+import TicketCard from '../components/Ticket/TicketCard'
 
 function BookingsOverviewPage() {
     const { bookingId } = useParams<{ bookingId: string }>()
-
     const [booking, setBooking] = useState<Booking>()
-
+    const [tickets, setTickets] = useState<any[]>([])
     const navigate = useNavigate()
 
     useEffect(() => {
-        const fetchBookings = async () => {
-            const data = await fetchData(`/Booking/${bookingId}`)
-            setBooking(data)
+        const fetchBookingAndTickets = async () => {
+            try {
+                const bookingData = await fetchData(`/Booking/${bookingId}`)
+                setBooking(bookingData)
+                setTickets(bookingData.tickets)
+            } catch (error) {
+                console.error('Error fetching booking and tickets:', error)
+            }
         }
-        fetchBookings()
-    }, [])
+        fetchBookingAndTickets()
+    }, [bookingId])
 
     const goToAddTicketPage = () => {
         navigate(`./add-ticket`)
@@ -52,15 +57,26 @@ function BookingsOverviewPage() {
                             </span>
                         </div>
                         <div className="mt-5">
-                            <CategoryCard
-                                imageUrl="https://placehold.co/50x50"
-                                categoryTitle="Plane"
-                                participants={3}
-                                amountOfTickets={5}
-                                startDate="21.01.2024"
-                                endDate="10.02.2024"
-                                id="3"
-                            />
+                            {tickets?.map((ticket) => (
+                                <TicketCard
+                                    key={ticket.id}
+                                    title={ticket.title}
+                                    username={ticket.assignedUser?.name}
+                                    imageUrl="https://placehold.co/50x50"
+                                    // categoryTitle={ticket.category}
+                                    // participants={3}
+                                    // amountOfTickets={5}
+                                    price="500"
+                                    type="plane"
+                                    startDate={new Date(
+                                        ticket.startDate
+                                    ).toLocaleDateString()}
+                                    endDate={new Date(
+                                        ticket.endDate
+                                    ).toLocaleDateString()}
+                                    id={ticket.id}
+                                />
+                            ))}
                         </div>
                     </div>
                     <div className="flex justify-end mt-4 mr-4">

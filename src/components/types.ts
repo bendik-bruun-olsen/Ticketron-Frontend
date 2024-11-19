@@ -26,6 +26,7 @@ export type Ticket = {
     endDate: string
     participantId: number
     bookingId: number
+    category: string
 }
 
 export type Participant = {

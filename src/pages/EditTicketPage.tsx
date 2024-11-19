@@ -7,11 +7,12 @@ import { useParams } from 'react-router-dom'
 const EditTicketPage: React.FC<{ initialData: any }> = ({ initialData }) => {
     const { bookingId } = useParams<{ bookingId: string }>()
     const [tickets, setTickets] = useState<Ticket[]>([])
+    const ticketId = useParams<{ ticketId: string }>()
 
     useEffect(() => {
         const getTickets = async () => {
             try {
-                const data: Ticket[] = await fetchData(`/ticket`)
+                const data: Ticket[] = await fetchData(`/Ticket/${ticketId}`)
                 setTickets(data)
             } catch (error) {
                 console.error('Error fetching tickets:', error)
