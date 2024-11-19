@@ -6,6 +6,7 @@ import { fetchData, getPicture } from '../utils'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Booking } from '../components/types'
 import { Paths } from '../../paths'
+import Snackbar from '../components/Snackbar'
 import TicketCard from '../components/Ticket/TicketCard'
 
 function BookingsOverviewPage() {
@@ -17,8 +18,17 @@ function BookingsOverviewPage() {
         'https://placehold.co/600x200'
     )
 
-
     const navigate = useNavigate()
+
+    const [snackbar, setSnackbar] = useState<{
+        message: string
+        type: 'success' | 'error' | 'info'
+        visible: boolean
+    }>({
+        message: '',
+        type: 'info',
+        visible: false,
+    })
 
     useEffect(() => {
         const fetchBookingAndTickets = async () => {
@@ -26,8 +36,18 @@ function BookingsOverviewPage() {
                 const bookingData = await fetchData(`/Booking/${bookingId}`)
                 setBooking(bookingData)
                 setTickets(bookingData.tickets)
+                setSnackbar({
+                    message: 'Booking fetched successfully!',
+                    type: 'success',
+                    visible: true,
+                })
             } catch (error) {
                 console.error('Error fetching booking and tickets:', error)
+                setSnackbar({
+                    message: 'Failed to fetch booking.',
+                    type: 'error',
+                    visible: true,
+                })
             }
         }
         fetchBookingAndTickets()
@@ -53,6 +73,11 @@ function BookingsOverviewPage() {
     const goToEditBookingPage = () => {
         navigate(`./edit-booking`)
     }
+
+    const handleCloseSnackbar = () => {
+        setSnackbar((prev) => ({ ...prev, visible: false }))
+    }
+
     return (
         <>
             {booking && (
@@ -115,6 +140,13 @@ function BookingsOverviewPage() {
                         </button>
                     </div>
                 </div>
+            )}
+            {snackbar.visible && (
+                <Snackbar
+                    message={snackbar.message}
+                    type={snackbar.type}
+                    onClose={handleCloseSnackbar}
+                />
             )}
         </>
     )
