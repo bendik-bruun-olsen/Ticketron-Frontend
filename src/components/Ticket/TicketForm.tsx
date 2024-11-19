@@ -34,7 +34,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
     })
 
     const [formData, setFormData] = useState({
-        ticketName: '',
+        title: '',
         ticketType: '',
         userName: '',
         startDate: '',
