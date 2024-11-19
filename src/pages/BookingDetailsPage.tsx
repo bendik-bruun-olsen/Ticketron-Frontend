@@ -71,7 +71,7 @@ const BookingDetailsPage: React.FC = () => {
     // ]
 
     const goToAddTicketPage = () => {
-        navigate(`./add-ticket`)
+        navigate(`/booking/${bookingId}/add-ticket`)
     }
 
     const goToEditTicketPage = () => {
@@ -105,12 +105,6 @@ const BookingDetailsPage: React.FC = () => {
                     onClick={goToAddTicketPage}
                 >
                     <PlusIcon className="text-white size-6" />
-                </button>
-                <button
-                    className="fab bottom-6 right-20"
-                    onClick={goToEditTicketPage}
-                >
-                    <PencilIcon className="text-white size-6" />
                 </button>
             </div>
             {snackbar.visible && (

@@ -42,6 +42,7 @@ const BookingPage: React.FC = () => {
                     )
                     .sort((a: any, b: any) => dayjs(a.date).diff(dayjs(b.date)))
 
+
                 const historyBookings = data
                     .filter((booking: any) =>
                         dayjs(booking.date).isBefore(today, 'day')

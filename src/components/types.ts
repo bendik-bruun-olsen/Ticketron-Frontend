@@ -53,5 +53,7 @@ export type Booking = {
     startDate: string
     endDate: string
     userId: number
-    participants: Participant[]
+    users: User[]
+    groups: Group[]
+    unregUsers: string[]
 }
