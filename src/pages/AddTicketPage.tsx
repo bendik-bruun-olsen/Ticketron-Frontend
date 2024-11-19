@@ -9,7 +9,6 @@ import Snackbar from '../components/Snackbar'
 const AddTicketPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
     const navigate = useNavigate()
-    const { instance, accounts } = useMsal()
     const [snackbar, setSnackbar] = useState<{
         message: string
         type: 'success' | 'error' | 'info'
@@ -24,9 +23,9 @@ const AddTicketPage: React.FC = () => {
         const body = {
             title: ticket.title,
             // participantId: 2,
-            startDate: new Date('10.01.2025').toISOString(),
-            endDate: new Date('10.01.2025').toISOString(),
-            AssignedUserId: accounts[0]?.localAccountId,
+            startDate: ticket.startDate,
+            endDate: ticket.endDate,
+            AssignedUserId: ticket.assignedUser[0],
             bookingId: bookingId,
             category: ticket.category,
         }

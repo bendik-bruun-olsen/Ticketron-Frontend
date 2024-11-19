@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import TicketForm from '../components/Ticket/TicketForm'
 import { Ticket } from '../components/types'
-import { fetchData } from '../utils'
-import { useParams } from 'react-router-dom'
+import { fetchData, postData, putData } from '../utils'
+import { useNavigate, useParams } from 'react-router-dom'
 import Snackbar from '../components/Snackbar'
 
 const EditTicketPage: React.FC = () => {
@@ -22,6 +22,8 @@ const EditTicketPage: React.FC = () => {
         visible: false,
     })
 
+    const navigate = useNavigate()
+
     useEffect(() => {
         const getTickets = async () => {
             try {
@@ -34,13 +36,34 @@ const EditTicketPage: React.FC = () => {
         getTickets()
     }, [bookingId])
 
-    const handleEditTicket = (ticketdata: any) => {
-        console.log('Adding Ticket', ticketdata)
-        setSnackbar({
-            message: 'Ticket edited successfully!',
-            type: 'success',
-            visible: true,
-        })
+    const handleEditTicket = async (ticket: Ticket) => {
+        const body = {
+            title: ticket.title,
+            // participantId: 2,
+            startDate: ticket.startDate,
+            endDate: ticket.endDate,
+            AssignedUserId: ticket.assignedUser[0],
+            bookingId: bookingId,
+            category: ticket.category,
+            id: ticketId,
+            price: ticket.price,
+        }
+        try {
+            const newTicket = await putData(`/Ticket/update`, body)
+            navigate(`/booking/${bookingId}/ticket/${newTicket.id}`)
+            setSnackbar({
+                message: 'Ticket added successfully!',
+                type: 'success',
+                visible: true,
+            })
+        } catch (error) {
+            console.error(error)
+            setSnackbar({
+                message: 'Failed to update ticket.',
+                type: 'error',
+                visible: true,
+            })
+        }
     }
     const handleCloseSnackbar = () => {
         setSnackbar((prev) => ({ ...prev, visible: false }))

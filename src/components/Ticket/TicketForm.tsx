@@ -16,7 +16,6 @@ const TicketForm: React.FC<TicketFormProps> = ({
     initialData,
     onSubmit,
 }) => {
-    const [isFormEdited, setIsFormEdited] = useState(false)
     const { bookingId } = useParams<{ bookingId: string }>()
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -32,8 +31,6 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
     const [selected, setSelected] = useState<(User | Group)[]>([])
 
-    const [formData, setFormData] = useState<Ticket | null>(null)
-
     useEffect(() => {
         const fetchOptions = async () => {
             try {
@@ -46,7 +43,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
         fetchOptions()
 
         if (initialData) {
-            setFormData(initialData)
+            setSelected([initialData.assignedUser])
             setDateRange({
                 startDate: new Date(initialData.startDate || ''),
                 endDate: new Date(initialData.endDate || ''),
@@ -55,7 +52,6 @@ const TicketForm: React.FC<TicketFormProps> = ({
     }, [])
 
     const handleSubmit = (e: React.FormEvent): void => {
-        e.preventDefault()
         e.preventDefault()
         const formData = new FormData(e.target as HTMLFormElement)
         const formProps = Object.fromEntries(formData)
