@@ -4,7 +4,6 @@ import { fetchData } from '../utils'
 import { Group, User } from './types'
 
 interface Props {
-    path: string
     field: string
     selected: Array<User | Group | string>
     setSelected: React.Dispatch<
@@ -15,7 +14,6 @@ interface Props {
 }
 
 export const Autocomplete = ({
-    path,
     field,
     selected,
     setSelected,

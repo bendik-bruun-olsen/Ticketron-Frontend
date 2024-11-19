@@ -73,7 +73,6 @@ const BookingForm = ({
             <label className="p-2">
                 Participants
                 <Autocomplete
-                    path={'/user'}
                     field={'name'}
                     selected={selectedUsers}
                     setSelected={setSelectedUser}
