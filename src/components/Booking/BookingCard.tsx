@@ -20,14 +20,11 @@ export function BookingCard({ booking }: BookingCardProps) {
 
     useEffect(() => {
         const fetchImage = async () => {
-            console.log('Fetching image for title:', title)
             if (!title) return
             const fetchedImage = await getPicture(title)
-            console.log('Fetched image:', fetchedImage)
+
             if (fetchedImage) {
                 setImageUrl(fetchedImage)
-            } else {
-                console.log('No image found for this title')
             }
         }
         fetchImage()
