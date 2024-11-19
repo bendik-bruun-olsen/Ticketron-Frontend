@@ -38,15 +38,16 @@ const EditTicketPage: React.FC = () => {
 
     const handleEditTicket = async (ticket: Ticket) => {
         const body = {
+            id: ticketId,
             title: ticket.title,
-            // participantId: 2,
             startDate: ticket.startDate,
             endDate: ticket.endDate,
             AssignedUserId: ticket.assignedUser[0],
             bookingId: bookingId,
             category: ticket.category,
-            id: ticketId,
             price: ticket.price,
+            purchasedDate: ticket.purchasedDate,
+            purchasedBy: ticket.purchasedBy?.name,
         }
         try {
             const newTicket = await putData(`/Ticket/update`, body)

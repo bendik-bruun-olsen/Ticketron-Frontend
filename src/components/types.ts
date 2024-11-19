@@ -28,7 +28,7 @@ export type Ticket = {
     bookingId: number
     category: string
     price: number
-    purcasedBy?: User
+    purchasedBy?: User
     purchasedDate: string
 }
 

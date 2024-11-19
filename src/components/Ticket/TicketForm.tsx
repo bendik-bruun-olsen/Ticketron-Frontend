@@ -144,7 +144,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 className="input-contained"
                 name="purchasedBy"
                 placeholder="Purchased By (Optional)"
-                defaultValue={initialData?.purcasedBy?.name}
+                defaultValue={initialData?.purchasedBy?.name}
             />
             <input
                 className="input-contained"
