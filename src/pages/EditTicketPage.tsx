@@ -5,10 +5,12 @@ import { fetchData } from '../utils'
 import { useParams } from 'react-router-dom'
 import Snackbar from '../components/Snackbar'
 
-const EditTicketPage: React.FC<{ initialData: any }> = ({ initialData }) => {
-    const { bookingId } = useParams<{ bookingId: string }>()
-    const [tickets, setTickets] = useState<Ticket[]>([])
-    const ticketId = useParams<{ ticketId: string }>()
+const EditTicketPage: React.FC = () => {
+    const { bookingId, ticketId } = useParams<{
+        bookingId: string
+        ticketId: string
+    }>()
+    const [tickets, setTickets] = useState<Ticket>()
 
     const [snackbar, setSnackbar] = useState<{
         message: string
@@ -23,7 +25,7 @@ const EditTicketPage: React.FC<{ initialData: any }> = ({ initialData }) => {
     useEffect(() => {
         const getTickets = async () => {
             try {
-                const data: Ticket[] = await fetchData(`/Ticket/${ticketId}`)
+                const data: Ticket = await fetchData(`/Ticket/${ticketId}`)
                 setTickets(data)
             } catch (error) {
                 console.error('Error fetching tickets:', error)
@@ -49,7 +51,7 @@ const EditTicketPage: React.FC<{ initialData: any }> = ({ initialData }) => {
             <TicketForm
                 mode="edit"
                 onSubmit={handleEditTicket}
-                initialData={initialData}
+                initialData={tickets}
             />
             {snackbar.visible && (
                 <Snackbar

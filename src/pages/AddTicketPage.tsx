@@ -9,7 +9,6 @@ import Snackbar from '../components/Snackbar'
 const AddTicketPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
     const navigate = useNavigate()
-    const [tickets, setTickets] = useState<Ticket[]>([])
     const { instance, accounts } = useMsal()
     const [snackbar, setSnackbar] = useState<{
         message: string
@@ -21,8 +20,6 @@ const AddTicketPage: React.FC = () => {
         visible: false,
     })
 
-    // const newTicket.Id = 1
-
     const handleAddTicket = async (ticket: Ticket) => {
         const body = {
             title: ticket.title,
@@ -31,11 +28,10 @@ const AddTicketPage: React.FC = () => {
             endDate: new Date('10.01.2025').toISOString(),
             AssignedUserId: accounts[0]?.localAccountId,
             bookingId: bookingId,
-            category: 'Testing',
+            category: ticket.category,
         }
         try {
             const newTicket = await postData(`/Ticket/create`, body)
-            setTickets((prevTickets) => [...prevTickets, newTicket])
             navigate(`/booking/${bookingId}/ticket/${newTicket.id}`)
             setSnackbar({
                 message: 'Ticket added successfully!',
