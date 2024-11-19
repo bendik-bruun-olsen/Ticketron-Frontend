@@ -51,7 +51,7 @@ export const fetchData = async (url: string) => {
 //console.log(id) -> This will get the id of the created booking
 export const postData = async (
     url: string,
-    body: Record<string, string | number | undefined | boolean>
+    body: Record<string, string | number | undefined | boolean | Array<string>>
 ) => {
     try {
         const account = msalInstance.getActiveAccount()

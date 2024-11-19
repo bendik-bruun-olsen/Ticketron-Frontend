@@ -33,10 +33,9 @@ const AddNewBookingPage: React.FC = () => {
             title: title,
             startDate: dateRange.startDate?.toISOString(),
             endDate: dateRange.endDate?.toISOString(),
-            userId: accounts[0]?.localAccountId,
             image: 'https://via.placeholder.com/64',
             imageUrl,
-            participantId: selectedUsers.map((user) => user.id),
+            userIds: selectedUsers.map((user) => user.id),
         }
 
         try {

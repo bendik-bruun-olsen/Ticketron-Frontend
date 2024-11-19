@@ -33,15 +33,18 @@ export const Autocomplete = ({ path, field, selected, setSelected }: Props) => {
     }, [])
 
     const handleInputChange = (e) => {
-        const input = e.target.value
-        setUserInput(input)
-
+        setUserInput(e.target.value)
+        if (userInput.length === 0) {
+            setFilteredSuggestions(options)
+            setShowSuggestions(true)
+            return
+        }
         if (filteredSuggestions) {
             setFilteredSuggestions(
                 filteredSuggestions.filter((suggestion) =>
                     suggestion[field]
                         ?.toLocaleLowerCase()
-                        .includes(input.toLocaleLowerCase())
+                        .includes(userInput.toLocaleLowerCase())
                 )
             )
             setShowSuggestions(true)
