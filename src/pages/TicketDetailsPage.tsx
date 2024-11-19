@@ -10,7 +10,8 @@ import {
 import TicketDetail from '../components/Ticket/TicketDetail'
 import { useNavigate, useParams } from 'react-router-dom'
 import DeleteModal from '../components/DeleteModal'
-import { fetchData } from '../utils'
+import { fetchData, deleteData } from '../utils'
+import Snackbar from '../components/Snackbar'
 
 const TicketDetailsPage: React.FC = () => {
     const [ticketDetails, setTicketDetails] = useState<any>(null)
@@ -20,6 +21,15 @@ const TicketDetailsPage: React.FC = () => {
         ticketId: string
     }>()
     const navigate = useNavigate()
+    const [snackbar, setSnackbar] = useState<{
+        message: string
+        type: 'success' | 'error' | 'info'
+        visible: boolean
+    }>({
+        message: '',
+        type: 'info',
+        visible: false,
+    })
 
     useEffect(() => {
         const getTicketDetails = async () => {
@@ -27,8 +37,18 @@ const TicketDetailsPage: React.FC = () => {
             try {
                 const data = await fetchData(`/tickets/${ticketId}`)
                 setTicketDetails(data)
+                setSnackbar({
+                    message: 'Ticket details fetched successfully!',
+                    type: 'success',
+                    visible: true,
+                })
             } catch (error) {
                 console.error('Error fetching ticket details:', error)
+                setSnackbar({
+                    message: 'Failed to fetch ticket details.',
+                    type: 'error',
+                    visible: true,
+                })
             }
         }
 
@@ -43,14 +63,31 @@ const TicketDetailsPage: React.FC = () => {
         setIsModalVisible(true)
     }
 
-    const handleConfirmDelete = () => {
-        console.log('Item Deleted')
-        setIsModalVisible(false)
-        navigate(`/booking/${bookingId}`)
+    const handleConfirmDelete = async () => {
+        try {
+            await deleteData(`/tickets/${ticketId}`)
+            setSnackbar({
+                message: 'Ticket deleted successfully!',
+                type: 'success',
+                visible: true,
+            })
+            setIsModalVisible(false)
+            navigate(`/booking/${bookingId}`)
+        } catch (error) {
+            console.error('Error deleting ticket:', error)
+            setSnackbar({
+                message: 'Failed to delete ticket.',
+                type: 'error',
+                visible: true,
+            })
+        }
     }
 
     const handleCancelDelete = () => {
         setIsModalVisible(false)
+    }
+    const handleCloseSnackbar = () => {
+        setSnackbar((prev) => ({ ...prev, visible: false }))
     }
 
     if (!ticketDetails) {
@@ -131,6 +168,13 @@ const TicketDetailsPage: React.FC = () => {
                 onCancel={handleCancelDelete}
                 onDelete={handleConfirmDelete}
             />
+            {snackbar.visible && (
+                <Snackbar
+                    message={snackbar.message}
+                    type={snackbar.type}
+                    onClose={handleCloseSnackbar}
+                />
+            )}
         </div>
     )
 }
