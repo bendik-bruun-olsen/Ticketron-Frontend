@@ -6,11 +6,10 @@ import { Group, User } from './types'
 interface Props {
     field: string
     selected: Array<User | Group | string>
-    setSelected: React.Dispatch<
-        React.SetStateAction<Array<User | Group | string>>
-    >
+    setSelected: React.Dispatch<React.SetStateAction<Array<User | Group>>>
     multiple?: boolean
     options: Array<User>
+    placeholder?: string
 }
 
 export const Autocomplete = ({
@@ -19,6 +18,7 @@ export const Autocomplete = ({
     setSelected,
     multiple = true,
     options,
+    placeholder = 'Select user',
 }: Props) => {
     const [filteredSuggestions, setFilteredSuggestions] =
         useState<Array<User> | null>(null)
@@ -56,7 +56,7 @@ export const Autocomplete = ({
         <div className="relative">
             <input
                 className="input-contained"
-                placeholder="Type to search..."
+                placeholder={placeholder}
                 value={selected.map((s) => s[field]).join(', ')}
                 onChange={handleInputChange}
                 aria-label="Search"
