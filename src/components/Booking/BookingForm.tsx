@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import DaterangePicker from '../Datepicker'
 import { Booking, Group, User } from '../types'
 import { Autocomplete } from '../Autocomplete'
+import { fetchData } from '../../utils'
 
 interface FormProps {
     handleSubmit: (e: React.FormEvent) => Promise<void>
@@ -35,7 +36,22 @@ const BookingForm = ({
                 startDate: new Date(booking.startDate),
                 endDate: new Date(booking.endDate),
             })
+            setSelectedUser(booking.users)
         }
+    }, [])
+
+    const [options, setOptions] = useState<Array<User> | null>(null)
+
+    useEffect(() => {
+        const fetchOptions = async () => {
+            try {
+                const data = await fetchData(`/user`)
+                setOptions(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchOptions()
     }, [])
 
     return (
@@ -61,6 +77,7 @@ const BookingForm = ({
                     field={'name'}
                     selected={selectedUsers}
                     setSelected={setSelectedUser}
+                    options={options ?? []}
                 />
             </label>
             <button className="btn-primary ml-2" type="submit">

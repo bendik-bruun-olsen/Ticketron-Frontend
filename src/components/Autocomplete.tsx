@@ -10,27 +10,22 @@ interface Props {
     setSelected: React.Dispatch<
         React.SetStateAction<Array<User | Group | string>>
     >
+    multiple?: boolean
+    options: Array<User>
 }
 
-export const Autocomplete = ({ path, field, selected, setSelected }: Props) => {
+export const Autocomplete = ({
+    path,
+    field,
+    selected,
+    setSelected,
+    multiple = true,
+    options,
+}: Props) => {
     const [filteredSuggestions, setFilteredSuggestions] =
         useState<Array<User> | null>(null)
     const [showSuggestions, setShowSuggestions] = useState(false)
     const [userInput, setUserInput] = useState('')
-    const [options, setOptions] = useState<Array<User> | null>(null)
-
-    useEffect(() => {
-        const fetchOptions = async () => {
-            try {
-                const data = await fetchData(`${path}`)
-                setOptions(data)
-                setFilteredSuggestions(options)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        fetchOptions()
-    }, [])
 
     const handleInputChange = (e) => {
         setUserInput(e.target.value)
@@ -40,13 +35,7 @@ export const Autocomplete = ({ path, field, selected, setSelected }: Props) => {
             return
         }
         if (filteredSuggestions) {
-            setFilteredSuggestions(
-                filteredSuggestions.filter((suggestion) =>
-                    suggestion[field]
-                        ?.toLocaleLowerCase()
-                        .includes(userInput.toLocaleLowerCase())
-                )
-            )
+            setFilteredSuggestions(options)
             setShowSuggestions(true)
         } else {
             setFilteredSuggestions(options)
@@ -56,22 +45,29 @@ export const Autocomplete = ({ path, field, selected, setSelected }: Props) => {
 
     const handleSelect = (suggestion) => {
         setUserInput(suggestion[field] || 'No response found')
-        setSelected([...selected, suggestion])
+        if (multiple) {
+            setSelected([...selected, suggestion])
+        } else {
+            setSelected([suggestion])
+        }
         setFilteredSuggestions(options)
         setShowSuggestions(false)
     }
 
     return (
         <div className="relative">
-            <TextInput
+            <input
+                className="input-contained"
                 placeholder="Type to search..."
-                value={userInput}
+                value={selected.map((s) => s[field]).join(', ')}
                 onChange={handleInputChange}
                 aria-label="Search"
+                onFocus={() => setShowSuggestions(!showSuggestions)}
+                onClick={() => setShowSuggestions(!showSuggestions)}
             />
-            {showSuggestions && filteredSuggestions && (
+            {showSuggestions && options && (
                 <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
-                    {filteredSuggestions.map((suggestion, index) => (
+                    {options.map((suggestion, index) => (
                         <div
                             key={index}
                             onClick={() => handleSelect(suggestion)}

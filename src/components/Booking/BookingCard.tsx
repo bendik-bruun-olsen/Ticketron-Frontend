@@ -8,11 +8,10 @@ interface BookingCardProps {
 }
 
 export function BookingCard({ booking }: BookingCardProps) {
-    const { title, startDate, endDate, id } = booking
+    const { title, startDate, endDate, id, users } = booking
     const [imageUrl, setImageUrl] = useState<string>(
         'https://via.placeholder.com/150'
     )
-    const participants = 1
     const Navigate = useNavigate()
 
     const handleClick = () => {
@@ -50,8 +49,8 @@ export function BookingCard({ booking }: BookingCardProps) {
                     {new Date(endDate).toLocaleDateString()}
                 </p>
                 <p>
-                    {participants}{' '}
-                    {participants > 1 ? 'Participants' : 'Participant'}
+                    {users.length}{' '}
+                    {users.length > 1 ? 'Participants' : 'Participant'}
                 </p>
             </div>
         </button>

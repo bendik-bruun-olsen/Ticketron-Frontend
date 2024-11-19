@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { getPicture, postData } from '../utils'
+import { fetchData, getPicture, postData } from '../utils'
 import DaterangePicker from '../components/Datepicker'
 import { useNavigate } from 'react-router-dom'
 import BookingForm from '../components/Booking/BookingForm'
 import { useMsal } from '@azure/msal-react'
-import { UnregUser } from '../components/types'
+import { UnregUser, User } from '../components/types'
 
 const AddNewBookingPage: React.FC = () => {
     const { instance, accounts } = useMsal()
