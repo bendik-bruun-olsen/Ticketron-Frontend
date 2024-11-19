@@ -32,7 +32,9 @@ const BookingPage: React.FC = () => {
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const data = await fetchData('/Booking/user/1')
+                const data = await fetchData(
+                    `/Booking/user/${accounts[0]?.localAccountId}`
+                )
                 const today = dayjs()
                 const upcomingBookings = data
                     .filter(
@@ -41,7 +43,6 @@ const BookingPage: React.FC = () => {
                             dayjs(booking.date).isSame(today, 'day')
                     )
                     .sort((a: any, b: any) => dayjs(a.date).diff(dayjs(b.date)))
-
 
                 const historyBookings = data
                     .filter((booking: any) =>

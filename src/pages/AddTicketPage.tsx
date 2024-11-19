@@ -27,8 +27,8 @@ const AddTicketPage: React.FC = () => {
         const body = {
             title: ticket.title,
             // participantId: 2,
-            startDate: new Date(ticket.startDate).toISOString(),
-            endDate: new Date(ticket.endDate).toISOString(),
+            startDate: new Date('10.01.2025').toISOString(),
+            endDate: new Date('10.01.2025').toISOString(),
             AssignedUserId: accounts[0]?.localAccountId,
             bookingId: bookingId,
             category: 'Testing',
@@ -36,7 +36,7 @@ const AddTicketPage: React.FC = () => {
         try {
             const newTicket = await postData(`/Ticket/create`, body)
             setTickets((prevTickets) => [...prevTickets, newTicket])
-            navigate(`/booking/${bookingId}/tickets/${newTicket.id}`)
+            navigate(`/booking/${bookingId}/ticket/${newTicket.id}`)
             setSnackbar({
                 message: 'Ticket added successfully!',
                 type: 'success',
