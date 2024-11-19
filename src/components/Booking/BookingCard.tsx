@@ -32,7 +32,7 @@ export function BookingCard({ booking }: BookingCardProps) {
 
     return (
         <button className="flex flex-col gap-1 text-left" onClick={handleClick}>
-            <div className="h-48 w-48">
+            <div className="h-48 w-full">
                 <img
                     src={imageUrl ?? 'https://placehold.co/173x173'}
                     alt={`Picture for booking ${title}`}
