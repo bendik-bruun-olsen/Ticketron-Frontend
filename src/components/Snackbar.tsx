@@ -19,7 +19,7 @@ const Snackbar: React.FC<SnackbarProps> = ({
 
     return (
         <div
-            className={`fixed bottom-4 right-4 w-80 p-4 rounded-lg shadow-md flex items-center justify-between animate-slide-up ${backgroundColors[type]}`}
+            className={`fixed bottom-4 left-2 w-72 p-4 rounded-lg shadow-md flex items-center justify-between animate-slide-up ${backgroundColors[type]}`}
         >
             <span className="flex-1 text-sm">{message}</span>
             <button
