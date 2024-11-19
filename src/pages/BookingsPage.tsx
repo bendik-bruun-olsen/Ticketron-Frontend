@@ -20,7 +20,9 @@ const BookingPage: React.FC = () => {
 
     useEffect(() => {
         const fetchBookings = async () => {
-            const data = await fetchData('/Booking/user/1')
+            const data = await fetchData(
+                `/Booking/user/${accounts[0]?.localAccountId}`
+            )
             const today = dayjs()
             const upcomingBookings = data
                 .filter(
