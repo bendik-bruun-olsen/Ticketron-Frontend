@@ -6,12 +6,22 @@ import { Paths } from '../../paths'
 import SearchFilter from '../components/SearchFilter'
 import { Dropdown } from 'flowbite-react'
 import { fetchData } from '../utils'
+import Snackbar from '../components/Snackbar'
 
 const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
     const navigate = useNavigate()
-
     const [tickets, setTickets] = useState<any[]>([])
+    const [snackbar, setSnackbar] = useState<{
+        message: string
+        type: 'success' | 'error' | 'info'
+        visible: boolean
+    }>({
+        message: '',
+        type: 'info',
+        visible: false,
+    })
+
     useEffect(() => {
         const fetchTickets = async () => {
             try {
@@ -20,8 +30,18 @@ const BookingDetailsPage: React.FC = () => {
                 if (!response.ok) throw new Error('Failed to fetch tickets')
                 const data = await response.json()
                 setTickets(data)
+                setSnackbar({
+                    message: 'Tickets fetched successfully!',
+                    type: 'success',
+                    visible: true,
+                })
             } catch (error) {
                 console.error('Error fetching tickets:', error)
+                setSnackbar({
+                    message: 'Failed to fetch tickets.',
+                    type: 'error',
+                    visible: true,
+                })
             }
         }
         fetchTickets()
@@ -51,11 +71,14 @@ const BookingDetailsPage: React.FC = () => {
     // ]
 
     const goToAddTicketPage = () => {
-        navigate(`./add-ticket`)
+        navigate(`/booking/${bookingId}/add-ticket`)
     }
 
     const goToEditTicketPage = () => {
         navigate(`./edit-ticket`)
+    }
+    const handleCloseSnackbar = () => {
+        setSnackbar((prev) => ({ ...prev, visible: false }))
     }
 
     return (
@@ -83,13 +106,14 @@ const BookingDetailsPage: React.FC = () => {
                 >
                     <PlusIcon className="text-white size-6" />
                 </button>
-                <button
-                    className="fab bottom-6 right-20"
-                    onClick={goToEditTicketPage}
-                >
-                    <PencilIcon className="text-white size-6" />
-                </button>
             </div>
+            {snackbar.visible && (
+                <Snackbar
+                    message={snackbar.message}
+                    type={snackbar.type}
+                    onClose={handleCloseSnackbar}
+                />
+            )}
         </div>
     )
 }

@@ -55,6 +55,7 @@ const DaterangePicker = ({ dateRange, setDateRange }: DaterangePickerProps) => {
                 </label>
 
                 <Datepicker
+                    minDate={dateRange?.startDate ?? new Date()}
                     name="endDate"
                     onChange={(date) =>
                         setDateRange({ ...dateRange, endDate: date })
