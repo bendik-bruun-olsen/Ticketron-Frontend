@@ -19,7 +19,7 @@ const BookingPage: React.FC = () => {
     useEffect(() => {
         const fetchBookings = async () => {
             const data = await fetchData(
-                '/Booking/user/ae943f62-e749-420b-b8b4-74d08f506f44'
+                `/Booking/user/${accounts[0]?.localAccountId}`
             )
             setBookings(data)
         }

@@ -8,7 +8,6 @@ import { fetchData } from '../utils'
 import { useMsal } from '@azure/msal-react'
 import dayjs from 'dayjs'
 
-
 const HomePage: React.FC = () => {
     const { instance, accounts } = useMsal()
     const navigate = useNavigate()

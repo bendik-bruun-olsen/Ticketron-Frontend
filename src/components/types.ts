@@ -45,6 +45,9 @@ export type Group = {
     id: number
     name?: string
     userId: number
+    createdBy: string
+    users: GroupMember[] | string[]
+    unregUsers: GroupMember[] | string[]
 }
 
 export type Booking = {
