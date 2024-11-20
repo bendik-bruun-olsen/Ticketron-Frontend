@@ -10,7 +10,6 @@ import EditBookingPage from './src/pages/EditBookingPage'
 import EditTicketPage from './src/pages/EditTicketPage'
 import GroupDetailsPage from './src/pages/GroupDetailsPage'
 import NewGroupPage from './src/pages/NewGroupPage'
-import SignUpPage from './src/pages/SignUpPage'
 import TicketDetailsPage from './src/pages/TicketDetailsPage'
 import UserProfilePage from './src/pages/UserProfilePage'
 import EditUserProfilePage from './src/pages/EditUserProfilePage'
@@ -129,14 +128,7 @@ const routes = [
             </ProtectedRoute>
         ),
     },
-    {
-        path: Paths.SIGN_UP,
-        element: (
-            <ProtectedRoute>
-                <SignUpPage />
-            </ProtectedRoute>
-        ),
-    },
+
     {
         path: Paths.TICKET_DETAILS,
         element: (

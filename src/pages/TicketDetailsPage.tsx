@@ -36,7 +36,7 @@ const TicketDetailsPage: React.FC = () => {
         const getTicketDetails = async () => {
             if (!ticketId) return
             try {
-                const data = await fetchData(`/api/Ticket/${ticketId}`)
+                const data = await fetchData(`/Ticket/${ticketId}`)
                 setTicketDetails(data)
                 setSnackbar({
                     message: 'Ticket details fetched successfully!',

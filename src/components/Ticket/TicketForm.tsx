@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import DaterangePicker from '../Datepicker'
+import { Button, Dropdown, DropdownItem } from 'flowbite-react'
+import { categoriesArray } from '../../utils'
 
 interface TicketFormProps {
     mode: 'add' | 'edit'
     initialData?: {
-        ticketName: string
-        ticketType: string
+        title: string
+        category: string
         userName: string
         startDate: string
         endDate: string
@@ -35,7 +37,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
     const [formData, setFormData] = useState({
         title: '',
-        ticketType: '',
+        category: '',
         userName: '',
         startDate: '',
         endDate: '',
@@ -43,6 +45,12 @@ const TicketForm: React.FC<TicketFormProps> = ({
         purchasedBy: '',
         purchasedDate: '',
     })
+
+    const [dropdownOpen, setDropdownOpen] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(
+        initialData?.category || ''
+    )
+    const toggleDropdown = () => setDropdownOpen((prev) => !prev)
 
     useEffect(() => {
         if (initialData) {
@@ -81,6 +89,15 @@ const TicketForm: React.FC<TicketFormProps> = ({
         }
     }
 
+    const handleCategorySelect = (category: string) => {
+        setSelectedCategory(category)
+        setDropdownOpen(false)
+        setFormData({
+            ...formData,
+            category,
+        })
+    }
+
     return (
         <form
             className="flex flex-col gap-4 p-4 bg-white
@@ -92,7 +109,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 className="input-contained"
                 name="ticketName"
                 placeholder="Ticket Name"
-                defaultValue={initialData?.ticketName}
+                defaultValue={initialData?.title}
                 onChange={handleInputChange}
             />
             <div className="relative">
@@ -113,14 +130,30 @@ const TicketForm: React.FC<TicketFormProps> = ({
                     </span>
                 )}
             </div>
-            <input
-                required
-                className="input-contained"
-                name="ticketType"
-                placeholder="Ticket Type"
-                defaultValue={initialData?.ticketType}
-                onChange={handleInputChange}
-            />
+            <div className="relative">
+                <button
+                    type="button"
+                    className="btn-primary w-fit flex justify-between items-center bg-white text-red-700 dark:bg-red-700 dark:text-red-200 border border-red-300 rounded-lg px-4 py-2 shadow-md hover:bg-red-100 dark:hover:bg-red-600"
+                    onClick={toggleDropdown}
+                >
+                    {selectedCategory || 'Select Category'}
+                    <span className="ml-2">▼</span>
+                </button>
+
+                {dropdownOpen && (
+                    <ul className="absolute z-10 w-full bg-white divide-y divide-red-100 rounded-lg shadow-lg mt-2 dark:bg-red-700">
+                        {categoriesArray.map((category) => (
+                            <li
+                                key={category}
+                                className="block px-4 py-2 text-sm text-red-700 hover:bg-red-100 dark:text-red-200 dark:hover:bg-red-600 dark:hover:text-white cursor-pointer"
+                                onClick={() => handleCategorySelect(category)}
+                            >
+                                {category}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
             <input
                 required
                 className="input-contained"
