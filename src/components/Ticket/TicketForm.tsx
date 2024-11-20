@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import DaterangePicker from '../Datepicker'
+import { Button, Dropdown, DropdownItem } from 'flowbite-react'
 
 interface TicketFormProps {
     mode: 'add' | 'edit'
     initialData?: {
-        ticketName: string
-        ticketType: string
+        title: string
+        category: string
         userName: string
         startDate: string
         endDate: string
@@ -16,6 +17,28 @@ interface TicketFormProps {
     onSubmit: (data: any) => void
 }
 
+const CustomDropdown: React.FC<{
+    selectedCategory: string
+    onCategorySelect: (category: string) => void
+}> = ({ selectedCategory, onCategorySelect }) => {
+    const categories = [
+        'Plane',
+        'Concert',
+        'Train',
+        'Bus',
+        'Boat',
+        'Other',
+        'ThemeParks',
+        'Cinema',
+        'Theatre',
+        'Museum',
+        'Zoo',
+        'Festival',
+        'Sports',
+        'Restaurant',
+        'Hotel',
+    ]
+}
 const TicketForm: React.FC<TicketFormProps> = ({
     mode,
     initialData,
@@ -35,7 +58,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
     const [formData, setFormData] = useState({
         title: '',
-        ticketType: '',
+        category: '',
         userName: '',
         startDate: '',
         endDate: '',
@@ -43,6 +66,29 @@ const TicketForm: React.FC<TicketFormProps> = ({
         purchasedBy: '',
         purchasedDate: '',
     })
+
+    const categories = [
+        'Plane',
+        'Concert',
+        'Train',
+        'Bus',
+        'Boat',
+        'Other',
+        'ThemeParks',
+        'Cinema',
+        'Theatre',
+        'Museum',
+        'Zoo',
+        'Festival',
+        'Sports',
+        'Restaurant',
+        'Hotel',
+    ]
+
+    const [dropdownOpen, setDropdownOpen] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(
+        initialData?.category || ''
+    )
 
     useEffect(() => {
         if (initialData) {
@@ -81,6 +127,12 @@ const TicketForm: React.FC<TicketFormProps> = ({
         }
     }
 
+    const toggleDropdown = () => setDropdownOpen((prev) => !prev)
+
+    const handleCategorySelect = (category: string) => {
+        setSelectedCategory(category)
+        setDropdownOpen(false)
+    }
     return (
         <form
             className="flex flex-col gap-4 p-4 bg-white
@@ -92,7 +144,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 className="input-contained"
                 name="ticketName"
                 placeholder="Ticket Name"
-                defaultValue={initialData?.ticketName}
+                defaultValue={initialData?.title}
                 onChange={handleInputChange}
             />
             <div className="relative">
@@ -113,14 +165,30 @@ const TicketForm: React.FC<TicketFormProps> = ({
                     </span>
                 )}
             </div>
-            <input
-                required
-                className="input-contained"
-                name="ticketType"
-                placeholder="Ticket Type"
-                defaultValue={initialData?.ticketType}
-                onChange={handleInputChange}
-            />
+            <div className="relative">
+                <button
+                    type="button"
+                    className="btn-primary w-fit flex justify-between items-center bg-white text-red-700 dark:bg-red-700 dark:text-red-200 border border-red-300 rounded-lg px-4 py-2 shadow-md hover:bg-red-100 dark:hover:bg-red-600"
+                    onClick={toggleDropdown}
+                >
+                    {selectedCategory || 'Select Category'}
+                    <span className="ml-2">▼</span>
+                </button>
+
+                {dropdownOpen && (
+                    <ul className="absolute z-10 w-full bg-white divide-y divide-red-100 rounded-lg shadow-lg mt-2 dark:bg-red-700">
+                        {categories.map((category) => (
+                            <li
+                                key={category}
+                                className="block px-4 py-2 text-sm text-red-700 hover:bg-red-100 dark:text-red-200 dark:hover:bg-red-600 dark:hover:text-white cursor-pointer"
+                                onClick={() => handleCategorySelect(category)}
+                            >
+                                {category}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
             <input
                 required
                 className="input-contained"
