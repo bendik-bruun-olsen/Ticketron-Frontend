@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { postData } from '../utils'
-import CustomDatepicker from '../components/Datepicker'
-import { Datepicker } from 'flowbite-react'
+import { fetchData, getPicture, postData } from '../utils'
 import DaterangePicker from '../components/Datepicker'
 import { useNavigate } from 'react-router-dom'
+import BookingForm from '../components/Booking/BookingForm'
+import { useMsal } from '@azure/msal-react'
+import Snackbar from '../components/Snackbar'
 
-const customTheme = {
-    Datepicker: {
-        root: {},
-    },
-}
+import { UnregUser, User } from '../components/types'
+
 
 const AddNewBookingPage: React.FC = () => {
+    const { instance, accounts } = useMsal()
+
     const [dateRange, setDateRange] = useState<{
         startDate: Date | null
         endDate: Date | null
@@ -20,49 +20,74 @@ const AddNewBookingPage: React.FC = () => {
         endDate: new Date(),
     })
 
+    const [selectedUsers, setSelectedUsers] = useState<Array<any | null>>([])
+
     const navigate = useNavigate()
+    const [snackbar, setSnackbar] = useState<{
+        message: string
+        type: 'success' | 'error' | 'info'
+        visible: boolean
+    }>({
+        message: '',
+        type: 'info',
+        visible: false,
+    })
 
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault()
         const formData = new FormData(e.target as HTMLFormElement)
         const formProps = Object.fromEntries(formData)
         const { title } = formProps as HTMLFormElement
+        const imageUrl = await getPicture(title)
 
+        console.log(selectedUsers)
         const body = {
             title: title,
             startDate: dateRange.startDate?.toISOString(),
             endDate: dateRange.endDate?.toISOString(),
-            userId: 1,
+            image: 'https://via.placeholder.com/64',
+            imageUrl,
+            userIds: selectedUsers.map((user) => user.id),
         }
 
         try {
             const newBooking = await postData('/Booking/create', body)
             navigate(`/booking/${newBooking.id}`)
+            setSnackbar({
+                message: 'Booking created successfully!',
+                type: 'success',
+                visible: true,
+            })
         } catch (error) {
             console.error(error)
+            setSnackbar({
+                message: 'Failed to create booking.',
+                type: 'error',
+                visible: true,
+            })
         }
+    }
+    const handleCloseSnackbar = () => {
+        setSnackbar((prev) => ({ ...prev, visible: false }))
     }
 
     return (
-        <form className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>
-            <label className="">
-                <p className="pl-2">Booking title</p>
-                <input required className="input-contained" name="title" />
-            </label>
-
-            <DaterangePicker
-                dateRange={dateRange}
-                setDateRange={setDateRange}
-            />
-
-            <label className="p-2">
-                Participants
-                <input className="input-contained" name="participants" />
-            </label>
-            <button className="btn-primary ml-2" type="submit">
-                Save
-            </button>
-        </form>
+        <>
+           <BookingForm
+            handleSubmit={handleSubmit}
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+            selectedUsers={selectedUsers}
+            setSelectedUser={setSelectedUsers}
+        />
+            {snackbar.visible && (
+                <Snackbar
+                    message={snackbar.message}
+                    type={snackbar.type}
+                    onClose={handleCloseSnackbar}
+                />
+            )}
+        </>
     )
 }
 

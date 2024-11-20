@@ -4,6 +4,7 @@ import {
     CalendarIcon,
     UserGroupIcon,
     UserIcon,
+    HomeIcon,
 } from '@heroicons/react/24/solid'
 import MenuButton from './NavButton'
 import { Paths } from '../../../paths'
@@ -47,27 +48,31 @@ const NavMenu: React.FC<MenuProps> = ({ isOpen, setIsOpen }) => {
             >
                 <h1 className="p-4 text-xl border-b-2">Menu</h1>
                 <MenuButton
-                    icon={<CalendarIcon className="size-6  text-red-700" />}
-                    title={'Bookings'}
+                    icon={<HomeIcon className="red-icon" />}
+                    title={'Home'}
                     href={Paths.HOME}
                     setIsOpen={setIsOpen}
                 />
                 <MenuButton
-                    icon={<UserGroupIcon className="size-6 text-red-700" />}
+                    icon={<CalendarIcon className="red-icon" />}
+                    title={'Bookings'}
+                    href={Paths.BOOKINGS}
+                    setIsOpen={setIsOpen}
+                />
+                <MenuButton
+                    icon={<UserGroupIcon className="red-icon" />}
                     title={'Groups'}
                     href={Paths.GROUP_DETAILS}
                     setIsOpen={setIsOpen}
                 />
                 <MenuButton
-                    icon={<UserIcon className="size-6 text-red-700" />}
+                    icon={<UserIcon className="red-icon" />}
                     title={'Edit profile'}
                     href={Paths.USER_PROFILE}
                     setIsOpen={setIsOpen}
                 />
                 <MenuButton
-                    icon={
-                        <ArrowLeftEndOnRectangleIcon className="size-6 text-red-700" />
-                    }
+                    icon={<ArrowLeftEndOnRectangleIcon className="red-icon" />}
                     title={'Logout'}
                     handleClick={handleLogout}
                     setIsOpen={setIsOpen}

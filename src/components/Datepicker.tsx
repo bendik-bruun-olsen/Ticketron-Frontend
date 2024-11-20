@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Datepicker } from 'flowbite-datepicker'
 import 'flowbite/dist/flowbite.css'
 import React from 'react'
 import { CalendarIcon } from '@heroicons/react/24/solid'
+import { CustomFlowbiteTheme, Datepicker, Flowbite } from 'flowbite-react'
 
 interface DaterangePickerProps {
     dateRange: {
@@ -17,72 +17,53 @@ interface DaterangePickerProps {
     >
 }
 
+const customTheme: CustomFlowbiteTheme = {
+    textInput: {
+        field: {
+            input: {
+                base: 'input-contained-icon',
+            },
+        },
+    },
+}
+
 const DaterangePicker = ({ dateRange, setDateRange }: DaterangePickerProps) => {
-    useEffect(() => {
-        const startDatePicker = document.getElementById(
-            'datepicker-range-start'
-        )
-        const endDatePicker = document.getElementById('datepicker-range-end')
-
-        if (startDatePicker && endDatePicker) {
-            new Datepicker(startDatePicker, {
-                format: 'yyyy-mm-dd',
-                autohide: true,
-                onSelect: (e) => {
-                    setDateRange({ ...dateRange, startDate: e })
-                    startDatePicker.blur()
-                },
-            })
-
-            new Datepicker(endDatePicker, {
-                format: 'yyyy-mm-dd',
-                autohide: true,
-                onSelect: (e) => {
-                    setDateRange({ ...dateRange, endDate: e })
-                    endDatePicker.blur()
-                },
-            })
-        }
-    }, [])
-
     return (
-        <>
-            <div className="mb-4">
+        <Flowbite theme={{ theme: customTheme }}>
+            <div>
                 <label
                     htmlFor="datepicker-range-start"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block text-sm pl-2 font-medium text-gray-900 dark:text-white"
                 >
                     Start Date
                 </label>
-                <div className="relative">
-                    <CalendarIcon className="p-1 absolute box-border top-1/2 size-7 left-0.5 transform -translate-y-1/2 " />
-                    <input
-                        id="datepicker-range-start"
-                        name="startDate"
-                        type="text"
-                        className="input-contained-icon !important "
-                        required
-                    />
-                </div>
+                <Datepicker
+                    name="startDate"
+                    id="startDate"
+                    onChange={(date) =>
+                        setDateRange({ ...dateRange, startDate: date })
+                    }
+                    value={dateRange.startDate ?? new Date()}
+                />{' '}
             </div>
-            <div className="mb-4">
+            <div>
                 <label
                     htmlFor="datepicker-range-end"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block text-sm pl-2 font-medium text-gray-900 dark:text-white"
                 >
-                    End Date
+                    End Date{' '}
                 </label>
-                <div className="relative">
-                    <CalendarIcon className=" p-1 absolute box-border top-1/2 size-7 left-0.5 transform -translate-y-1/2 " />
-                    <input
-                        id="datepicker-range-end"
-                        name="endDate"
-                        type="text"
-                        className="input-contained-icon pl-10"
-                    />
-                </div>
+
+                <Datepicker
+                    minDate={dateRange?.startDate ?? new Date()}
+                    name="endDate"
+                    onChange={(date) =>
+                        setDateRange({ ...dateRange, endDate: date })
+                    }
+                    value={dateRange.endDate ?? new Date()}
+                />
             </div>
-        </>
+        </Flowbite>
     )
 }
 
