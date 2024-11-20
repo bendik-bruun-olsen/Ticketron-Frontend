@@ -58,3 +58,20 @@ export type Booking = {
     groups: Group[]
     unregUsers: string[]
 }
+
+export type Categories =
+    | 'Plane'
+    | 'Concert'
+    | 'Train'
+    | 'Bus'
+    | 'Boat'
+    | 'Other'
+    | 'ThemeParks'
+    | 'Cinema'
+    | 'Theatre'
+    | 'Museum'
+    | 'Zoo'
+    | 'Festival'
+    | 'Sports'
+    | 'Restaurant'
+    | 'Hotel'
