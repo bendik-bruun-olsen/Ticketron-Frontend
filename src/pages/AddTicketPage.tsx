@@ -26,12 +26,12 @@ const AddTicketPage: React.FC = () => {
     const handleAddTicket = async (ticket: Ticket) => {
         const body = {
             title: ticket.title,
+            category: 'String',
             // participantId: 2,
-            startDate: new Date(ticket.startDate).toISOString(),
-            endDate: new Date(ticket.endDate).toISOString(),
+            startDate: new Date('12.12.2024').toISOString(),
+            endDate: new Date('12.12.2024').toISOString(),
             AssignedUserId: accounts[0]?.localAccountId,
             bookingId: bookingId,
-            category: 'Testing',
         }
         try {
             const newTicket = await postData(`/Ticket/create`, body)
