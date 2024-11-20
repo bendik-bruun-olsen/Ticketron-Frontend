@@ -5,7 +5,7 @@ import { Group, User } from './types'
 
 interface Props {
     field: string
-    selected: Array<User | Group | string>
+    selected: Array<User | Group>
     setSelected: React.Dispatch<React.SetStateAction<Array<User | Group>>>
     multiple?: boolean
     options: Array<User>
@@ -44,7 +44,11 @@ export const Autocomplete = ({
     const handleSelect = (suggestion) => {
         setUserInput(suggestion[field] || 'No response found')
         if (multiple) {
-            setSelected([...selected, suggestion])
+            if (selected.includes(suggestion)) {
+                setSelected(selected.filter((s) => s !== suggestion))
+            } else {
+                setSelected([...selected, suggestion])
+            }
         } else {
             setSelected([suggestion])
         }
@@ -59,6 +63,7 @@ export const Autocomplete = ({
                 placeholder={placeholder}
                 value={selected.map((s) => s[field]).join(', ')}
                 onChange={handleInputChange}
+                multiple={true}
                 aria-label="Search"
                 onFocus={() => setShowSuggestions(!showSuggestions)}
                 onClick={() => setShowSuggestions(!showSuggestions)}
@@ -66,14 +71,27 @@ export const Autocomplete = ({
             {showSuggestions && options && (
                 <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
                     {options.map((suggestion, index) => (
-                        <div
-                            key={index}
-                            onClick={() => handleSelect(suggestion)}
-                            onBlur={() => setShowSuggestions(false)}
-                            className="px-4 py-2 cursor-pointer hover:bg-gray-200"
-                        >
-                            {suggestion[field]}
-                        </div>
+                        <>
+                            <div
+                                className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex gap-2 items-center "
+                                key={index}
+                                onClick={() => handleSelect(suggestion)}
+                                onBlur={() => setShowSuggestions(false)}
+                            >
+                                {multiple && (
+                                    <input
+                                        type="checkbox"
+                                        id="index"
+                                        className="accent-pink-500"
+                                        name={suggestion[field]}
+                                        checked={selected.includes(suggestion)}
+                                    />
+                                )}
+                                <label htmlFor={suggestion[field]}>
+                                    {suggestion[field]}
+                                </label>
+                            </div>
+                        </>
                     ))}
                 </div>
             )}
