@@ -51,9 +51,13 @@ const EditBookingPage: React.FC = () => {
                     visible: true,
                 })
             }
-            fetchBooking()
         }
-    }, [])
+        fetchBooking()
+    }, [bookingId])
+
+    useEffect(() => {
+        if (booking) setSelectedUsers(booking.users)
+    }, [booking])
 
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault()

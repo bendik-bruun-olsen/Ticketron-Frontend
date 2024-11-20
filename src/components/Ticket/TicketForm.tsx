@@ -41,7 +41,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
             }
         }
         fetchOptions()
-
+        console.log(initialData)
         if (initialData) {
             setSelected([initialData.assignedUser])
             setDateRange({
@@ -49,7 +49,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 endDate: new Date(initialData.endDate || ''),
             })
         }
-    }, [])
+    }, [initialData])
 
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault()

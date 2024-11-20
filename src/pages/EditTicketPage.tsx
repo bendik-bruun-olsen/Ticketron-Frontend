@@ -34,7 +34,7 @@ const EditTicketPage: React.FC = () => {
             }
         }
         getTickets()
-    }, [bookingId])
+    }, [])
 
     const handleEditTicket = async (ticket: Ticket) => {
         const body = {
