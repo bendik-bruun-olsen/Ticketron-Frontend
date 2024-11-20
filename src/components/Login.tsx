@@ -12,10 +12,21 @@ const Login: React.FC = () => {
     const handleLoginMicrosoft = async () => {
         instance
             .loginPopup(loginRequest)
-
-            .then(() => {
-                navigate('/')
-            })
+            .then((res) =>
+                fetchData('/User').then((data: Array<User>) => {
+                    const foundAccount = data.find(
+                        (user) => user.email === res.account.username
+                    )
+                    if (!foundAccount) {
+                        postData('/user/create', {
+                            email: res.account.username,
+                            name: res.account.name,
+                            phone: '',
+                        })
+                    }
+                })
+            )
+            .then(() => {})
             .catch((error) => {
                 console.error('Login failed', error)
             })

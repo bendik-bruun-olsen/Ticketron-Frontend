@@ -11,27 +11,9 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     const isAuthenticated = useIsAuthenticated()
-    const [hasAccount, setHasAccount] = useState(false)
-
-    const account = useAccount()
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            await fetchData('/user').then((data: Array<User>) => {
-                const foundAccount = data.find(
-                    (user) => user.email === account?.username
-                )
-                setHasAccount(foundAccount ? true : false)
-            })
-        }
-        fetchUser()
-    }, [account])
 
     if (!isAuthenticated) {
         return <Navigate to="/login" />
-    }
-    if (!hasAccount) {
-        return <Navigate to="/create-user" />
     }
 
     return <>{children}</>
