@@ -20,6 +20,17 @@ module.exports = {
                 black: '#252525',
                 white: '#f5f5f5',
             },
+            animation: {
+                slideIn: 'slideIn 0.5s ease-out',
+                slideOut: 'slideOut 0.5s ease-in',
+                slideUp: 'slideUp 0.5s ease-out',
+            },
+            keyframes: {
+                slideUp: {
+                    '0%': { transform: 'translateY(100%)', opacity: '0' },
+                    '100%': { transform: 'translateX(0)', opacity: '1' },
+                },
+            },
         },
     },
     plugins: [

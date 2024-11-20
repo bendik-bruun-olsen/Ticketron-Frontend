@@ -26,6 +26,7 @@ export type Ticket = {
     endDate: string
     participantId: number
     bookingId: number
+    category: string
 }
 
 export type Participant = {
@@ -56,5 +57,24 @@ export type Booking = {
     startDate: string
     endDate: string
     userId: number
-    participants: Participant[]
+    users: User[]
+    groups: Group[]
+    unregUsers: string[]
 }
+
+export type Categories =
+    | 'Plane'
+    | 'Concert'
+    | 'Train'
+    | 'Bus'
+    | 'Boat'
+    | 'Other'
+    | 'ThemeParks'
+    | 'Cinema'
+    | 'Theatre'
+    | 'Museum'
+    | 'Zoo'
+    | 'Festival'
+    | 'Sports'
+    | 'Restaurant'
+    | 'Hotel'

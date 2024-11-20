@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { fetchData } from '../utils'
 import { useMsal } from '@azure/msal-react'
 import dayjs from 'dayjs'
+import Snackbar from '../components/Snackbar'
 
 const HomePage: React.FC = () => {
     const { instance, accounts } = useMsal()
@@ -21,10 +22,33 @@ const HomePage: React.FC = () => {
         message: string
     } | null>(null)
 
+    const [snackbar, setSnackbar] = useState<{
+        message: string
+        type: 'success' | 'error' | 'info'
+        visible: boolean
+    }>({
+        message: '',
+        type: 'info',
+        visible: false,
+    })
+
+    const showSnackbar = (
+        message: string,
+        type: 'success' | 'error' | 'info'
+    ) => {
+        setSnackbar({ message, type, visible: true })
+        setTimeout(
+            () => setSnackbar((prev) => ({ ...prev, visible: false })),
+            3000
+        )
+    }
+
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const data = await fetchData('/Booking/user/1')
+                const data = await fetchData(
+                    `/Booking/user/${accounts[0]?.localAccountId}`
+                )
                 const filteredBookings = data
                     .filter(
                         (booking: any) =>
@@ -33,13 +57,16 @@ const HomePage: React.FC = () => {
                     )
                     .slice(0, 4)
                 setBookings(filteredBookings)
+                showSnackbar('Bookings loaded successfully', 'success')
             } catch (error) {
                 setError({
                     code: (error as any).code,
                     message: (error as any).message,
                 })
+                showSnackbar('Failed to load bookings', 'error')
             }
         }
+
         fetchBookings()
     }, [])
 
@@ -66,6 +93,15 @@ const HomePage: React.FC = () => {
                 <button className="fab bottom-6 right-6" onClick={handleClick}>
                     <PlusIcon className="text-white size-6" />
                 </button>
+                {snackbar.visible && (
+                    <Snackbar
+                        message={snackbar.message}
+                        type={snackbar.type}
+                        onClose={() =>
+                            setSnackbar((prev) => ({ ...prev, visible: false }))
+                        }
+                    />
+                )}
             </div>
         </>
     )

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Datepicker } from 'flowbite-datepicker'
-import 'flowbite/dist/flowbite.css'
+import DaterangePicker from '../Datepicker'
+import { Button, Dropdown, DropdownItem } from 'flowbite-react'
+import { categoriesArray } from '../../utils'
 
 interface TicketFormProps {
     mode: 'add' | 'edit'
     initialData?: {
-        ticketName: string
-        ticketType: string
+        title: string
+        category: string
         userName: string
         startDate: string
         endDate: string
@@ -23,12 +24,20 @@ const TicketForm: React.FC<TicketFormProps> = ({
     onSubmit,
 }) => {
     const [isFormEdited, setIsFormEdited] = useState(false)
-    const [startDateSelected, setStartDateSelected] = useState(false)
-    const [endDateSelected, setEndDateSelected] = useState(false)
+
+    const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
+    const [dateRange, setDateRange] = useState<{
+        startDate: Date | null
+        endDate: Date | null
+    }>({
+        startDate: new Date(),
+        endDate: new Date(),
+    })
 
     const [formData, setFormData] = useState({
-        ticketName: '',
-        ticketType: '',
+        title: '',
+        category: '',
         userName: '',
         startDate: '',
         endDate: '',
@@ -37,15 +46,33 @@ const TicketForm: React.FC<TicketFormProps> = ({
         purchasedDate: '',
     })
 
+    const [dropdownOpen, setDropdownOpen] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(
+        initialData?.category || ''
+    )
+    const toggleDropdown = () => setDropdownOpen((prev) => !prev)
+
     useEffect(() => {
         if (initialData) {
-            setFormData(initialData)
+            setFormData({
+                ...formData,
+                ...initialData,
+            })
+            setDateRange({
+                startDate: new Date(initialData.startDate || ''),
+                endDate: new Date(initialData.endDate || ''),
+            })
         }
     }, [initialData])
 
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault()
-        onSubmit(formData)
+        if (selectedFile) {
+            onSubmit(formData, selectedFile)
+        }
+        if (!selectedFile) {
+            onSubmit(formData)
+        }
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,37 +83,19 @@ const TicketForm: React.FC<TicketFormProps> = ({
         })
     }
 
-    useEffect(() => {
-        const startDatePicker = document.getElementById(
-            'datepicker-range-start'
-        )
-        const endDatePicker = document.getElementById('datepicker-range-end')
-        if (startDatePicker && endDatePicker) {
-            new Datepicker(startDatePicker, {
-                format: 'yyyy-mm-dd',
-                autohide: true,
-                onSelect: () => setStartDateSelected(true),
-            })
-            new Datepicker(endDatePicker, {
-                format: 'yyyy-mm-dd',
-                autohide: true,
-                onSelect: () => setStartDateSelected(true),
-            })
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedFile(e.target.files[0])
         }
-    }, [])
-    const handleIconClick = (id: string, iconId: string) => {
-        const datePicker = document.getElementById(id)
-        if (datePicker) {
-            datePicker.focus()
-        }
-        hideIcon(iconId)
     }
 
-    const hideIcon = (iconId: string) => {
-        const iconElement = document.getElementById(iconId)
-        if (iconElement) {
-            iconElement.style.display = 'none'
-        }
+    const handleCategorySelect = (category: string) => {
+        setSelectedCategory(category)
+        setDropdownOpen(false)
+        setFormData({
+            ...formData,
+            category,
+        })
     }
 
     return (
@@ -98,20 +107,53 @@ const TicketForm: React.FC<TicketFormProps> = ({
             <input
                 required
                 className="input-contained"
-                name="ticketname"
+                name="ticketName"
                 placeholder="Ticket Name"
-                defaultValue={initialData?.ticketName}
+                defaultValue={initialData?.title}
                 onChange={handleInputChange}
             />
-            <button className="soft-input">Upload Ticket Image</button>
-            <input
-                required
-                className="input-contained"
-                name="tickettype"
-                placeholder="Ticket Type"
-                defaultValue={initialData?.ticketType}
-                onChange={handleInputChange}
-            />
+            <div className="relative">
+                <input
+                    type="file"
+                    id="file-upload"
+                    className="hidden"
+                    name="Upload Ticket Image"
+                    onChange={handleFileChange}
+                    accept="image/*"
+                />
+                <label htmlFor="file-upload" className="btn-primary">
+                    Upload Ticket
+                </label>
+                {selectedFile && (
+                    <span className="ml-4 text-gray-700">
+                        {selectedFile.name}
+                    </span>
+                )}
+            </div>
+            <div className="relative">
+                <button
+                    type="button"
+                    className="btn-primary w-fit flex justify-between items-center bg-white text-red-700 dark:bg-red-700 dark:text-red-200 border border-red-300 rounded-lg px-4 py-2 shadow-md hover:bg-red-100 dark:hover:bg-red-600"
+                    onClick={toggleDropdown}
+                >
+                    {selectedCategory || 'Select Category'}
+                    <span className="ml-2">▼</span>
+                </button>
+
+                {dropdownOpen && (
+                    <ul className="absolute z-10 w-full bg-white divide-y divide-red-100 rounded-lg shadow-lg mt-2 dark:bg-red-700">
+                        {categoriesArray.map((category) => (
+                            <li
+                                key={category}
+                                className="block px-4 py-2 text-sm text-red-700 hover:bg-red-100 dark:text-red-200 dark:hover:bg-red-600 dark:hover:text-white cursor-pointer"
+                                onClick={() => handleCategorySelect(category)}
+                            >
+                                {category}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
             <input
                 required
                 className="input-contained"
@@ -120,87 +162,10 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 defaultValue={initialData?.userName}
                 onChange={handleInputChange}
             />
-            <div className="mb-4">
-                <label
-                    htmlFor="datepicker-range-start"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                    Start Date
-                </label>
-                <div className="relative">
-                    <input
-                        id="datepicker-range-start"
-                        name="startDate"
-                        type="text"
-                        className="input-contained pl-10"
-                        defaultValue={initialData?.startDate}
-                    />
-                    <div
-                        id="start-icon"
-                        className="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer"
-                        onClick={() =>
-                            handleIconClick(
-                                'datepicker-range-start',
-                                'start-icon'
-                            )
-                        }
-                    >
-                        <svg
-                            className="w-5 h-5 text-gray-500"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                            ></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div className="mb-4">
-                <label
-                    htmlFor="datepicker-range-end"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                    End Date
-                </label>
-                <div className="relative">
-                    <input
-                        id="datepicker-range-end"
-                        name="endDate"
-                        type="text"
-                        className="input-contained pl-10"
-                        defaultValue={initialData?.endDate}
-                    />
-                    <div
-                        id="end-icon"
-                        className="absolute inset-y-0 left-0 flex items-center pl-3 cursor-pointer"
-                        onClick={() =>
-                            handleIconClick('datepicker-range-end', 'end-icon')
-                        }
-                    >
-                        <svg
-                            className="w-5 h-5 text-gray-500"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                            ></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
+            <DaterangePicker
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+            />
             <input
                 required
                 className="input-contained"
