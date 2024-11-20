@@ -22,12 +22,12 @@ const AddTicketPage: React.FC = () => {
     const handleAddTicket = async (ticket: Ticket) => {
         const body = {
             title: ticket.title,
+            category: ticket.category,
             // participantId: 2,
             startDate: ticket.startDate,
             endDate: ticket.endDate,
             AssignedUserId: ticket.assignedUser[0],
             bookingId: bookingId,
-            category: ticket.category,
             price: ticket.price,
             purchasedDate: ticket.purchasedDate,
             purchasedBy: ticket.purchasedBy?.name,

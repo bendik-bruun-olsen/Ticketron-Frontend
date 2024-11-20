@@ -1,6 +1,7 @@
 import { useMsal } from '@azure/msal-react'
 import { loginRequest } from './authConfig'
 import { msalInstance } from './main'
+import { Categories } from './components/types'
 
 const API_KEY = import.meta.env.VITE_PEXELS_API_KEY
 const BASE_URL = 'https://api.pexels.com/v1/search'
@@ -146,3 +147,21 @@ export const getPicture = async (
         console.log(error)
     }
 }
+
+export const categoriesArray = [
+    'Plane',
+    'Concert',
+    'Train',
+    'Bus',
+    'Boat',
+    'Other',
+    'ThemeParks',
+    'Cinema',
+    'Theatre',
+    'Museum',
+    'Zoo',
+    'Festival',
+    'Sports',
+    'Restaurant',
+    'Hotel',
+] as const
