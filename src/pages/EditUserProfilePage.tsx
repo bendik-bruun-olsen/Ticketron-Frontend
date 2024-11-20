@@ -27,17 +27,6 @@ const EditUserProfilePage: React.FC = () => {
         navigate(Paths.USER_PROFILE)
     }
 
-    const handleUpdatePassword = (e: React.FormEvent) => {
-        e.preventDefault()
-        const { password, confirmPassword } = e.target as HTMLFormElement
-        setSnackbar({
-            message: 'Password updated successfully!',
-            type: 'success',
-            visible: true,
-        })
-        navigate(Paths.USER_PROFILE)
-    }
-
     const handleCloseSnackbar = () => {
         setSnackbar((prev) => ({ ...prev, visible: false }))
     }
@@ -72,31 +61,6 @@ const EditUserProfilePage: React.FC = () => {
                 </button>
             </form>
 
-            <div className="flex flex-col gap-2">
-                <h3 className="text-lg">Update password</h3>
-                <form
-                    className="flex flex-col gap-4 w-full"
-                    onSubmit={handleUpdatePassword}
-                >
-                    <input
-                        required
-                        className="input-contained"
-                        name="password"
-                        placeholder="Password"
-                        type="password"
-                    />
-                    <input
-                        required
-                        className="input-contained"
-                        name="confirmPassword"
-                        placeholder="Repeat password"
-                        type="password"
-                    />
-                    <button className="btn-primary" type="submit">
-                        Update password
-                    </button>
-                </form>
-            </div>
             {snackbar.visible && (
                 <Snackbar
                     message={snackbar.message}
