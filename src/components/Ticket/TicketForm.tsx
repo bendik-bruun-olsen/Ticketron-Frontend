@@ -35,7 +35,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
         const fetchOptions = async () => {
             try {
                 const data = await fetchData(`/booking/${bookingId}`)
-                setOptions([...data.users, data.createdBy])
+                setOptions([...data.users])
             } catch (error) {
                 console.log(error)
             }
