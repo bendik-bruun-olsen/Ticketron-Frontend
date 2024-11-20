@@ -28,7 +28,6 @@ const AddTicketPage: React.FC = () => {
             title: ticket.title,
             category: 'String',
             // participantId: 2,
-=
             startDate: new Date('10.01.2025').toISOString(),
             endDate: new Date('10.01.2025').toISOString(),
 
