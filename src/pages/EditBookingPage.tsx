@@ -42,6 +42,7 @@ const EditBookingPage: React.FC = () => {
                 })
 
                 setBooking(data)
+                setSelectedUsers(data.users)
             } catch (error) {
                 console.error(error)
                 setSnackbar({
@@ -52,7 +53,7 @@ const EditBookingPage: React.FC = () => {
             }
             fetchBooking()
         }
-    }, [bookingId])
+    }, [])
 
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault()
@@ -69,7 +70,9 @@ const EditBookingPage: React.FC = () => {
 
         try {
             await putData(`/Booking/update`, body)
-            navigate(`/booking/${bookingId}`)
+            navigate(`/booking/${bookingId}`, {
+                replace: true,
+            })
             setSnackbar({
                 message: 'Booking updated successfully!',
                 type: 'success',
@@ -90,13 +93,13 @@ const EditBookingPage: React.FC = () => {
     return (
         <>
             <BookingForm
-            booking={booking}
-            handleSubmit={handleSubmit}
-            dateRange={dateRange}
-            setDateRange={setDateRange}
-            selectedUsers={selectedUsers}
-            setSelectedUser={setSelectedUsers}
-        />
+                booking={booking}
+                handleSubmit={handleSubmit}
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+                selectedUsers={selectedUsers}
+                setSelectedUser={setSelectedUsers}
+            />
             {snackbar.visible && (
                 <Snackbar
                     message={snackbar.message}

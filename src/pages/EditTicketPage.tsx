@@ -51,7 +51,9 @@ const EditTicketPage: React.FC = () => {
         }
         try {
             const newTicket = await putData(`/Ticket/update`, body)
-            navigate(`/booking/${bookingId}/ticket/${newTicket.id}`)
+            navigate(`/booking/${bookingId}/ticket/${newTicket.id}`, {
+                replace: true,
+            })
             setSnackbar({
                 message: 'Ticket added successfully!',
                 type: 'success',
