@@ -58,12 +58,11 @@ export const Autocomplete = ({
 
     return (
         <div className="relative">
-            <input
+            <textarea
                 className="input-contained"
                 placeholder={placeholder}
                 value={selected.map((s) => s[field]).join(', ')}
                 onChange={handleInputChange}
-                multiple={true}
                 aria-label="Search"
                 onFocus={() => setShowSuggestions(!showSuggestions)}
                 onClick={() => setShowSuggestions(!showSuggestions)}
