@@ -17,28 +17,6 @@ interface TicketFormProps {
     onSubmit: (data: any) => void
 }
 
-const CustomDropdown: React.FC<{
-    selectedCategory: string
-    onCategorySelect: (category: string) => void
-}> = ({ selectedCategory, onCategorySelect }) => {
-    const categories = [
-        'Plane',
-        'Concert',
-        'Train',
-        'Bus',
-        'Boat',
-        'Other',
-        'ThemeParks',
-        'Cinema',
-        'Theatre',
-        'Museum',
-        'Zoo',
-        'Festival',
-        'Sports',
-        'Restaurant',
-        'Hotel',
-    ]
-}
 const TicketForm: React.FC<TicketFormProps> = ({
     mode,
     initialData,
