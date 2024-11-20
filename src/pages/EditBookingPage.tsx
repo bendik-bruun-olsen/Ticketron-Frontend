@@ -70,6 +70,7 @@ const EditBookingPage: React.FC = () => {
             title: title,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
+            userIds: selectedUsers.map((user) => user.id),
         }
 
         try {

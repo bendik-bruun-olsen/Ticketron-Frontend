@@ -70,27 +70,26 @@ export const Autocomplete = ({
             {showSuggestions && options && (
                 <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
                     {options.map((suggestion, index) => (
-                        <>
-                            <div
-                                className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex gap-2 items-center "
-                                key={index}
-                                onClick={() => handleSelect(suggestion)}
-                                onBlur={() => setShowSuggestions(false)}
-                            >
-                                {multiple && (
-                                    <input
-                                        type="checkbox"
-                                        id="index"
-                                        className="accent-pink-500"
-                                        name={suggestion[field]}
-                                        checked={selected.includes(suggestion)}
-                                    />
-                                )}
-                                <label htmlFor={suggestion[field]}>
-                                    {suggestion[field]}
-                                </label>
-                            </div>
-                        </>
+                        <div
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex gap-2 items-center "
+                            key={index}
+                            onClick={() => handleSelect(suggestion)}
+                            onBlur={() => setShowSuggestions(false)}
+                        >
+                            {multiple && (
+                                <input
+                                    type="checkbox"
+                                    id="index"
+                                    className="accent-pink-500"
+                                    name={suggestion[field]}
+                                    onChange={() => handleSelect(suggestion)}
+                                    checked={selected.includes(suggestion)}
+                                />
+                            )}
+                            <label htmlFor={suggestion[field]}>
+                                {suggestion[field]}
+                            </label>
+                        </div>
                     ))}
                 </div>
             )}
