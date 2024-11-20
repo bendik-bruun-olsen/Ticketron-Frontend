@@ -33,7 +33,7 @@ const Login: React.FC = () => {
     }
 
     return (
-        <div>
+        <div className="p-4">
             <h2 className="text-3xl font-bold text-center pb-10 pt-10">
                 Welcome back!
             </h2>
@@ -41,7 +41,7 @@ const Login: React.FC = () => {
                 onClick={handleLoginMicrosoft}
                 className="btn-primary w-full"
             >
-                Login with microsoft
+                Login
             </button>
         </div>
     )
