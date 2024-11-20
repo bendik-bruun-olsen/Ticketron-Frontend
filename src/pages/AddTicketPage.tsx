@@ -28,15 +28,17 @@ const AddTicketPage: React.FC = () => {
             title: ticket.title,
             category: 'String',
             // participantId: 2,
-            startDate: new Date('12.12.2024').toISOString(),
-            endDate: new Date('12.12.2024').toISOString(),
+=
+            startDate: new Date('10.01.2025').toISOString(),
+            endDate: new Date('10.01.2025').toISOString(),
+
             AssignedUserId: accounts[0]?.localAccountId,
             bookingId: bookingId,
         }
         try {
             const newTicket = await postData(`/Ticket/create`, body)
             setTickets((prevTickets) => [...prevTickets, newTicket])
-            navigate(`/booking/${bookingId}/tickets/${newTicket.id}`)
+            navigate(`/booking/${bookingId}/ticket/${newTicket.id}`)
             setSnackbar({
                 message: 'Ticket added successfully!',
                 type: 'success',
