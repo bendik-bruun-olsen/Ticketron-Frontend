@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DaterangePicker from '../Datepicker'
 import { Button, Dropdown, DropdownItem } from 'flowbite-react'
+import { categoriesArray } from '../../utils'
 
 interface TicketFormProps {
     mode: 'add' | 'edit'
@@ -45,28 +46,11 @@ const TicketForm: React.FC<TicketFormProps> = ({
         purchasedDate: '',
     })
 
-    const categories = [
-        'Plane',
-        'Concert',
-        'Train',
-        'Bus',
-        'Boat',
-        'Other',
-        'ThemeParks',
-        'Cinema',
-        'Theatre',
-        'Museum',
-        'Zoo',
-        'Festival',
-        'Sports',
-        'Restaurant',
-        'Hotel',
-    ]
-
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
         initialData?.category || ''
     )
+    const toggleDropdown = () => setDropdownOpen((prev) => !prev)
 
     useEffect(() => {
         if (initialData) {
@@ -105,12 +89,15 @@ const TicketForm: React.FC<TicketFormProps> = ({
         }
     }
 
-    const toggleDropdown = () => setDropdownOpen((prev) => !prev)
-
     const handleCategorySelect = (category: string) => {
         setSelectedCategory(category)
         setDropdownOpen(false)
+        setFormData({
+            ...formData,
+            category,
+        })
     }
+
     return (
         <form
             className="flex flex-col gap-4 p-4 bg-white
@@ -155,7 +142,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
                 {dropdownOpen && (
                     <ul className="absolute z-10 w-full bg-white divide-y divide-red-100 rounded-lg shadow-lg mt-2 dark:bg-red-700">
-                        {categories.map((category) => (
+                        {categoriesArray.map((category) => (
                             <li
                                 key={category}
                                 className="block px-4 py-2 text-sm text-red-700 hover:bg-red-100 dark:text-red-200 dark:hover:bg-red-600 dark:hover:text-white cursor-pointer"
