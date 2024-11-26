@@ -106,10 +106,12 @@ const BookingDetailsPage: React.FC = () => {
                         }
                         title={ticket.title}
                         type={ticket.type}
-                        username={ticket.username}
+                        username={ticket.name}
                         price={`${ticket.price} kr`}
-                        startDate={ticket.startDate}
-                        endDate={ticket.endDate}
+                        startDate={new Date(
+                            ticket.startDate
+                        ).toLocaleDateString()}
+                        endDate={new Date(ticket.endDate).toLocaleDateString()}
                     />
                 ))}
                 <button
