@@ -98,7 +98,19 @@ const BookingDetailsPage: React.FC = () => {
 
             <div className="mt-5 space-y-4">
                 {filteredTickets.map((ticket, index) => (
-                    <TicketCard key={index} {...ticket} />
+                    <TicketCard
+                        key={index}
+                        id={ticket.id}
+                        imageUrl={
+                            ticket.imageUrl || 'https://via.placeholder.com/64'
+                        }
+                        title={ticket.title}
+                        type={ticket.type}
+                        username={ticket.username}
+                        price={`${ticket.price} kr`}
+                        startDate={ticket.startDate}
+                        endDate={ticket.endDate}
+                    />
                 ))}
                 <button
                     className="fab bottom-6 right-6"
