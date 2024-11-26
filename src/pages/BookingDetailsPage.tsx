@@ -9,6 +9,7 @@ import { fetchData } from '../utils'
 import Snackbar from '../components/Snackbar'
 import { Categories } from '../components/types'
 import { categoriesArray } from '../utils'
+import CategoryCard from '../components/Booking/CategoryCard'
 
 const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
@@ -31,10 +32,7 @@ const BookingDetailsPage: React.FC = () => {
     useEffect(() => {
         const fetchTickets = async () => {
             try {
-                const response = await fetchData(`/ticket/booking/${bookingId}`)
-
-                if (!response.ok) throw new Error('Failed to fetch tickets')
-                const data = await response.json()
+                const data = await fetchData(`/Ticket/booking/${bookingId}`)
                 setTickets(data)
                 setFilteredTickets(data)
                 setSnackbar({
@@ -54,7 +52,7 @@ const BookingDetailsPage: React.FC = () => {
         fetchTickets()
     }, [bookingId])
 
-    const filterTicketsByCategory = (category: Categories | '') => {
+    const filterTicketsByCategory = (category: Categories | null) => {
         setSelectedCategory(category)
         if (category) {
             const filtered = tickets.filter(
@@ -83,7 +81,9 @@ const BookingDetailsPage: React.FC = () => {
             <div className="flex flex-row items-baseline">
                 <h2 className="text-2xl font-bold">Tickets</h2>
                 <Dropdown inline label="Category">
-                    <Dropdown.Item onClick={() => filterTicketsByCategory('')}>
+                    <Dropdown.Item
+                        onClick={() => filterTicketsByCategory(null)}
+                    >
                         All
                     </Dropdown.Item>
                     {categoriesArray.map((category) => (
@@ -96,7 +96,7 @@ const BookingDetailsPage: React.FC = () => {
                 </Dropdown>
             </div>
 
-            <div className="space-y-4">
+            <div className="mt-5 space-y-4">
                 {filteredTickets.map((ticket, index) => (
                     <TicketCard key={index} {...ticket} />
                 ))}
