@@ -133,7 +133,10 @@ const EditBookingPage: React.FC = () => {
                 selectedUsers={selectedUsers}
                 setSelectedUser={setSelectedUsers}
             />
-            <button className="btn-primary ml-2" onClick={() => handleDelete()}>
+            <button
+                className="btn-primary ml-8 w-10/12"
+                onClick={() => handleDelete()}
+            >
                 Delete
             </button>
             <DeleteModal
