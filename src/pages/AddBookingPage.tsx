@@ -8,7 +8,6 @@ import Snackbar from '../components/Snackbar'
 
 import { UnregUser, User } from '../components/types'
 
-
 const AddNewBookingPage: React.FC = () => {
     const { instance, accounts } = useMsal()
 
@@ -52,7 +51,9 @@ const AddNewBookingPage: React.FC = () => {
 
         try {
             const newBooking = await postData('/Booking/create', body)
-            navigate(`/booking/${newBooking.id}`)
+            navigate(`/booking/${newBooking.id}`, {
+                replace: true,
+            })
             setSnackbar({
                 message: 'Booking created successfully!',
                 type: 'success',
@@ -73,13 +74,13 @@ const AddNewBookingPage: React.FC = () => {
 
     return (
         <>
-           <BookingForm
-            handleSubmit={handleSubmit}
-            dateRange={dateRange}
-            setDateRange={setDateRange}
-            selectedUsers={selectedUsers}
-            setSelectedUser={setSelectedUsers}
-        />
+            <BookingForm
+                handleSubmit={handleSubmit}
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+                selectedUsers={selectedUsers}
+                setSelectedUser={setSelectedUsers}
+            />
             {snackbar.visible && (
                 <Snackbar
                     message={snackbar.message}

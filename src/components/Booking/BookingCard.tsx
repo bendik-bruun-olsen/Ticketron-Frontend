@@ -46,8 +46,8 @@ export function BookingCard({ booking }: BookingCardProps) {
                     {new Date(endDate).toLocaleDateString()}
                 </p>
                 <p>
-                    {users.length}{' '}
-                    {users.length > 1 ? 'Participants' : 'Participant'}
+                    {users.length + 1}{' '}
+                    {users.length + 1 > 1 ? 'Participants' : 'Participant'}
                 </p>
             </div>
         </button>

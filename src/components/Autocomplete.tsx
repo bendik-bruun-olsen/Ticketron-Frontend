@@ -5,12 +5,11 @@ import { Group, User } from './types'
 
 interface Props {
     field: string
-    selected: Array<User | Group | string>
-    setSelected: React.Dispatch<
-        React.SetStateAction<Array<User | Group | string>>
-    >
+    selected: Array<User | Group>
+    setSelected: React.Dispatch<React.SetStateAction<Array<User | Group>>>
     multiple?: boolean
     options: Array<User>
+    placeholder?: string
 }
 
 export const Autocomplete = ({
@@ -19,6 +18,7 @@ export const Autocomplete = ({
     setSelected,
     multiple = true,
     options,
+    placeholder = 'Select user',
 }: Props) => {
     const [filteredSuggestions, setFilteredSuggestions] =
         useState<Array<User> | null>(null)
@@ -44,7 +44,11 @@ export const Autocomplete = ({
     const handleSelect = (suggestion) => {
         setUserInput(suggestion[field] || 'No response found')
         if (multiple) {
-            setSelected([...selected, suggestion])
+            if (selected.includes(suggestion)) {
+                setSelected(selected.filter((s) => s !== suggestion))
+            } else {
+                setSelected([...selected, suggestion])
+            }
         } else {
             setSelected([suggestion])
         }
@@ -54,9 +58,9 @@ export const Autocomplete = ({
 
     return (
         <div className="relative">
-            <input
+            <textarea
                 className="input-contained"
-                placeholder="Type to search..."
+                placeholder={placeholder}
                 value={selected.map((s) => s[field]).join(', ')}
                 onChange={handleInputChange}
                 aria-label="Search"
@@ -67,12 +71,24 @@ export const Autocomplete = ({
                 <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
                     {options.map((suggestion, index) => (
                         <div
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex gap-2 items-center "
                             key={index}
                             onClick={() => handleSelect(suggestion)}
                             onBlur={() => setShowSuggestions(false)}
-                            className="px-4 py-2 cursor-pointer hover:bg-gray-200"
                         >
-                            {suggestion[field]}
+                            {multiple && (
+                                <input
+                                    type="checkbox"
+                                    id="index"
+                                    className="accent-pink-500"
+                                    name={suggestion[field]}
+                                    onChange={() => handleSelect(suggestion)}
+                                    checked={selected.includes(suggestion)}
+                                />
+                            )}
+                            <label htmlFor={suggestion[field]}>
+                                {suggestion[field]}
+                            </label>
                         </div>
                     ))}
                 </div>

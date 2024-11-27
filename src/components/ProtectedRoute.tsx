@@ -1,7 +1,9 @@
 // components/ProtectedRoute.tsx
-import React from 'react'
-import { useIsAuthenticated } from '@azure/msal-react'
+import React, { useEffect, useState } from 'react'
+import { useAccount, useIsAuthenticated } from '@azure/msal-react'
 import { Navigate } from 'react-router-dom'
+import { fetchData } from '../utils'
+import { User } from './types'
 
 interface ProtectedRouteProps {
     children: React.ReactNode
