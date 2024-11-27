@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import BookingForm from '../components/Booking/BookingForm'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchData, postData, putData } from '../utils'
+import { deleteData, fetchData, postData, putData } from '../utils'
 import { Booking } from '../components/types'
 import Snackbar from '../components/Snackbar'
-
+import DeleteModal from '../components/DeleteModal'
 import { useMsal } from '@azure/msal-react'
 
 const EditBookingPage: React.FC = () => {
@@ -12,6 +12,7 @@ const EditBookingPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
     const [booking, setBooking] = useState<Booking>()
     const [selectedUsers, setSelectedUsers] = useState<any[]>([])
+    const [isModalVisible, setIsModalVisible] = useState(false)
 
     const [dateRange, setDateRange] = useState<{
         startDate: Date | null
@@ -92,6 +93,33 @@ const EditBookingPage: React.FC = () => {
             })
         }
     }
+    const handleDelete = () => {
+        setIsModalVisible(true)
+    }
+
+    const handleConfirmDelete = async () => {
+        try {
+            await deleteData(`/Booking/${bookingId}`)
+            setSnackbar({
+                message: 'Ticket deleted successfully!',
+                type: 'success',
+                visible: true,
+            })
+            setIsModalVisible(false)
+            navigate(`/bookings`)
+        } catch (error) {
+            console.error('Error deleting ticket:', error)
+            setSnackbar({
+                message: 'Failed to delete ticket.',
+                type: 'error',
+                visible: true,
+            })
+        }
+    }
+
+    const handleCancelDelete = () => {
+        setIsModalVisible(false)
+    }
     const handleCloseSnackbar = () => {
         setSnackbar((prev) => ({ ...prev, visible: false }))
     }
@@ -104,6 +132,14 @@ const EditBookingPage: React.FC = () => {
                 setDateRange={setDateRange}
                 selectedUsers={selectedUsers}
                 setSelectedUser={setSelectedUsers}
+            />
+            <button className="btn-primary ml-2" onClick={() => handleDelete()}>
+                Delete
+            </button>
+            <DeleteModal
+                isVisible={isModalVisible}
+                onCancel={handleCancelDelete}
+                onDelete={handleConfirmDelete}
             />
             {snackbar.visible && (
                 <Snackbar
