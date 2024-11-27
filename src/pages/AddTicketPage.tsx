@@ -23,10 +23,12 @@ const AddTicketPage: React.FC = () => {
         const body = {
             title: ticket.title,
             category: ticket.category,
-            // participantId: 2,
-            startDate: ticket.startDate,
-            endDate: ticket.endDate,
-            AssignedUserId: ticket.assignedUser[0],
+
+            startDate: new Date('10.01.2025').toISOString(),
+            endDate: new Date('10.01.2025').toISOString(),
+
+            AssignedUserId: accounts[0]?.localAccountId,
+
             bookingId: bookingId,
             price: ticket.price,
             purchasedDate: ticket.purchasedDate,

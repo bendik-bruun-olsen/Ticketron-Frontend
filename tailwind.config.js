@@ -50,7 +50,7 @@ module.exports = {
                 },
 
                 '.date-padding ': {
-                    '@apply padding-left: 5rem !important': {},
+                    '@apply pl-20 !important': {},
                 },
 
                 '.btn-primary': {

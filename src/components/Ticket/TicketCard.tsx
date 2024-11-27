@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 interface TicketCardProps {
     imageUrl: string
@@ -23,11 +23,11 @@ const TicketCard: React.FC<TicketCardProps> = ({
     id,
 }) => {
     const navigate = useNavigate()
-
+    const { bookingId } = useParams<{ bookingId: string }>()
     return (
         <div
             className="flex items-center p-4 bg-white rounded-lg shadow-md border border-gray-200"
-            onClick={() => navigate(`./ticket/${id}`)}
+            onClick={() => navigate(`/booking/${bookingId}/ticket/${id}`)}
         >
             <div className="w-16 h-16 overflow-hidden rounded-lg">
                 <img
@@ -41,7 +41,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
                 <h3 className="font-bold text-sm">{title}</h3>
                 <p className="text-gray-600 text-sm">{type}</p>
                 <p className="text-gray-600 text-sm">{username}</p>
-                <div className="flex justify-between text-gray-500 text-xs mt-2">
+                <div className="date-padding  text-black-500 text-xs mt-2">
                     <p>Fra {startDate}</p>
                     <p>Til {endDate}</p>
                 </div>

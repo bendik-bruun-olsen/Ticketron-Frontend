@@ -59,6 +59,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault()
+
         const formData = new FormData(e.target as HTMLFormElement)
         const formProps = Object.fromEntries(formData)
         const { title, category, price, purchasedDate, purchasedBy } =
@@ -75,6 +76,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
             bookingId,
             assignedUser: selected.map((user) => user.id),
         }
+
 
         if (selectedFile) {
             onSubmit({ ...ticket, selectedFile })
@@ -98,14 +100,17 @@ const TicketForm: React.FC<TicketFormProps> = ({
     return (
         <form
             className="flex flex-col gap-4 p-4 bg-white
-             rounded-lg shadow-md"
+        rounded-lg shadow-md"
             onSubmit={handleSubmit}
         >
             <input
                 required
                 className="input-contained"
                 name="title"
-                placeholder="Ticket Name"
+
+                placeholder="Ticket Title"
+
+
                 defaultValue={initialData?.title}
             />
             <div className="relative">
