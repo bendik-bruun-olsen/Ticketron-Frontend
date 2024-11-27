@@ -46,9 +46,7 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const data = await fetchData(
-                    `/Booking/user/${accounts[0]?.localAccountId}`
-                )
+                const data = await fetchData(`/Booking`)
                 const filteredBookings = data
                     .filter(
                         (booking: any) =>
