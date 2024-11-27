@@ -48,6 +48,7 @@ const EditTicketPage: React.FC = () => {
             price: ticket.price,
             purchasedDate: ticket.purchasedDate,
             purchasedBy: ticket.purchasedBy?.name,
+            imageUrl: ticket.imageUrl,
         }
         try {
             const newTicket = await putData(`/Ticket/update`, body)
