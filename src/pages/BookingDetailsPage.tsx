@@ -35,6 +35,7 @@ const BookingDetailsPage: React.FC = () => {
                 const data = await fetchData(`/Ticket/booking/${bookingId}`)
                 setTickets(data)
                 setFilteredTickets(data)
+
                 setSnackbar({
                     message: 'Tickets fetched successfully!',
                     type: 'success',
@@ -77,7 +78,7 @@ const BookingDetailsPage: React.FC = () => {
 
     return (
         <div className="p-4 bg-gray-100 min-h-screen relative">
-            <SearchFilter></SearchFilter>
+            <SearchFilter />
             <div className="flex flex-row items-baseline">
                 <h2 className="text-2xl font-bold">Tickets</h2>
                 <Dropdown inline label="Category">
@@ -97,23 +98,31 @@ const BookingDetailsPage: React.FC = () => {
             </div>
 
             <div className="mt-5 space-y-4">
-                {filteredTickets.map((ticket, index) => (
-                    <TicketCard
-                        key={index}
-                        id={ticket.id}
-                        imageUrl={
-                            ticket.imageUrl || 'https://via.placeholder.com/64'
-                        }
-                        title={ticket.title}
-                        type={ticket.category}
-                        username={ticket.name}
-                        price={`${ticket.price} kr`}
-                        startDate={new Date(
-                            ticket.startDate
-                        ).toLocaleDateString()}
-                        endDate={new Date(ticket.endDate).toLocaleDateString()}
-                    />
-                ))}
+                {filteredTickets.map((ticket, index) => {
+                    return (
+                        <TicketCard
+                            key={index}
+                            id={ticket.id}
+                            imageUrl={
+                                ticket.imageUrl ||
+                                'https://via.placeholder.com/64'
+                            }
+                            title={ticket.title}
+                            type={ticket.category}
+                            username={
+                                ticket.assignedUser?.name ||
+                                ticket.assignedUnregisteredUser?.name
+                            }
+                            price={`${ticket.price} kr`}
+                            startDate={new Date(
+                                ticket.startDate
+                            ).toLocaleDateString()}
+                            endDate={new Date(
+                                ticket.endDate
+                            ).toLocaleDateString()}
+                        />
+                    )
+                })}
                 <button
                     className="fab bottom-6 right-6"
                     onClick={goToAddTicketPage}

@@ -21,13 +21,10 @@ const AddTicketPage: React.FC = () => {
         visible: false,
     })
 
-    // const newTicket.Id = 1
-
     const handleAddTicket = async (ticket: Ticket) => {
         const body = {
             title: ticket.title,
             category: ticket.category,
-            // participantId: 2,
             startDate: new Date('10.01.2025').toISOString(),
             endDate: new Date('10.01.2025').toISOString(),
 

@@ -67,6 +67,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault()
+
         if (selectedFile) {
             onSubmit(formData, selectedFile)
         }
@@ -101,14 +102,14 @@ const TicketForm: React.FC<TicketFormProps> = ({
     return (
         <form
             className="flex flex-col gap-4 p-4 bg-white
-             rounded-lg shadow-md"
+        rounded-lg shadow-md"
             onSubmit={handleSubmit}
         >
             <input
                 required
                 className="input-contained"
-                name="ticketName"
-                placeholder="Ticket Name"
+                name="title"
+                placeholder="Ticket Title"
                 defaultValue={initialData?.title}
                 onChange={handleInputChange}
             />
