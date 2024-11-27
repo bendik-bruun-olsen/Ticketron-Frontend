@@ -86,7 +86,7 @@ export const postData = async (
 
 export const putData = async (
     url: string,
-    body: Record<string, string | number | undefined | Date>
+    body: Record<string, string | number | undefined | Date | Array<string>>
 ) => {
     try {
         const account = msalInstance.getActiveAccount()

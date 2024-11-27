@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import DaterangePicker from '../Datepicker'
-import { Button, Dropdown, DropdownItem } from 'flowbite-react'
-import { categoriesArray } from '../../utils'
+import { categoriesArray, fetchData } from '../../utils'
+import { useParams } from 'react-router-dom'
+import { Autocomplete } from '../Autocomplete'
+import { User, Group, Ticket } from '../types'
 
 interface TicketFormProps {
     mode: 'add' | 'edit'
-    initialData?: {
-        title: string
-        category: string
-        userName: string
-        startDate: string
-        endDate: string
-        price: string
-        purchasedBy: string
-        purchasedDate: string
-    }
+    initialData?: Ticket
     onSubmit: (data: any) => void
 }
 
@@ -23,9 +16,10 @@ const TicketForm: React.FC<TicketFormProps> = ({
     initialData,
     onSubmit,
 }) => {
-    const [isFormEdited, setIsFormEdited] = useState(false)
+    const { bookingId } = useParams<{ bookingId: string }>()
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
+    const [options, setOptions] = useState<any>([])
 
     const [dateRange, setDateRange] = useState<{
         startDate: Date | null
@@ -35,16 +29,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
         endDate: new Date(),
     })
 
-    const [formData, setFormData] = useState({
-        title: '',
-        category: '',
-        userName: '',
-        startDate: '',
-        endDate: '',
-        price: '',
-        purchasedBy: '',
-        purchasedDate: '',
-    })
+    const [selected, setSelected] = useState<(User | Group)[]>([])
 
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
@@ -53,11 +38,18 @@ const TicketForm: React.FC<TicketFormProps> = ({
     const toggleDropdown = () => setDropdownOpen((prev) => !prev)
 
     useEffect(() => {
+        const fetchOptions = async () => {
+            try {
+                const data = await fetchData(`/booking/${bookingId}`)
+                setOptions([...data.users, data.createdBy])
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchOptions()
+        console.log(initialData)
         if (initialData) {
-            setFormData({
-                ...formData,
-                ...initialData,
-            })
+            setSelected([initialData.assignedUser])
             setDateRange({
                 startDate: new Date(initialData.startDate || ''),
                 endDate: new Date(initialData.endDate || ''),
@@ -67,20 +59,29 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
     const handleSubmit = (e: React.FormEvent): void => {
         e.preventDefault()
+        const formData = new FormData(e.target as HTMLFormElement)
+        const formProps = Object.fromEntries(formData)
+        const { title, category, price, purchasedDate, purchasedBy } =
+            formProps as HTMLFormElement
+
+        const ticket = {
+            title,
+            category: selectedCategory,
+            price,
+            purchasedDate,
+            purchasedBy,
+            startDate: dateRange.startDate?.toISOString(),
+            endDate: dateRange.endDate?.toISOString(),
+            bookingId,
+            assignedUser: selected.map((user) => user.id),
+        }
+
         if (selectedFile) {
-            onSubmit(formData, selectedFile)
+            onSubmit({ ...ticket, selectedFile })
         }
         if (!selectedFile) {
-            onSubmit(formData)
+            onSubmit(ticket)
         }
-    }
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setIsFormEdited(true)
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        })
     }
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,10 +93,6 @@ const TicketForm: React.FC<TicketFormProps> = ({
     const handleCategorySelect = (category: string) => {
         setSelectedCategory(category)
         setDropdownOpen(false)
-        setFormData({
-            ...formData,
-            category,
-        })
     }
 
     return (
@@ -107,10 +104,9 @@ const TicketForm: React.FC<TicketFormProps> = ({
             <input
                 required
                 className="input-contained"
-                name="ticketName"
+                name="title"
                 placeholder="Ticket Name"
                 defaultValue={initialData?.title}
-                onChange={handleInputChange}
             />
             <div className="relative">
                 <input
@@ -154,13 +150,12 @@ const TicketForm: React.FC<TicketFormProps> = ({
                     </ul>
                 )}
             </div>
-            <input
-                required
-                className="input-contained"
-                name="userName"
-                placeholder="User Name"
-                defaultValue={initialData?.userName}
-                onChange={handleInputChange}
+            <Autocomplete
+                field={'name'}
+                selected={selected}
+                setSelected={setSelected}
+                options={options}
+                multiple={false}
             />
             <DaterangePicker
                 dateRange={dateRange}
@@ -172,21 +167,18 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 name="price"
                 placeholder="Price"
                 defaultValue={initialData?.price}
-                onChange={handleInputChange}
             />
             <input
                 className="input-contained"
                 name="purchasedBy"
                 placeholder="Purchased By (Optional)"
-                defaultValue={initialData?.purchasedBy}
-                onChange={handleInputChange}
+                defaultValue={initialData?.purchasedBy?.name}
             />
             <input
                 className="input-contained"
                 name="purchasedDate"
                 placeholder="Purchased Date (Optional)"
                 defaultValue={initialData?.purchasedDate}
-                onChange={handleInputChange}
             />
 
             <button type="submit" className="btn-primary">

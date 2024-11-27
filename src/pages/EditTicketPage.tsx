@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import TicketForm from '../components/Ticket/TicketForm'
 import { Ticket } from '../components/types'
-import { fetchData } from '../utils'
-import { useParams } from 'react-router-dom'
+import { fetchData, postData, putData } from '../utils'
+import { useNavigate, useParams } from 'react-router-dom'
 import Snackbar from '../components/Snackbar'
 
-const EditTicketPage: React.FC<{ initialData: any }> = ({ initialData }) => {
-    const { bookingId } = useParams<{ bookingId: string }>()
-    const [tickets, setTickets] = useState<Ticket[]>([])
-    const ticketId = useParams<{ ticketId: string }>()
+const EditTicketPage: React.FC = () => {
+    const { bookingId, ticketId } = useParams<{
+        bookingId: string
+        ticketId: string
+    }>()
+    const [tickets, setTickets] = useState<Ticket>()
 
     const [snackbar, setSnackbar] = useState<{
         message: string
@@ -20,25 +22,51 @@ const EditTicketPage: React.FC<{ initialData: any }> = ({ initialData }) => {
         visible: false,
     })
 
+    const navigate = useNavigate()
+
     useEffect(() => {
         const getTickets = async () => {
             try {
-                const data: Ticket[] = await fetchData(`/Ticket/${ticketId}`)
+                const data: Ticket = await fetchData(`/Ticket/${ticketId}`)
                 setTickets(data)
             } catch (error) {
                 console.error('Error fetching tickets:', error)
             }
         }
         getTickets()
-    }, [bookingId])
+    }, [])
 
-    const handleEditTicket = (ticketdata: any) => {
-        console.log('Adding Ticket', ticketdata)
-        setSnackbar({
-            message: 'Ticket edited successfully!',
-            type: 'success',
-            visible: true,
-        })
+    const handleEditTicket = async (ticket: Ticket) => {
+        const body = {
+            id: ticketId,
+            title: ticket.title,
+            startDate: ticket.startDate,
+            endDate: ticket.endDate,
+            AssignedUserId: ticket.assignedUser[0],
+            bookingId: bookingId,
+            category: ticket.category,
+            price: ticket.price,
+            purchasedDate: ticket.purchasedDate,
+            purchasedBy: ticket.purchasedBy?.name,
+        }
+        try {
+            const newTicket = await putData(`/Ticket/update`, body)
+            navigate(`/booking/${bookingId}/ticket/${newTicket.id}`, {
+                replace: true,
+            })
+            setSnackbar({
+                message: 'Ticket added successfully!',
+                type: 'success',
+                visible: true,
+            })
+        } catch (error) {
+            console.error(error)
+            setSnackbar({
+                message: 'Failed to update ticket.',
+                type: 'error',
+                visible: true,
+            })
+        }
     }
     const handleCloseSnackbar = () => {
         setSnackbar((prev) => ({ ...prev, visible: false }))
@@ -49,7 +77,7 @@ const EditTicketPage: React.FC<{ initialData: any }> = ({ initialData }) => {
             <TicketForm
                 mode="edit"
                 onSubmit={handleEditTicket}
-                initialData={initialData}
+                initialData={tickets}
             />
             {snackbar.visible && (
                 <Snackbar

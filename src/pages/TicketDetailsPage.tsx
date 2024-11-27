@@ -56,7 +56,7 @@ const TicketDetailsPage: React.FC = () => {
     }, [bookingId, ticketId])
 
     const handleEdit = () => {
-        navigate(`./edit-ticket/${ticketId}`)
+        navigate(`./edit-ticket/`)
     }
 
     const handleDelete = () => {
@@ -96,7 +96,7 @@ const TicketDetailsPage: React.FC = () => {
 
     const {
         title,
-        user,
+        assignedUser,
         startDate,
         endDate,
         price,
@@ -116,17 +116,17 @@ const TicketDetailsPage: React.FC = () => {
                 <div className="flex flex-col gap-6">
                     <TicketDetail
                         title={'Navn'}
-                        subtitle={user}
+                        subtitle={assignedUser.name}
                         icon={<UserIcon className="size-6" />}
                     />
                     <TicketDetail
                         title={'Start Date'}
-                        subtitle={startDate}
+                        subtitle={new Date(startDate).toLocaleDateString()}
                         icon={<CalendarDaysIcon className="size-6" />}
                     />
                     <TicketDetail
                         title={'End Date'}
-                        subtitle={endDate}
+                        subtitle={new Date(endDate).toLocaleDateString()}
                         icon={<CalendarDaysIcon className="size-6" />}
                     />
                     <TicketDetail
