@@ -10,15 +10,16 @@ import Snackbar from '../components/Snackbar'
 import { Categories } from '../components/types'
 import { categoriesArray } from '../utils'
 import CategoryCard from '../components/Booking/CategoryCard'
+import { useSearchParams } from 'react-router-dom'
 
 const BookingDetailsPage: React.FC = () => {
+    const [searchParams, setSearchParams] = useSearchParams()
+    const category = searchParams.get('category')
     const { bookingId } = useParams<{ bookingId: string }>()
     const navigate = useNavigate()
     const [tickets, setTickets] = useState<any[]>([])
     const [filteredTickets, setFilteredTickets] = useState<any[]>([])
-    const [selectedCategory, setSelectedCategory] = useState<Categories | null>(
-        null
-    )
+
     const [snackbar, setSnackbar] = useState<{
         message: string
         type: 'success' | 'error' | 'info'
@@ -53,9 +54,13 @@ const BookingDetailsPage: React.FC = () => {
         fetchTickets()
     }, [bookingId])
 
-    const filterTicketsByCategory = (category: Categories | null) => {
-        setSelectedCategory(category)
-        if (category) {
+    useEffect(() => {
+        filterTicketsByCategory(category)
+    }, [])
+
+    const filterTicketsByCategory = (newCategory) => {
+        setSearchParams({ category: newCategory })
+        if (newCategory) {
             const filtered = tickets.filter(
                 (ticket) => ticket.category === category
             )
@@ -80,15 +85,19 @@ const BookingDetailsPage: React.FC = () => {
         <div className="p-4 bg-gray-100 min-h-screen relative">
             <SearchFilter />
             <div className="flex flex-row items-baseline">
-                <h2 className="text-2xl font-bold">Tickets</h2>
-                <Dropdown inline label="Category">
+                <h2 className="text-2xl font-bold">
+                    {category !== 'null' ? category : 'All'}{' '}
+                </h2>
+                <Dropdown inline>
                     <Dropdown.Item
+                        key={'all'}
                         onClick={() => filterTicketsByCategory(null)}
                     >
                         All
                     </Dropdown.Item>
                     {categoriesArray.map((category) => (
                         <Dropdown.Item
+                            key={category}
                             onClick={() => filterTicketsByCategory(category)}
                         >
                             {category}

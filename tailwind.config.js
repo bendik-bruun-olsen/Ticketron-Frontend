@@ -53,7 +53,7 @@ module.exports = {
                 },
 
                 '.date-padding ': {
-                    '@apply pl-20 !important': {},
+                    '@apply pl-5 !important': {},
                 },
 
                 '.btn-primary': {

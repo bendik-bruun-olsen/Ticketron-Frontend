@@ -84,11 +84,15 @@ function BookingsOverviewPage() {
             const tickets = obj[category]
             const maxDate = findMaxDate(tickets)
             const minDate = findMinDate(tickets)
+            const participants = tickets.reduce(
+                (acc, ticket) => acc.add(ticket.assignedUser),
+                new Set()
+            )
             return (
                 <CategoryCard
                     key={category}
                     categoryTitle={category}
-                    participants={tickets.participants}
+                    participants={participants.length}
                     amountOfTickets={tickets.length}
                     endDate={new Date(maxDate).toLocaleDateString()}
                     startDate={new Date(minDate).toLocaleDateString()}
@@ -148,7 +152,25 @@ function BookingsOverviewPage() {
                             </span>
                         </div>
                         <div className="mt-5 flex flex-col gap-2">
-                            {createCategories()}
+                            {tickets.length > 5
+                                ? createCategories()
+                                : tickets?.map((ticket) => (
+                                      <TicketCard
+                                          key={ticket.id}
+                                          title={ticket.title}
+                                          username={ticket.assignedUser?.name}
+                                          imageUrl="https://placehold.co/50x50"
+                                          price={ticket.price}
+                                          type={ticket.category}
+                                          startDate={new Date(
+                                              ticket.startDate
+                                          ).toLocaleDateString()}
+                                          endDate={new Date(
+                                              ticket.endDate
+                                          ).toLocaleDateString()}
+                                          id={ticket.id}
+                                      />
+                                  ))}
                         </div>
                     </div>
                     <div className="flex justify-end mt-4 mr-4">

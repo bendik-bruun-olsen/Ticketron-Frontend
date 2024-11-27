@@ -21,7 +21,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     return (
         <div
             className="flex items-center p-4 bg-white rounded-lg shadow-md border border-gray-200"
-            onClick={() => navigate(`./tickets#${categoryTitle}`)}
+            onClick={() => navigate(`./tickets?category=${categoryTitle}`)}
         >
             <div className="flex-grow pl-4">
                 <h3 className="font-bold text-sm">{categoryTitle}</h3>
