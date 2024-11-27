@@ -165,3 +165,35 @@ export const categoriesArray = [
     'Restaurant',
     'Hotel',
 ] as const
+
+export const deleteData = async (url: string): Promise<void> => {
+    try {
+        const account = msalInstance.getActiveAccount()
+        if (!account) {
+            throw Error(
+                'No active account! Verify a user has been signed in and setActiveAccount has been called.'
+            )
+        }
+        const targetUrl = `${import.meta.env.VITE_API_URL}${url}`
+        const response = await msalInstance.acquireTokenSilent({
+            ...loginRequest,
+            account: account,
+        })
+        const token = `Bearer ${response.accessToken}`
+
+        const options = {
+            method: 'DELETE',
+            headers: {
+                Authorization: token,
+            },
+        }
+        const result = await fetch(targetUrl, options)
+        if (!result.ok) {
+            throw new Error('Failed to delete data ${result.statusText}')
+        }
+        console.log('Deleted successfully:', result.status)
+    } catch (error) {
+        console.log('Error during deletion', error)
+        throw new Error('Failed to delete data')
+    }
+}
