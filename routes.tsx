@@ -128,7 +128,6 @@ const routes = [
             </ProtectedRoute>
         ),
     },
-
     {
         path: Paths.TICKET_DETAILS,
         element: (
