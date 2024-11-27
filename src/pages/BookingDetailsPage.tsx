@@ -105,7 +105,7 @@ const BookingDetailsPage: React.FC = () => {
                             ticket.imageUrl || 'https://via.placeholder.com/64'
                         }
                         title={ticket.title}
-                        type={ticket.type}
+                        type={ticket.category}
                         username={ticket.name}
                         price={`${ticket.price} kr`}
                         startDate={new Date(
