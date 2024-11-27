@@ -39,25 +39,25 @@ const BookingForm = ({
                 startDate: new Date(booking.startDate),
                 endDate: new Date(booking.endDate),
             })
-            setSelectedUser(booking.users)
+            setSelectedUser([...booking.users, booking.createdBy])
         }
     }, [])
 
     const [options, setOptions] = useState<Array<User> | null>(null)
+    const fetchOptions = async () => {
+        try {
+            const data = await fetchData(`/user`)
+            const unregUssers = await fetchData(
+                `/UnregUser/user/${accounts[0].localAccountId}`
+            )
+            const groups = await fetchData(`/group`)
+            setOptions([...data, ...unregUssers, ...groups])
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
-        const fetchOptions = async () => {
-            try {
-                const data = await fetchData(`/user`)
-                const unregUssers = await fetchData(
-                    `/UnregUser/user/${accounts[0].localAccountId}`
-                )
-                const groups = await fetchData(`/group`)
-                setOptions([...data, ...unregUssers, ...groups])
-            } catch (error) {
-                console.log(error)
-            }
-        }
         fetchOptions()
     }, [])
 
@@ -84,6 +84,8 @@ const BookingForm = ({
                     selected={selectedUsers}
                     setSelected={setSelectedUser}
                     options={options ?? []}
+                    refetchOptions={fetchOptions}
+                    addNewUser={true}
                 />
             </label>
             <button className="btn-primary ml-2" type="submit">

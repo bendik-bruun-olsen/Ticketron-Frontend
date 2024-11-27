@@ -2,7 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { TextInput } from 'flowbite-react'
 import { fetchData, postData } from '../utils'
 import { Group, User } from './types'
-import { PlusIcon } from '@heroicons/react/24/solid'
+import { PlusIcon, UserGroupIcon, UserIcon } from '@heroicons/react/24/solid'
+import { UserMinusIcon } from '@heroicons/react/24/outline'
 
 interface Props {
     field: string
@@ -11,6 +12,8 @@ interface Props {
     multiple?: boolean
     options: Array<User>
     placeholder?: string
+    refetchOptions?: () => void
+    addNewUser?: boolean
 }
 
 export const Autocomplete = ({
@@ -20,6 +23,8 @@ export const Autocomplete = ({
     multiple = true,
     options,
     placeholder = 'Select user',
+    refetchOptions,
+    addNewUser = false,
 }: Props) => {
     const [filteredSuggestions, setFilteredSuggestions] =
         useState<Array<User> | null>(null)
@@ -28,11 +33,13 @@ export const Autocomplete = ({
 
     const handleInputChange = (e) => {
         setUserInput(e.target.value)
-        if (userInput.length !== 0) {
+        if (userInput.length !== 0 || userInput !== '') {
             setFilteredSuggestions(
                 options.filter(
                     (option) =>
-                        option.name?.includes(e.target.value) &&
+                        option.name
+                            ?.toLocaleLowerCase()
+                            .includes(e.target.value.toLocaleLowerCase()) &&
                         !selected.includes(option)
                 )
             )
@@ -55,11 +62,12 @@ export const Autocomplete = ({
                         filteredSuggestions.filter((s) => s !== suggestion)
                     )
                 }
+                setShowSuggestions(false)
             }
         } else {
             setSelected([suggestion])
+            setShowSuggestions(false)
         }
-        setShowSuggestions(false)
     }
 
     const handleRemove = (suggestion) => {
@@ -69,6 +77,7 @@ export const Autocomplete = ({
     const handleAddUnregisterdUser = async () => {
         const newUser = await postData('/UnregUser/create', { name: userInput })
         handleSelect(newUser)
+        if (refetchOptions) refetchOptions()
     }
 
     return (
@@ -76,6 +85,7 @@ export const Autocomplete = ({
             <div className="flex gap-2 mb-2 flex-wrap">
                 {selected.map((s) => (
                     <div
+                        key={s.id}
                         className="chip flex gap-2"
                         onClick={() => handleRemove(s)}
                     >
@@ -95,7 +105,7 @@ export const Autocomplete = ({
                 <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
                     {filteredSuggestions.map((suggestion, index) => (
                         <div
-                            className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex gap-2 items-center "
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex gap-2 items-center width-full"
                             key={index}
                             onClick={() => handleSelect(suggestion)}
                             onBlur={() => setShowSuggestions(false)}
@@ -113,10 +123,20 @@ export const Autocomplete = ({
                             <label htmlFor={suggestion[field]}>
                                 {suggestion[field]}
                             </label>
+                            <div className="justify-self-end">
+                                {'email' in suggestion ? (
+                                    <UserIcon className="size-4" />
+                                ) : 'users' in suggestion ? (
+                                    <UserGroupIcon className="size-4" />
+                                ) : (
+                                    <UserMinusIcon className="size-4" />
+                                )}
+                            </div>
                         </div>
                     ))}
-                    {userInput.length !== 0 && (
+                    {userInput.length !== 0 && addNewUser && (
                         <div
+                            key="newUser"
                             className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex gap-2 items-center "
                             onClick={handleAddUnregisterdUser}
                         >
