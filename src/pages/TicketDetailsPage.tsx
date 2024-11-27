@@ -10,8 +10,7 @@ import {
 import TicketDetail from '../components/Ticket/TicketDetail'
 import { useNavigate, useParams } from 'react-router-dom'
 import DeleteModal from '../components/DeleteModal'
-import { fetchData } from '../utils'
-// import {deleteData} from '../utils'
+import { deleteData, fetchData } from '../utils'
 import Snackbar from '../components/Snackbar'
 
 const TicketDetailsPage: React.FC = () => {
@@ -36,7 +35,7 @@ const TicketDetailsPage: React.FC = () => {
         const getTicketDetails = async () => {
             if (!ticketId) return
             try {
-                const data = await fetchData(`/api/Ticket/${ticketId}`)
+                const data = await fetchData(`/Ticket/${ticketId}`)
                 setTicketDetails(data)
                 setSnackbar({
                     message: 'Ticket details fetched successfully!',
@@ -66,7 +65,7 @@ const TicketDetailsPage: React.FC = () => {
 
     const handleConfirmDelete = async () => {
         try {
-            // await deleteData(`/tickets/${ticketId}`)
+            await deleteData(`/tickets/${ticketId}`)
             setSnackbar({
                 message: 'Ticket deleted successfully!',
                 type: 'success',

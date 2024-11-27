@@ -104,16 +104,14 @@ function BookingsOverviewPage() {
                         </div>
                         <div className="mt-5">
                             {tickets?.map((ticket) => (
-                                <TicketCard
+                                <CategoryCard
                                     key={ticket.id}
-                                    title={ticket.title}
-                                    username={ticket.assignedUser?.name}
                                     imageUrl="https://placehold.co/50x50"
-                                    // categoryTitle={ticket.category}
-                                    // participants={3}
-                                    // amountOfTickets={5}
-                                    price="500"
-                                    type="plane"
+                                    categoryTitle={ticket.category}
+                                    participants={3}
+                                    amountOfTickets={5}
+                                    // price="500"
+                                    // type="plane"
                                     startDate={new Date(
                                         ticket.startDate
                                     ).toLocaleDateString()}

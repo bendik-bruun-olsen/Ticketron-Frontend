@@ -1,6 +1,7 @@
 import { useMsal } from '@azure/msal-react'
 import { loginRequest } from './authConfig'
 import { msalInstance } from './main'
+import { Categories } from './components/types'
 
 const API_KEY = import.meta.env.VITE_PEXELS_API_KEY
 const BASE_URL = 'https://api.pexels.com/v1/search'
@@ -144,5 +145,55 @@ export const getPicture = async (
         return photos.photos[0]?.src.medium
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const categoriesArray = [
+    'Plane',
+    'Concert',
+    'Train',
+    'Bus',
+    'Boat',
+    'Other',
+    'ThemeParks',
+    'Cinema',
+    'Theatre',
+    'Museum',
+    'Zoo',
+    'Festival',
+    'Sports',
+    'Restaurant',
+    'Hotel',
+] as const
+
+export const deleteData = async (url: string): Promise<void> => {
+    try {
+        const account = msalInstance.getActiveAccount()
+        if (!account) {
+            throw Error(
+                'No active account! Verify a user has been signed in and setActiveAccount has been called.'
+            )
+        }
+        const targetUrl = `${import.meta.env.VITE_API_URL}${url}`
+        const response = await msalInstance.acquireTokenSilent({
+            ...loginRequest,
+            account: account,
+        })
+        const token = `Bearer ${response.accessToken}`
+
+        const options = {
+            method: 'DELETE',
+            headers: {
+                Authorization: token,
+            },
+        }
+        const result = await fetch(targetUrl, options)
+        if (!result.ok) {
+            throw new Error('Failed to delete data ${result.statusText}')
+        }
+        console.log('Deleted successfully:', result.status)
+    } catch (error) {
+        console.log('Error during deletion', error)
+        throw new Error('Failed to delete data')
     }
 }
