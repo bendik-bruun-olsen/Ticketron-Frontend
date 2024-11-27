@@ -23,7 +23,6 @@ const AddTicketPage: React.FC = () => {
         const body = {
             title: ticket.title,
             category: ticket.category,
-            // participantId: 2,
             startDate: ticket.startDate,
             endDate: ticket.endDate,
             AssignedUserId: ticket.assignedUser[0],
