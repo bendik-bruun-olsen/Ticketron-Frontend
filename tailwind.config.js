@@ -44,13 +44,16 @@ module.exports = {
                 '.input-contained-icon': {
                     '@apply input-contained pl-10 !important': {},
                 },
-
+                '.chip': {
+                    '@apply bg-red-200 rounded-xl max-w-fit pr-3 pl-3 pt-1 pb-1':
+                        {},
+                },
                 '.red-icon': {
                     '@apply size-6 text-red-700': {},
                 },
 
                 '.date-padding ': {
-                    '@apply padding-left: 5rem !important': {},
+                    '@apply pl-20 !important': {},
                 },
 
                 '.btn-primary': {

@@ -97,7 +97,7 @@ const routes = [
         element: (
             <ProtectedRoute>
                 <Navbar title={'Edit ticket'} leftAction={<ReturnButton />} />
-                <EditTicketPage initialData={undefined} />
+                <EditTicketPage />
             </ProtectedRoute>
         ),
     },

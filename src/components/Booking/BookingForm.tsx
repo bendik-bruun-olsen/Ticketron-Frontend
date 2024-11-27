@@ -3,6 +3,7 @@ import DaterangePicker from '../Datepicker'
 import { Booking, Group, User } from '../types'
 import { Autocomplete } from '../Autocomplete'
 import { fetchData } from '../../utils'
+import { useMsal } from '@azure/msal-react'
 
 interface FormProps {
     handleSubmit: (e: React.FormEvent) => Promise<void>
@@ -29,6 +30,8 @@ const BookingForm = ({
     setSelectedUser,
     selectedUsers,
 }: FormProps): JSX.Element => {
+    const { instance, accounts } = useMsal()
+
     useEffect(() => {
         if (!booking) return
         else {
@@ -46,7 +49,11 @@ const BookingForm = ({
         const fetchOptions = async () => {
             try {
                 const data = await fetchData(`/user`)
-                setOptions(data)
+                const unregUssers = await fetchData(
+                    `/UnregUser/user/${accounts[0].localAccountId}`
+                )
+                const groups = await fetchData(`/group`)
+                setOptions([...data, ...unregUssers, ...groups])
             } catch (error) {
                 console.log(error)
             }
