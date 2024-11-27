@@ -3,6 +3,7 @@ import DaterangePicker from '../Datepicker'
 import { Booking, Group, User } from '../types'
 import { Autocomplete } from '../Autocomplete'
 import { fetchData } from '../../utils'
+import { useMsal } from '@azure/msal-react'
 
 interface FormProps {
     handleSubmit: (e: React.FormEvent) => Promise<void>
@@ -29,6 +30,8 @@ const BookingForm = ({
     setSelectedUser,
     selectedUsers,
 }: FormProps): JSX.Element => {
+    const { instance, accounts } = useMsal()
+
     useEffect(() => {
         if (!booking) return
         else {
@@ -36,21 +39,25 @@ const BookingForm = ({
                 startDate: new Date(booking.startDate),
                 endDate: new Date(booking.endDate),
             })
-            setSelectedUser(booking.users)
+            setSelectedUser([...booking.users, booking.createdBy])
         }
     }, [])
 
     const [options, setOptions] = useState<Array<User> | null>(null)
+    const fetchOptions = async () => {
+        try {
+            const data = await fetchData(`/user`)
+            const unregUssers = await fetchData(
+                `/UnregUser/user/${accounts[0].localAccountId}`
+            )
+            const groups = await fetchData(`/group`)
+            setOptions([...data, ...unregUssers, ...groups])
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
-        const fetchOptions = async () => {
-            try {
-                const data = await fetchData(`/user`)
-                setOptions(data)
-            } catch (error) {
-                console.log(error)
-            }
-        }
         fetchOptions()
     }, [])
 
@@ -77,6 +84,8 @@ const BookingForm = ({
                     selected={selectedUsers}
                     setSelected={setSelectedUser}
                     options={options ?? []}
+                    refetchOptions={fetchOptions}
+                    addNewUser={true}
                 />
             </label>
             <button className="btn-primary ml-2" type="submit">

@@ -44,7 +44,10 @@ module.exports = {
                 '.input-contained-icon': {
                     '@apply input-contained pl-10 !important': {},
                 },
-
+                '.chip': {
+                    '@apply bg-red-200 rounded-xl max-w-fit pr-3 pl-3 pt-1 pb-1':
+                        {},
+                },
                 '.red-icon': {
                     '@apply size-6 text-red-700': {},
                 },
