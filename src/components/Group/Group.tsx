@@ -13,7 +13,6 @@ const GroupComponent: React.FC<GroupProps> = ({ name, users }) => {
     const handleClick = () => {
         navigate('/new-group')
     }
-    console.log('GroupComponent', users)
     return (
         <div className="rounded-xl bg-red-200 w-60 p-4">
             <h1 className="font-bold text-xl">{name}</h1>

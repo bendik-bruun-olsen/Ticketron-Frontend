@@ -18,11 +18,16 @@ const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
     const navigate = useNavigate()
     const [tickets, setTickets] = useState<any[]>([])
+    const [search, setSearch] = useState('')
 
     // This can be optimised with useMemo, but isn't strictly necessary
-    const filteredTickets = category
-        ? tickets.filter((ticket) => ticket.category === category)
-        : tickets
+    const filteredTickets = tickets.filter((ticket) => {
+        const fullTicketAsString = JSON.stringify(ticket)
+        return (
+            fullTicketAsString.toLowerCase().includes(search.toLowerCase()) &&
+            (category ? ticket.category === category : true)
+        )
+    })
 
     const [snackbar, setSnackbar] = useState<{
         message: string
@@ -72,10 +77,10 @@ const BookingDetailsPage: React.FC = () => {
 
     return (
         <div className="p-4 min-h-screen relative">
-            <SearchFilter />
+            <SearchFilter setSearch={setSearch} />
             <div className="flex flex-row items-baseline">
                 <h2 className="text-2xl font-bold">
-                    {category !== 'null' ? category : 'All'}{' '}
+                    {category !== null ? category : 'All'}{' '}
                 </h2>
                 <Dropdown inline>
                     <Dropdown.Item

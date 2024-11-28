@@ -52,7 +52,6 @@ const TicketForm: React.FC<TicketFormProps> = ({
             }
         }
         fetchOptions()
-        console.log(initialData)
         if (initialData) {
             setSelected([
                 initialData.assignedUser ?? initialData.assignedUnregUser,

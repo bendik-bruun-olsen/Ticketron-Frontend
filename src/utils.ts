@@ -25,7 +25,6 @@ export const fetchData = async (url: string) => {
             )
         }
         const targetUrl = `${import.meta.env.VITE_API_URL}${url}`
-        console.log(targetUrl)
         const response = await msalInstance.acquireTokenSilent({
             ...loginRequest,
             account: account,
@@ -228,9 +227,8 @@ export const deleteData = async (url: string): Promise<void> => {
         if (!result.ok) {
             throw new Error('Failed to delete data ${result.statusText}')
         }
-        console.log('Deleted successfully:', result.status)
     } catch (error) {
-        console.log('Error during deletion', error)
+        console.error('Error during deletion', error)
         throw new Error('Failed to delete data')
     }
 }

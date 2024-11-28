@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 
-const SearchFilter = () => {
+const SearchFilter = ({ setSearch }) => {
     return (
         <div className=" p-4 flex flex-col gap-10">
             <div className=" relative mb-4">
@@ -10,6 +10,7 @@ const SearchFilter = () => {
                     type="text"
                     placeholder="Search..."
                     className="w-full pl-10 px-4 py-2 rounded-full bg-gray-200 text-gray-600"
+                    onChange={(e) => setSearch(e.target.value)}
                 />
             </div>
         </div>
