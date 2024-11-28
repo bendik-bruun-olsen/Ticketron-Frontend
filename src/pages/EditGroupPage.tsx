@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Autocomplete } from '../components/Autocomplete'
 import { User } from '../components/types'
 import { fetchData, postData } from '../utils'
+import Snackbar from '../components/Snackbar'
 
 const EditGroupPage: React.FC = () => {
     const navigate = useNavigate()
@@ -15,6 +16,15 @@ const EditGroupPage: React.FC = () => {
         setGroupName(e.target.value)
     }
     const [options, setOptions] = useState<Array<User> | null>(null)
+    const [snackbar, setSnackbar] = useState<{
+        message: string
+        type: 'success' | 'error' | 'info'
+        visible: boolean
+    }>({
+        message: '',
+        type: 'info',
+        visible: false,
+    })
 
     useEffect(() => {
         const fetchGroupDetails = async () => {
@@ -24,6 +34,11 @@ const EditGroupPage: React.FC = () => {
                 setSelectedUsers(group.users)
             } catch (error) {
                 console.error('error fetching group details', error)
+                setSnackbar({
+                    message: 'Failed to fetch group details.',
+                    type: 'error',
+                    visible: true,
+                })
             }
         }
         if (groupId) fetchGroupDetails()
@@ -36,13 +51,23 @@ const EditGroupPage: React.FC = () => {
                 setOptions(data)
             } catch (error) {
                 console.log(error)
+                setSnackbar({
+                    message: 'Failed to fetch user options.',
+                    type: 'error',
+                    visible: true,
+                })
             }
         }
         fetchUserOptions()
     }, [])
     const handleSaveGroup = async () => {
         if (!groupName.trim() || selectedUsers.length === 0) {
-            alert('Please provide a group name and add at least one member.')
+            setSnackbar({
+                message:
+                    'Please provide a group name and add at least one member.',
+                type: 'info',
+                visible: true,
+            })
             return
         }
 
@@ -53,16 +78,25 @@ const EditGroupPage: React.FC = () => {
             }
 
             const result = await postData('/Group/update', data)
+            setSnackbar({
+                message: 'Group updated successfully!',
+                type: 'success',
+                visible: true,
+            })
 
-            console.log('updated group:', result)
             navigate('/groups')
         } catch (error) {
             console.log(error)
+            setSnackbar({
+                message: 'Failed to update group.',
+                type: 'error',
+                visible: true,
+            })
         }
     }
 
-    const handleClick = () => {
-        navigate('/groups')
+    const handleCloseSnackbar = () => {
+        setSnackbar((prev) => ({ ...prev, visible: false }))
     }
 
     return (
@@ -92,8 +126,15 @@ const EditGroupPage: React.FC = () => {
                 className="btn-primary w-full self-center"
                 onClick={handleSaveGroup}
             >
-                Save
+                Update
             </button>
+            {snackbar.visible && (
+                <Snackbar
+                    message={snackbar.message}
+                    type={snackbar.type}
+                    onClose={handleCloseSnackbar}
+                />
+            )}
         </div>
     )
 }
