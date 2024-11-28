@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { UserIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Autocomplete } from '../components/Autocomplete'
-import { User } from '../components/types'
+import { UnregUser, User } from '../components/types'
 import { fetchData, postData, putData } from '../utils'
 import Snackbar from '../components/Snackbar'
+import { useMsal } from '@azure/msal-react'
 
 const EditGroupPage: React.FC = () => {
     const navigate = useNavigate()
-    const [selectedUsers, setSelectedUsers] = useState<Array<User>>([])
+    const [selectedUsers, setSelectedUsers] = useState<Array<User | UnregUser>>(
+        []
+    )
+    const { instance, accounts } = useMsal()
+
     const [groupName, setGroupName] = useState('')
     const { groupId } = useParams<{ groupId: string }>()
 
@@ -48,7 +53,11 @@ const EditGroupPage: React.FC = () => {
         const fetchUserOptions = async () => {
             try {
                 const data = await fetchData(`/user`)
-                setOptions(data)
+                const unregUssers = await fetchData(
+                    `/UnregUser/user/${accounts[0].localAccountId}`
+                )
+                const groups = await fetchData(`/group`)
+                setOptions([...data, ...unregUssers, ...groups])
             } catch (error) {
                 console.log(error)
                 setSnackbar({
@@ -75,7 +84,12 @@ const EditGroupPage: React.FC = () => {
             const data = {
                 id: groupId,
                 name: groupName,
-                userIds: selectedUsers.map((user) => user.id.toString()),
+                userIds: selectedUsers
+                    .filter((user) => user && user.hasOwnProperty('email'))
+                    .map((user) => user.id),
+                unregUserIds: selectedUsers
+                    .filter((user) => user && !user.hasOwnProperty('email'))
+                    .map((user) => user && user.id),
             }
 
             await putData('/Group/update', data)
