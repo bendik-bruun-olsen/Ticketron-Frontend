@@ -12,9 +12,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import DeleteModal from '../components/DeleteModal'
 import { deleteData, fetchData } from '../utils'
 import Snackbar from '../components/Snackbar'
+import { Ticket } from '../components/types'
 
 const TicketDetailsPage: React.FC = () => {
-    const [ticketDetails, setTicketDetails] = useState<any>(null)
+    const [ticketDetails, setTicketDetails] = useState<any>()
     const [isModalVisible, setIsModalVisible] = useState(false)
     const { bookingId, ticketId } = useParams<{
         bookingId: string
@@ -97,10 +98,11 @@ const TicketDetailsPage: React.FC = () => {
     const {
         title,
         assignedUser,
+        assignedUnregUser,
         startDate,
         endDate,
         price,
-        purchaseDate,
+        purchasedDate,
         category,
         purchasedBy,
     } = ticketDetails
@@ -116,7 +118,7 @@ const TicketDetailsPage: React.FC = () => {
                 <div className="flex flex-col gap-6">
                     <TicketDetail
                         title={'Navn'}
-                        subtitle={assignedUser.name}
+                        subtitle={assignedUser?.name || assignedUnregUser?.name}
                         icon={<UserIcon className="size-6" />}
                     />
                     <TicketDetail
@@ -144,7 +146,7 @@ const TicketDetailsPage: React.FC = () => {
                     />
                     <TicketDetail
                         title={'Purchase date'}
-                        subtitle={purchaseDate}
+                        subtitle={purchasedDate}
                         icon={<CalendarDaysIcon className="size-6" />}
                     />
                     <TicketDetail

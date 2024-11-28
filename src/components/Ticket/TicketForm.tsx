@@ -29,7 +29,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
         endDate: new Date(),
     })
 
-    const [selected, setSelected] = useState<(User | Group)[]>([])
+    const [selected, setSelected] = useState<(User | Group | undefined)[]>([])
 
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
@@ -54,7 +54,9 @@ const TicketForm: React.FC<TicketFormProps> = ({
         fetchOptions()
         console.log(initialData)
         if (initialData) {
-            setSelected([initialData.assignedUser])
+            setSelected([
+                initialData.assignedUser ?? initialData.assignedUnregUser,
+            ])
             setDateRange({
                 startDate: new Date(initialData.startDate || ''),
                 endDate: new Date(initialData.endDate || ''),
@@ -79,7 +81,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
             startDate: dateRange.startDate?.toISOString(),
             endDate: dateRange.endDate?.toISOString(),
             bookingId,
-            assignedUser: selected.map((user) => user.id),
+            assignedUser: selected[0],
         }
 
         if (selectedFile) {

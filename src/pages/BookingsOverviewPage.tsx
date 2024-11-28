@@ -85,7 +85,10 @@ function BookingsOverviewPage() {
             const maxDate = findMaxDate(tickets)
             const minDate = findMinDate(tickets)
             const participants = uniqueUsers(
-                tickets.map((ticket) => ticket.assignedUser)
+                tickets.map(
+                    (ticket: Ticket) =>
+                        ticket.assignedUser || ticket.assignedUnregUser
+                )
             )
 
             return (

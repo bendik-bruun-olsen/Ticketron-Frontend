@@ -8,8 +8,10 @@ import { useMsal } from '@azure/msal-react'
 
 interface Props {
     field: string
-    selected: Array<User | Group>
-    setSelected: React.Dispatch<React.SetStateAction<Array<User | Group>>>
+    selected: Array<User | Group | undefined>
+    setSelected: React.Dispatch<
+        React.SetStateAction<Array<User | Group | undefined>>
+    >
     multiple?: boolean
     options: Array<User>
     placeholder?: string
@@ -107,14 +109,14 @@ export const Autocomplete = ({
                     </div>
                 )}
                 {selected.map((s) => {
-                    if (multiple && user?.id === s.id) return null
+                    if (multiple && user?.id === s?.id) return null
                     return (
                         <div
-                            key={s.id}
+                            key={s?.id}
                             className="chip flex gap-2"
                             onClick={() => handleRemove(s)}
                         >
-                            {s.name} <div>x</div>
+                            {s?.name} <div>x</div>
                         </div>
                     )
                 })}

@@ -42,12 +42,16 @@ const EditTicketPage: React.FC = () => {
             title: ticket.title,
             startDate: ticket.startDate,
             endDate: ticket.endDate,
-            AssignedUserId: ticket.assignedUser[0],
             bookingId: bookingId,
             category: ticket.category,
             price: ticket.price,
             purchasedDate: ticket.purchasedDate,
             purchasedBy: ticket.purchasedBy?.name,
+        }
+        if (!ticket.assignedUser?.email) {
+            body['AssignedUnregUserId'] = ticket.assignedUser?.id
+        } else {
+            body['AssignedUserId'] = ticket.assignedUser?.id
         }
         try {
             const newTicket = await putData(`/Ticket/update`, body)
