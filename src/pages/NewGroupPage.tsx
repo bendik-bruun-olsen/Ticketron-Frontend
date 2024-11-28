@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { Autocomplete } from '../components/Autocomplete'
 import { User } from '../components/types'
 import { fetchData, postData } from '../utils'
+import { useMsal } from '@azure/msal-react'
 
 const NewGroupPage: React.FC = () => {
     const navigate = useNavigate()
     const [selectedUsers, setSelectedUsers] = useState<Array<User>>([])
     const [groupName, setGroupName] = useState('')
+    const { instance, accounts } = useMsal()
 
     const editGroupName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGroupName(e.target.value)
@@ -19,7 +21,10 @@ const NewGroupPage: React.FC = () => {
         const fetchUserOptions = async () => {
             try {
                 const data = await fetchData(`/user`)
-                setOptions(data)
+                const unregUssers = await fetchData(
+                    `/UnregUser/user/${accounts[0].localAccountId}`
+                )
+                setOptions([...data, ...unregUssers])
             } catch (error) {
                 console.log(error)
             }
@@ -35,7 +40,12 @@ const NewGroupPage: React.FC = () => {
         try {
             const data = {
                 name: groupName,
-                userIds: selectedUsers.map((user) => user.id.toString()),
+                userIds: selectedUsers
+                    .filter((user) => user && user.hasOwnProperty('email'))
+                    .map((user) => user.id),
+                unregUserIds: selectedUsers
+                    .filter((user) => user && !user.hasOwnProperty('email'))
+                    .map((user) => user && user.id),
             }
             const result = await postData('/Group/create', data)
             alert('Group created successfully')

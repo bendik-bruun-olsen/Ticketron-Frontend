@@ -10,8 +10,8 @@ import DeleteModal from '../DeleteModal'
 interface GroupProps {
     name?: string
     users: (User | UnregUser)[]
-    groupId: number
-    onDelete: (id: number) => void
+    groupId: string
+    onDelete: (id: string) => void
 }
 
 const GroupComponent: React.FC<GroupProps> = ({

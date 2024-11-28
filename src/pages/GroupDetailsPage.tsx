@@ -30,6 +30,10 @@ const GroupDetailsPage: React.FC = () => {
                             id: user.id,
                             name: user.name,
                         })),
+                        ...group.unregUsers.map((user: User) => ({
+                            id: user.id,
+                            name: user.name,
+                        })),
                     ],
                 }))
                 console.log('GroupData', groupData)
@@ -48,7 +52,7 @@ const GroupDetailsPage: React.FC = () => {
     const handleClick = () => {
         navigate(Paths.NEW_GROUP)
     }
-    const handleDeleteGroup = async (id: number) => {
+    const handleDeleteGroup = async (id: string) => {
         try {
             await deleteData(`/Group/${id}`)
             setGroups((prevGroups) =>
