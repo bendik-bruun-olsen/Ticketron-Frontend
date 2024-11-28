@@ -57,7 +57,6 @@ const GroupDetailsPage: React.FC = () => {
             alert('Group deleted successfully')
         } catch (error) {
             console.error('Error deleting group', error)
-            alert('Failed to delete group')
         }
     }
     return (

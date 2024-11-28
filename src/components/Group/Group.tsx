@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { GroupMember, UnregUser, User } from '../types'
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { deleteData } from '../../utils'
+import Snackbar from '../Snackbar'
+import DeleteModal from '../DeleteModal'
 
 interface GroupProps {
     name?: string
@@ -40,9 +42,35 @@ const GroupComponent: React.FC<GroupProps> = ({
     }
 
     const handleDelete = () => {
-        onDelete(groupId)
+        setIsModalVisible(true)
     }
 
+    const handleConfirmDelete = async () => {
+        try {
+            await onDelete(groupId)
+            setSnackbar({
+                message: 'Group deleted successfully!',
+                type: 'success',
+                visible: true,
+            })
+            setIsModalVisible(false)
+        } catch (error) {
+            console.error('Failed to delete group:', error)
+            setSnackbar({
+                message: 'Failed to delete group.',
+                type: 'error',
+                visible: true,
+            })
+        }
+    }
+
+    const handleCancelDelete = () => {
+        setIsModalVisible(false)
+    }
+
+    const handleCloseSnackbar = () => {
+        setSnackbar((prev) => ({ ...prev, visible: false }))
+    }
     return (
         <div className="rounded-xl bg-red-200 w-60 p-4">
             <h1 className="font-bold text-xl">{name}</h1>
@@ -61,6 +89,18 @@ const GroupComponent: React.FC<GroupProps> = ({
                     <TrashIcon className="text-white size-6" />
                 </button>
             </div>
+            <DeleteModal
+                isVisible={isModalVisible}
+                onCancel={handleCancelDelete}
+                onDelete={handleConfirmDelete}
+            />
+            {snackbar.visible && (
+                <Snackbar
+                    message={snackbar.message}
+                    type={snackbar.type}
+                    onClose={handleCloseSnackbar}
+                />
+            )}
         </div>
     )
 }

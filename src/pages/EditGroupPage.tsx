@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Autocomplete } from '../components/Autocomplete'
 import { User } from '../components/types'
 import { fetchData, postData } from '../utils'
-import { group } from 'console'
 
 const EditGroupPage: React.FC = () => {
     const navigate = useNavigate()
@@ -54,12 +53,11 @@ const EditGroupPage: React.FC = () => {
             }
 
             const result = await postData('/Group/update', data)
-            alert('Group updated successfully')
+
             console.log('updated group:', result)
             navigate('/groups')
         } catch (error) {
             console.log(error)
-            alert('Failed to update group')
         }
     }
 
