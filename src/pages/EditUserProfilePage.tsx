@@ -79,11 +79,15 @@ const EditUserProfilePage: React.FC = () => {
                 return
             }
         }
+        const body = {
+            name: name.value,
+            phone: phonenumber.value,
+        }
+        if (profileImage) {
+            body['imageUrl'] = uploadedImageUrl
+        }
         try {
-            await putData(`/User/update`, {
-                name: name.value,
-                phone: phonenumber.value,
-            })
+            await putData(`/User/update`, body)
             setSnackbar({
                 message: 'Details saved successfully!',
                 type: 'success',
