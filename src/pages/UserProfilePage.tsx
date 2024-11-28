@@ -36,12 +36,12 @@ const UserProfilePage: React.FC = () => {
             }
             try {
                 const userData = await fetchData(`/User/${userId}`)
-                const { name, email } = userData
+                const { name, email, imageUrl } = userData
 
                 setUserDetails({
                     name: name,
                     email: email,
-                    imageUrl: '',
+                    imageUrl: imageUrl,
                 })
             } catch (error) {
                 setSnackbar({
