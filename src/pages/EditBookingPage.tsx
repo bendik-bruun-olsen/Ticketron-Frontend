@@ -106,7 +106,9 @@ const EditBookingPage: React.FC = () => {
                 visible: true,
             })
             setIsModalVisible(false)
-            navigate(`/bookings`)
+            navigate('/bookings', {
+                replace: true,
+            })
         } catch (error) {
             console.error('Error deleting ticket:', error)
             setSnackbar({
