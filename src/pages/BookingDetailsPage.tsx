@@ -68,8 +68,10 @@ const BookingDetailsPage: React.FC = () => {
         setSnackbar((prev) => ({ ...prev, visible: false }))
     }
 
+    const usedCategories = new Set(tickets.map((ticket) => ticket.category))
+
     return (
-        <div className="p-4 bg-gray-100 min-h-screen relative">
+        <div className="p-4 min-h-screen relative">
             <SearchFilter />
             <div className="flex flex-row items-baseline">
                 <h2 className="text-2xl font-bold">
@@ -83,7 +85,7 @@ const BookingDetailsPage: React.FC = () => {
                     >
                         All
                     </Dropdown.Item>
-                    {categoriesArray.map((category) => (
+                    {Array.from(usedCategories).map((category) => (
                         <Dropdown.Item
                             key={category}
                             onClick={() =>
