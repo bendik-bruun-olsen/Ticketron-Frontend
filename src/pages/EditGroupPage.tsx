@@ -77,7 +77,7 @@ const EditGroupPage: React.FC = () => {
                 userIds: selectedUsers.map((user) => user.id.toString()),
             }
 
-            const result = await postData('/Group/update', data)
+            await postData('/Group/update', data)
             setSnackbar({
                 message: 'Group updated successfully!',
                 type: 'success',

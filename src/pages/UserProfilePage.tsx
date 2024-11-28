@@ -12,6 +12,7 @@ const UserProfilePage: React.FC = () => {
     const [userDetails, setUserDetails] = useState({
         name: '',
         email: '',
+        imageUrl: '',
     })
     const [snackbar, setSnackbar] = useState<{
         message: string
@@ -42,6 +43,7 @@ const UserProfilePage: React.FC = () => {
                 setUserDetails({
                     name: name,
                     email: email,
+                    imageUrl: '',
                 })
             } catch (error) {
                 setSnackbar({
@@ -65,7 +67,7 @@ const UserProfilePage: React.FC = () => {
     return (
         <div className="flex items-center flex-col gap-4 text-center pt-12 w-full">
             <img
-                src="https://placehold.co/80x80"
+                src={userDetails.imageUrl || 'https://placehold.co/80x80'}
                 width={'80px'}
                 height={'80px'}
                 className="rounded-full"
