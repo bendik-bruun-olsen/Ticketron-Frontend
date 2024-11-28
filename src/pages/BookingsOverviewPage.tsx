@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { PencilIcon } from '@heroicons/react/24/solid'
 import CategoryCard from '../components/Booking/CategoryCard'
-import { fetchData, getPicture } from '../utils'
+import { fetchData, getPicture, uniqueUsers } from '../utils'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Booking } from '../components/types'
+import { Booking, Ticket } from '../components/types'
 import { Paths } from '../../paths'
 import Snackbar from '../components/Snackbar'
 import TicketCard from '../components/Ticket/TicketCard'
@@ -52,6 +52,58 @@ function BookingsOverviewPage() {
         }
         fetchBookingAndTickets()
     }, [bookingId])
+
+    const findMaxDate = (tickets: Array<Ticket>) =>
+        tickets.reduce(
+            (acc: Date, ticket: Ticket) =>
+                new Date(ticket.endDate) > acc ? new Date(ticket.endDate) : acc,
+            new Date(-8640000000000000)
+        )
+
+    const findMinDate = (tickets: Array<Ticket>) =>
+        tickets.reduce(
+            (acc: Date, ticket: Ticket) =>
+                new Date(ticket.startDate) < acc
+                    ? new Date(ticket.startDate)
+                    : acc,
+            new Date(8640000000000000)
+        )
+
+    const createCategories = () => {
+        //dict = {[category] : Array<Ticket>[]}
+        const obj = {}
+        tickets.forEach((ticket) => {
+            if (obj[ticket.category]) {
+                obj[ticket.category].push(ticket)
+            } else {
+                obj[ticket.category] = [ticket]
+            }
+        })
+
+        const objects = Object.keys(obj).map((category) => {
+            const tickets = obj[category]
+            const maxDate = findMaxDate(tickets)
+            const minDate = findMinDate(tickets)
+            const participants = uniqueUsers(
+                tickets.map(
+                    (ticket: Ticket) =>
+                        ticket.assignedUser || ticket.assignedUnregUser
+                )
+            )
+
+            return (
+                <CategoryCard
+                    key={category}
+                    categoryTitle={category}
+                    participants={participants.length}
+                    amountOfTickets={tickets.length}
+                    endDate={new Date(maxDate).toLocaleDateString()}
+                    startDate={new Date(minDate).toLocaleDateString()}
+                />
+            )
+        })
+        return objects
+    }
 
     useEffect(() => {
         const fetchImage = async () => {
@@ -102,25 +154,26 @@ function BookingsOverviewPage() {
                                 ).toLocaleDateString()}
                             </span>
                         </div>
-                        <div className="mt-5">
-                            {tickets?.map((ticket) => (
-                                <CategoryCard
-                                    key={ticket.id}
-                                    imageUrl="https://placehold.co/50x50"
-                                    categoryTitle={ticket.category}
-                                    participants={3}
-                                    amountOfTickets={5}
-                                    // price="500"
-                                    // type="plane"
-                                    startDate={new Date(
-                                        ticket.startDate
-                                    ).toLocaleDateString()}
-                                    endDate={new Date(
-                                        ticket.endDate
-                                    ).toLocaleDateString()}
-                                    id={ticket.id}
-                                />
-                            ))}
+                        <div className="mt-5 flex flex-col gap-2">
+                            {tickets.length > 5
+                                ? createCategories()
+                                : tickets?.map((ticket) => (
+                                      <TicketCard
+                                          key={ticket.id}
+                                          title={ticket.title}
+                                          username={ticket.assignedUser?.name}
+                                          imageUrl="https://placehold.co/50x50"
+                                          price={ticket.price}
+                                          type={ticket.category}
+                                          startDate={new Date(
+                                              ticket.startDate
+                                          ).toLocaleDateString()}
+                                          endDate={new Date(
+                                              ticket.endDate
+                                          ).toLocaleDateString()}
+                                          id={ticket.id}
+                                      />
+                                  ))}
                         </div>
                     </div>
                     <div className="flex justify-end mt-4 mr-4">

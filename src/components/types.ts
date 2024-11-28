@@ -19,12 +19,26 @@ export type UnregUser = {
     name?: string
 }
 
-export type Ticket = {
+type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
+    T,
+    Exclude<keyof T, Keys>
+> &
+    {
+        [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+    }[Keys]
+
+export type Ticket = RequireAtLeastOne<
+    TicketType,
+    'assignedUser' | 'assignedUnregUser'
+>
+
+type TicketType = {
     id: number
     title?: string
     startDate: string
     endDate: string
-    assignedUser: User
+    assignedUser?: User
+    assignedUnregUser?: User
     bookingId: number
     category: string
     price: number

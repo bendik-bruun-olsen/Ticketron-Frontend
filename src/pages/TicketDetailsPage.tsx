@@ -12,15 +12,18 @@ import { useNavigate, useParams } from 'react-router-dom'
 import DeleteModal from '../components/DeleteModal'
 import { deleteData, fetchData } from '../utils'
 import Snackbar from '../components/Snackbar'
+import { Ticket } from '../components/types'
+import ImageModal from '../components/Ticket/ImageModal'
 
 const TicketDetailsPage: React.FC = () => {
-    const [ticketDetails, setTicketDetails] = useState<any>(null)
+    const [ticketDetails, setTicketDetails] = useState<any>()
     const [isModalVisible, setIsModalVisible] = useState(false)
     const { bookingId, ticketId } = useParams<{
         bookingId: string
         ticketId: string
     }>()
     const navigate = useNavigate()
+    const [fullScreenImg, setFullScreenImg] = useState(false)
     const [snackbar, setSnackbar] = useState<{
         message: string
         type: 'success' | 'error' | 'info'
@@ -97,26 +100,29 @@ const TicketDetailsPage: React.FC = () => {
     const {
         title,
         assignedUser,
+        assignedUnregUser,
         startDate,
         endDate,
         price,
-        purchaseDate,
+        purchasedDate,
         category,
         purchasedBy,
+        imageUrl,
     } = ticketDetails
 
     return (
         <div className="w-full">
             <img
-                src={ticketDetails.imageUrl || 'https://placehold.co/173x173'}
+                src={imageUrl ?? 'https://placehold.co/173x173'}
                 className="w-full h-64 object-cover"
+                onClick={() => setFullScreenImg(true)}
             />
             <div className="p-4 flex flex-col gap-6">
                 <h2 className="text-xl font-bold">{title}</h2>
                 <div className="flex flex-col gap-6">
                     <TicketDetail
                         title={'Navn'}
-                        subtitle={ticketDetails.assignedUser.name}
+                        subtitle={assignedUser?.name || assignedUnregUser?.name}
                         icon={<UserIcon className="size-6" />}
                     />
                     <TicketDetail
@@ -144,7 +150,7 @@ const TicketDetailsPage: React.FC = () => {
                     />
                     <TicketDetail
                         title={'Purchase date'}
-                        subtitle={purchaseDate}
+                        subtitle={purchasedDate}
                         icon={<CalendarDaysIcon className="size-6" />}
                     />
                     <TicketDetail
@@ -175,6 +181,11 @@ const TicketDetailsPage: React.FC = () => {
                     onClose={handleCloseSnackbar}
                 />
             )}
+            <ImageModal
+                isVisible={fullScreenImg}
+                onCancel={() => setFullScreenImg(false)}
+                imgUrl={imageUrl}
+            />
         </div>
     )
 }

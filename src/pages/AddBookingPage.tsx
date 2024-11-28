@@ -44,7 +44,15 @@ const AddNewBookingPage: React.FC = () => {
             endDate: dateRange.endDate?.toISOString(),
             image: 'https://via.placeholder.com/64',
             imageUrl,
-            userIds: selectedUsers.map((user) => user.id),
+            userIds: selectedUsers
+                .filter((user) => user.email)
+                .map((user) => user.id),
+            groupIds: selectedUsers
+                .filter((user) => user.users)
+                .map((user) => user.id),
+            unregUsersIds: selectedUsers
+                .filter((user) => !user.users && !user.email)
+                .map((user) => user.id),
         }
 
         try {
