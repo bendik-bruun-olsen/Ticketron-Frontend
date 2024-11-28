@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 type SnackbarProps = {
     message: string
@@ -16,7 +16,10 @@ const Snackbar: React.FC<SnackbarProps> = ({
         error: 'bg-red-900 text-white',
         info: 'bg-blue-700 text-white',
     }
-
+    useEffect(() => {
+        const timer = setTimeout(onClose, 3000)
+        return () => clearTimeout(timer)
+    }, [onClose])
     return (
         <div
             className={`fixed bottom-4 left-2 w-72 p-4 rounded-lg shadow-md flex items-center justify-between animate-slide-up ${backgroundColors[type]}`}

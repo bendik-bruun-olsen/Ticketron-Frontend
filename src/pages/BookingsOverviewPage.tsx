@@ -125,7 +125,7 @@ function BookingsOverviewPage() {
                     </div>
                     <div className="flex justify-end mt-4 mr-4">
                         <button
-                            className="fab bottom-6 right-20  absolute"
+                            className="fab bottom-6 right-20 "
                             onClick={goToEditBookingPage}
                         >
                             <PencilIcon className="size-6" color="white" />
