@@ -85,7 +85,7 @@ const EditGroupPage: React.FC = () => {
                 visible: true,
             })
 
-            navigate('/groups')
+            navigate('/groups', { replace: true })
         } catch (error) {
             console.log(error)
             setSnackbar({
