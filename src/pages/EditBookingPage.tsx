@@ -43,7 +43,11 @@ const EditBookingPage: React.FC = () => {
                 })
 
                 setBooking(data)
-                setSelectedUsers(data.users)
+                setSelectedUsers([
+                    ...data.users,
+                    ...data.unregUsers,
+                    ...data.groups,
+                ])
             } catch (error) {
                 console.error(error)
                 setSnackbar({
@@ -57,7 +61,12 @@ const EditBookingPage: React.FC = () => {
     }, [bookingId])
 
     useEffect(() => {
-        if (booking) setSelectedUsers(booking.users)
+        if (booking)
+            setSelectedUsers([
+                ...booking.users,
+                ...booking.unregUsers,
+                ...booking.groups,
+            ])
     }, [booking])
 
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
