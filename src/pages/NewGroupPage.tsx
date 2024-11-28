@@ -18,7 +18,7 @@ const NewGroupPage: React.FC = () => {
     useEffect(() => {
         const fetchUserOptions = async () => {
             try {
-                const data = await fetchData(`/users`)
+                const data = await fetchData(`/user`)
                 setOptions(data)
             } catch (error) {
                 console.log(error)
@@ -35,7 +35,7 @@ const NewGroupPage: React.FC = () => {
         try {
             const data = {
                 name: groupName,
-                members: selectedUsers.map((user) => user.id.toString()),
+                userIds: selectedUsers.map((user) => user.id.toString()),
             }
             const result = await postData('/Group/create', data)
             alert('Group created successfully')
@@ -52,8 +52,8 @@ const NewGroupPage: React.FC = () => {
     }
 
     return (
-        <>
-            <div className="mt-4 ml-2 mr-2">
+        <div className="flex gap-6 flex-col m-4">
+            <div className="">
                 <h1 className="h1 ml-2 mb-2.5">Create a New Group</h1>
                 <input
                     type="text"
@@ -63,29 +63,24 @@ const NewGroupPage: React.FC = () => {
                     onChange={editGroupName}
                 />
             </div>
-            <div className="mt-7 ml-2 mr-2">
+            <div className="">
                 <h1 className="h1 ml-2 mb-2.5">Add members</h1>
-                <div className="relative">
-                    <UserIcon className="size-6 p-1 absolute box-border top-1/2 left-0.5 transform -translate-y-1/2 " />
-                    <Autocomplete
-                        field="name"
-                        selected={selectedUsers}
-                        setSelected={setSelectedUsers}
-                        options={options ?? []}
-                        placeholder="Member Name"
-                    />
-                </div>
+                <Autocomplete
+                    field="name"
+                    selected={selectedUsers}
+                    setSelected={setSelectedUsers}
+                    options={options ?? []}
+                    placeholder="Member Name"
+                />
             </div>
 
-            <button className="fab relative h-10 w-10 mt-5 ml-3">
-                <PlusIcon className="size-6" color="white" />
+            <button
+                className="btn-primary w-full self-center"
+                onClick={handleSaveGroup}
+            >
+                Save
             </button>
-            <div className="flex justify-center" onClick={handleSaveGroup}>
-                <button className="btn-primary mt-24 w-11/12 justify-center">
-                    Save
-                </button>
-            </div>
-        </>
+        </div>
     )
 }
 

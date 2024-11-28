@@ -24,7 +24,7 @@ const GroupComponent: React.FC<GroupProps> = ({ name, users }) => {
                     </p>
                 ))}
             </div>
-            <button className="btn-primary" onClick={handleClick}>
+            <button className="" onClick={handleClick}>
                 <PlusIcon className="text-white size-6" />
             </button>
         </div>
