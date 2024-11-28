@@ -3,7 +3,7 @@ import { UserIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Autocomplete } from '../components/Autocomplete'
 import { User } from '../components/types'
-import { fetchData, postData } from '../utils'
+import { fetchData, postData, putData } from '../utils'
 import Snackbar from '../components/Snackbar'
 
 const EditGroupPage: React.FC = () => {
@@ -73,11 +73,12 @@ const EditGroupPage: React.FC = () => {
 
         try {
             const data = {
+                id: groupId,
                 name: groupName,
                 userIds: selectedUsers.map((user) => user.id.toString()),
             }
 
-            await postData('/Group/update', data)
+            await putData('/Group/update', data)
             setSnackbar({
                 message: 'Group updated successfully!',
                 type: 'success',
