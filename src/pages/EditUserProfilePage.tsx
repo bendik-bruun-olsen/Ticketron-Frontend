@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Paths } from '../../paths'
 import { useNavigate } from 'react-router-dom'
 import Snackbar from '../components/Snackbar'
-import { fetchData, putData } from '../utils'
+import { fetchData, putData, uploadImage } from '../utils'
 import { useMsal } from '@azure/msal-react'
 
 const EditUserProfilePage: React.FC = () => {
@@ -22,6 +22,9 @@ const EditUserProfilePage: React.FC = () => {
         type: 'info',
         visible: false,
     })
+    const [profileImage, setProfileImage] = useState<File | null>(null)
+    const [previewImage, setPreviewImage] = useState<string | null>(null)
+
     useEffect(() => {
         const getUserData = async () => {
             const userId = accounts[0]?.localAccountId
@@ -53,16 +56,38 @@ const EditUserProfilePage: React.FC = () => {
 
         getUserData()
     }, [])
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (file) {
+            setProfileImage(file)
+            setPreviewImage(URL.createObjectURL(file))
+        }
+    }
     const handleSaveDetails = async (e: React.FormEvent) => {
         e.preventDefault()
         const form = e.target as HTMLFormElement
         const { name, phonenumber } = form.elements as any
-
+        let uploadedImageUrl: string | undefined
+        if (profileImage) {
+            uploadedImageUrl = await uploadImage(profileImage)
+            if (!uploadedImageUrl) {
+                setSnackbar({
+                    message: 'Failed to upload profile image.',
+                    type: 'error',
+                    visible: true,
+                })
+                return
+            }
+        }
+        const body = {
+            name: name.value,
+            phone: phonenumber.value,
+        }
+        if (profileImage) {
+            body['imageUrl'] = uploadedImageUrl
+        }
         try {
-            await putData(`/User/update`, {
-                name: name.value,
-                phone: phonenumber.value,
-            })
+            await putData(`/User/update`, body)
             setSnackbar({
                 message: 'Details saved successfully!',
                 type: 'success',
@@ -89,6 +114,23 @@ const EditUserProfilePage: React.FC = () => {
                 className="flex flex-col gap-4 w-full"
                 onSubmit={handleSaveDetails}
             >
+                <div className="flex flex-col items-center">
+                    <img
+                        src={previewImage || 'https://placehold.co/100x100'}
+                        alt="Profile Preview"
+                        className="w-24 h-24 rounded-full object-cover mb-2"
+                    />
+                    <label className="btn-secondary">
+                        Upload Profile Image
+                        <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleImageChange}
+                        />
+                    </label>
+                </div>
+
                 <input
                     required
                     className="input-contained"

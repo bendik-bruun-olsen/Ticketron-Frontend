@@ -8,14 +8,14 @@ export type BookingSummary = {
 }
 
 export type User = {
-    id: number
+    id: string
     name?: string
     email?: string
     phone?: string
 }
 
 export type UnregUser = {
-    id: number
+    id: string
     name?: string
 }
 
@@ -33,13 +33,13 @@ export type Ticket = RequireAtLeastOne<
 >
 
 type TicketType = {
-    id: number
+    id: string
     title?: string
     startDate: string
     endDate: string
     assignedUser?: User
     assignedUnregUser?: User
-    bookingId: number
+    bookingId: string
     category: string
     price: number
     purchasedBy?: User
@@ -48,28 +48,29 @@ type TicketType = {
 }
 
 export type Participant = {
-    id: number
+    id: string
     addedBy: number
     isUser: boolean
 }
 
 export type GroupMember = {
-    id: number
+    id: string
     userId?: number
     unregUserId?: number
     isUser: boolean
 }
 
 export type Group = {
-    id: number
+    id: string
     name?: string
-    userId: number
+    userId: string
     createdBy: string
-    users: User[] | UnregUser[]
+    users: User[]
+    unregUsers: UnregUser[]
 }
 
 export type Booking = {
-    id: number
+    id: string
     title?: string
     startDate: string
     endDate: string

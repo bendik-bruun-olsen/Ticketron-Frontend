@@ -8,10 +8,8 @@ import { useMsal } from '@azure/msal-react'
 
 interface Props {
     field: string
-    selected: Array<User | Group | undefined>
-    setSelected: React.Dispatch<
-        React.SetStateAction<Array<User | Group | undefined>>
-    >
+    selected: Array<User | Group>
+    setSelected: React.Dispatch<React.SetStateAction<Array<User | Group>>>
     multiple?: boolean
     options: Array<User>
     placeholder?: string

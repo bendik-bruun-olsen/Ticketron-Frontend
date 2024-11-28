@@ -4,6 +4,7 @@ import { categoriesArray, fetchData, uploadImage } from '../../utils'
 import { useParams } from 'react-router-dom'
 import { Autocomplete } from '../Autocomplete'
 import { User, Group, Ticket } from '../types'
+import ts from 'typescript'
 
 interface TicketFormProps {
     mode: 'add' | 'edit'
@@ -29,7 +30,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
         endDate: new Date(),
     })
 
-    const [selected, setSelected] = useState<(User | Group | undefined)[]>([])
+    const [selected, setSelected] = useState<(User | Group)[]>([])
 
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
@@ -54,6 +55,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
         fetchOptions()
         if (initialData) {
             setSelected([
+                //@ts-ignore
                 initialData.assignedUser ?? initialData.assignedUnregUser,
             ])
             setDateRange({

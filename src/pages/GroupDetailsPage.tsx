@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import GroupComponent from '../components/Group/Group'
-import { fetchData } from '../utils'
+import { deleteData, fetchData } from '../utils'
 import { useMsal } from '@azure/msal-react'
 import { Group, UnregUser, User } from '../components/types'
 import { PlusIcon } from '@heroicons/react/24/solid'
@@ -30,6 +30,10 @@ const GroupDetailsPage: React.FC = () => {
                             id: user.id,
                             name: user.name,
                         })),
+                        ...group.unregUsers.map((user: User) => ({
+                            id: user.id,
+                            name: user.name,
+                        })),
                     ],
                 }))
                 console.log('GroupData', groupData)
@@ -48,12 +52,27 @@ const GroupDetailsPage: React.FC = () => {
     const handleClick = () => {
         navigate(Paths.NEW_GROUP)
     }
-
+    const handleDeleteGroup = async (id: string) => {
+        try {
+            await deleteData(`/Group/${id}`)
+            setGroups((prevGroups) =>
+                prevGroups.filter((group) => group.id !== id)
+            )
+            alert('Group deleted successfully')
+        } catch (error) {
+            console.error('Error deleting group', error)
+        }
+    }
     return (
         <div className="p-4 flex flex-col gap-4">
             {groups?.map((group) => (
                 <div key={group.id}>
-                    <GroupComponent name={group.name} users={group.users} />
+                    <GroupComponent
+                        name={group.name}
+                        users={group.users}
+                        groupId={group.id}
+                        onDelete={handleDeleteGroup}
+                    />
                 </div>
             ))}{' '}
             <button className="fab bottom-6 right-6" onClick={handleClick}>
