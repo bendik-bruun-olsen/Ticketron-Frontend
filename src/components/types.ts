@@ -63,6 +63,7 @@ export type Booking = {
     users: User[]
     groups: Group[]
     unregUsers: string[]
+    createdBy: User
 }
 
 export type Categories =
