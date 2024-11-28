@@ -36,7 +36,7 @@ const EditGroupPage: React.FC = () => {
             try {
                 const group = await fetchData(`/Group/${groupId}`)
                 setGroupName(group.name)
-                setSelectedUsers(group.users)
+                setSelectedUsers([...group.users, ...group.unregUsers])
             } catch (error) {
                 console.error('error fetching group details', error)
                 setSnackbar({
@@ -49,24 +49,24 @@ const EditGroupPage: React.FC = () => {
         if (groupId) fetchGroupDetails()
     }, [groupId])
 
-    useEffect(() => {
-        const fetchUserOptions = async () => {
-            try {
-                const data = await fetchData(`/user`)
-                const unregUssers = await fetchData(
-                    `/UnregUser/user/${accounts[0].localAccountId}`
-                )
-                const groups = await fetchData(`/group`)
-                setOptions([...data, ...unregUssers, ...groups])
-            } catch (error) {
-                console.log(error)
-                setSnackbar({
-                    message: 'Failed to fetch user options.',
-                    type: 'error',
-                    visible: true,
-                })
-            }
+    const fetchUserOptions = async () => {
+        try {
+            const data = await fetchData(`/user`)
+            const unregUssers = await fetchData(
+                `/UnregUser/user/${accounts[0].localAccountId}`
+            )
+            const groups = await fetchData(`/group`)
+            setOptions([...data, ...unregUssers, ...groups])
+        } catch (error) {
+            console.log(error)
+            setSnackbar({
+                message: 'Failed to fetch user options.',
+                type: 'error',
+                visible: true,
+            })
         }
+    }
+    useEffect(() => {
         fetchUserOptions()
     }, [])
     const handleSaveGroup = async () => {
@@ -134,6 +134,8 @@ const EditGroupPage: React.FC = () => {
                     setSelected={setSelectedUsers}
                     options={options ?? []}
                     placeholder="Member Name"
+                    addNewUser={true}
+                    refetchOptions={fetchUserOptions}
                 />
             </div>
 

@@ -39,6 +39,7 @@ const EditUserProfilePage: React.FC = () => {
             try {
                 const userData = await fetchData(`/User/${userId}`)
                 const { name, email, phone } = userData
+                setPreviewImage(userData.imageUrl)
 
                 setUserDetails({
                     name: name || '',

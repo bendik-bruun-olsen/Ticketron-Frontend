@@ -65,10 +65,9 @@ const UserProfilePage: React.FC = () => {
     return (
         <div className="flex items-center flex-col gap-4 text-center pt-12 w-full">
             <img
-                src={userDetails.imageUrl || 'https://placehold.co/80x80'}
-                width={'80px'}
-                height={'80px'}
-                className="rounded-full"
+                src={userDetails.imageUrl || 'https://placehold.co/100x100'}
+                alt="Profile picture"
+                className="w-24 h-24 rounded-full object-cover mb-2"
             />
             <div>
                 <h1 className="text-bold text-3xl">{userDetails.name}</h1>

@@ -16,19 +16,19 @@ const NewGroupPage: React.FC = () => {
         setGroupName(e.target.value)
     }
     const [options, setOptions] = useState<Array<User> | null>(null)
+    const fetchUserOptions = async () => {
+        try {
+            const data = await fetchData(`/user`)
+            const unregUssers = await fetchData(
+                `/UnregUser/user/${accounts[0].localAccountId}`
+            )
+            setOptions([...data, ...unregUssers])
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
-        const fetchUserOptions = async () => {
-            try {
-                const data = await fetchData(`/user`)
-                const unregUssers = await fetchData(
-                    `/UnregUser/user/${accounts[0].localAccountId}`
-                )
-                setOptions([...data, ...unregUssers])
-            } catch (error) {
-                console.log(error)
-            }
-        }
         fetchUserOptions()
     }, [])
     const handleSaveGroup = async () => {
@@ -50,7 +50,7 @@ const NewGroupPage: React.FC = () => {
             const result = await postData('/Group/create', data)
             alert('Group created successfully')
             console.log('createdgroup:', result)
-            navigate('/groups')
+            navigate('/groups', { replace: true })
         } catch (error) {
             console.log(error)
             alert('Failed to create group')
@@ -81,6 +81,8 @@ const NewGroupPage: React.FC = () => {
                     setSelected={setSelectedUsers}
                     options={options ?? []}
                     placeholder="Member Name"
+                    addNewUser={true}
+                    refetchOptions={fetchUserOptions}
                 />
             </div>
 

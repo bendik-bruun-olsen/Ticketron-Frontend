@@ -87,7 +87,7 @@ function BookingsOverviewPage() {
             const participants = uniqueUsers(
                 tickets.map(
                     (ticket: Ticket) =>
-                        ticket.assignedUser || ticket.assignedUnregUser
+                        ticket?.assignedUser || ticket?.assignedUnregUser
                 )
             )
 
@@ -161,8 +161,14 @@ function BookingsOverviewPage() {
                                       <TicketCard
                                           key={ticket.id}
                                           title={ticket.title}
-                                          username={ticket.assignedUser?.name}
-                                          imageUrl="https://placehold.co/50x50"
+                                          username={
+                                              ticket.assignedUser?.name ||
+                                              ticket.assignedUnregUser?.name
+                                          }
+                                          imageUrl={
+                                              ticket.imageUrl ??
+                                              'https://placehold.co/50x50'
+                                          }
                                           price={ticket.price}
                                           type={ticket.category}
                                           startDate={new Date(
