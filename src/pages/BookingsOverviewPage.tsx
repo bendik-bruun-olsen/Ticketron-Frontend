@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { PencilIcon } from '@heroicons/react/24/solid'
 import CategoryCard from '../components/Booking/CategoryCard'
-import { fetchData, getPicture } from '../utils'
+import { fetchData, getPicture, uniqueUsers } from '../utils'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Booking, Ticket } from '../components/types'
 import { Paths } from '../../paths'
@@ -84,10 +84,10 @@ function BookingsOverviewPage() {
             const tickets = obj[category]
             const maxDate = findMaxDate(tickets)
             const minDate = findMinDate(tickets)
-            const participants = tickets.reduce(
-                (acc, ticket) => acc.add(ticket.assignedUser),
-                new Set()
+            const participants = uniqueUsers(
+                tickets.map((ticket) => ticket.assignedUser)
             )
+
             return (
                 <CategoryCard
                     key={category}
