@@ -19,6 +19,7 @@ import ProtectedRoute from './src/components/ProtectedRoute'
 import ErrorBoundary from './src/components/Error/ErrorBoundary'
 import Layout from './src/components/Navigation/Layout'
 import BookingsOverviewPage from './src/pages/BookingsOverviewPage'
+import EditGroupPage from './src/pages/EditGroupPage'
 
 const routes = [
     {
@@ -125,6 +126,15 @@ const routes = [
             <ProtectedRoute>
                 <Navbar title={'Add new group'} leftAction={<ReturnButton />} />
                 <NewGroupPage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: Paths.EDIT_GROUP,
+        element: (
+            <ProtectedRoute>
+                <Navbar title={'Edit group'} leftAction={<ReturnButton />} />
+                <EditGroupPage />
             </ProtectedRoute>
         ),
     },
