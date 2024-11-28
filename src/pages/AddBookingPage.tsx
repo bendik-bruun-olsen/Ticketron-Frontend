@@ -38,8 +38,6 @@ const AddNewBookingPage: React.FC = () => {
         const formProps = Object.fromEntries(formData)
         const { title } = formProps as HTMLFormElement
         const imageUrl = await getPicture(title)
-
-        console.log(selectedUsers)
         const body = {
             title: title,
             startDate: dateRange.startDate?.toISOString(),
