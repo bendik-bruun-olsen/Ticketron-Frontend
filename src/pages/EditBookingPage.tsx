@@ -71,7 +71,15 @@ const EditBookingPage: React.FC = () => {
             title: title,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
-            userIds: selectedUsers.map((user) => user.id),
+            userIds: selectedUsers
+                .filter((user) => user.email)
+                .map((user) => user.id),
+            groupIds: selectedUsers
+                .filter((user) => user.users)
+                .map((user) => user.id),
+            unregUsersIds: selectedUsers
+                .filter((user) => !user.users && !user.email)
+                .map((user) => user.id),
         }
 
         try {
