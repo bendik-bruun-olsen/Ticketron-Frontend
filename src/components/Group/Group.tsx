@@ -37,8 +37,8 @@ const GroupComponent: React.FC<GroupProps> = ({
 
     console.log('GroupComponent', users)
 
-    const handleEdit = () => {
-        navigate('/edit-group/:id')
+    const handleEdit = (id) => {
+        navigate('/edit-group/' + id)
     }
 
     const handleDelete = () => {
@@ -82,7 +82,7 @@ const GroupComponent: React.FC<GroupProps> = ({
                 ))}
             </div>
             <div className="flex justify-between mt-4">
-                <button className="" onClick={handleEdit}>
+                <button className="" onClick={() => handleEdit(groupId)}>
                     <PencilIcon className="text-white size-6" />
                 </button>
                 <button className="" onClick={handleDelete}>

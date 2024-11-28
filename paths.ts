@@ -7,7 +7,7 @@ export enum Paths {
     GROUP_DETAILS = '/groups',
     NEW_GROUP = '/new-group',
     ADD_GROUP = '/add-group',
-    EDIT_GROUP = '/edit-group/:id',
+    EDIT_GROUP = '/edit-group/:groupId',
     TICKET_DETAILS = '/booking/:bookingId/ticket/:ticketId',
     BOOKING = '/booking/:bookingId',
     BOOKINGS = '/bookings',
