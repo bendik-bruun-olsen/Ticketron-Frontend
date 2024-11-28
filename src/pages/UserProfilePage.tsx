@@ -26,7 +26,6 @@ const UserProfilePage: React.FC = () => {
     useEffect(() => {
         const getUserData = async () => {
             const userId = accounts[0]?.localAccountId
-            console.log(userId)
             if (!userId) {
                 setSnackbar({
                     message: 'Failed to load user details. Please try again.',
@@ -37,7 +36,6 @@ const UserProfilePage: React.FC = () => {
             }
             try {
                 const userData = await fetchData(`/User/${userId}`)
-                console.log(userData)
                 const { name, email } = userData
 
                 setUserDetails({

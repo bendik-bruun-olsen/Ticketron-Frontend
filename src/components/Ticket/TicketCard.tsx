@@ -41,7 +41,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
                 <h3 className="font-bold text-sm">{title}</h3>
                 <p className="text-gray-600 text-sm">{type}</p>
                 <p className="text-gray-600 text-sm">{username}</p>
-                <div className="date-padding  text-black-500 text-xs mt-2">
+                <div className="text-black-500 text-xs mt-2 flex gap-8">
                     <p>Fra {startDate}</p>
                     <p>Til {endDate}</p>
                 </div>

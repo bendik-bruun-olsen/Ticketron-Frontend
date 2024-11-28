@@ -10,15 +10,25 @@ import Snackbar from '../components/Snackbar'
 import { Categories } from '../components/types'
 import { categoriesArray } from '../utils'
 import CategoryCard from '../components/Booking/CategoryCard'
+import { useSearchParams } from 'react-router-dom'
 
 const BookingDetailsPage: React.FC = () => {
+    const [searchParams, setSearchParams] = useSearchParams()
+    const category = searchParams.get('category')
     const { bookingId } = useParams<{ bookingId: string }>()
     const navigate = useNavigate()
     const [tickets, setTickets] = useState<any[]>([])
-    const [filteredTickets, setFilteredTickets] = useState<any[]>([])
-    const [selectedCategory, setSelectedCategory] = useState<Categories | null>(
-        null
-    )
+    const [search, setSearch] = useState('')
+
+    // This can be optimised with useMemo, but isn't strictly necessary
+    const filteredTickets = tickets.filter((ticket) => {
+        const fullTicketAsString = JSON.stringify(ticket)
+        return (
+            fullTicketAsString.toLowerCase().includes(search.toLowerCase()) &&
+            (category ? ticket.category === category : true)
+        )
+    })
+
     const [snackbar, setSnackbar] = useState<{
         message: string
         type: 'success' | 'error' | 'info'
@@ -34,7 +44,6 @@ const BookingDetailsPage: React.FC = () => {
             try {
                 const data = await fetchData(`/Ticket/booking/${bookingId}`)
                 setTickets(data)
-                setFilteredTickets(data)
 
                 setSnackbar({
                     message: 'Tickets fetched successfully!',
@@ -53,18 +62,6 @@ const BookingDetailsPage: React.FC = () => {
         fetchTickets()
     }, [bookingId])
 
-    const filterTicketsByCategory = (category: Categories | null) => {
-        setSelectedCategory(category)
-        if (category) {
-            const filtered = tickets.filter(
-                (ticket) => ticket.category === category
-            )
-            setFilteredTickets(filtered)
-        } else {
-            setFilteredTickets(tickets)
-        }
-    }
-
     const goToAddTicketPage = () => {
         navigate(`/booking/${bookingId}/add-ticket`)
     }
@@ -76,20 +73,32 @@ const BookingDetailsPage: React.FC = () => {
         setSnackbar((prev) => ({ ...prev, visible: false }))
     }
 
+    const usedCategories = new Set(tickets.map((ticket) => ticket.category))
+
     return (
-        <div className="p-4 bg-gray-100 min-h-screen relative">
-            <SearchFilter />
+        <div className="p-4 min-h-screen relative">
+            <SearchFilter setSearch={setSearch} />
             <div className="flex flex-row items-baseline">
-                <h2 className="text-2xl font-bold">Tickets</h2>
-                <Dropdown inline label="Category">
+                <h2 className="text-2xl font-bold">
+                    {category !== null ? category : 'All'}{' '}
+                </h2>
+                <Dropdown inline>
                     <Dropdown.Item
-                        onClick={() => filterTicketsByCategory(null)}
+                        key={'all'}
+                        // This clears all of the searchParams, if there is more than one (e.g. category), this will not work as intended
+                        onClick={() => setSearchParams({}, { replace: true })}
                     >
                         All
                     </Dropdown.Item>
-                    {categoriesArray.map((category) => (
+                    {Array.from(usedCategories).map((category) => (
                         <Dropdown.Item
-                            onClick={() => filterTicketsByCategory(category)}
+                            key={category}
+                            onClick={() =>
+                                setSearchParams(
+                                    { category: category },
+                                    { replace: true }
+                                )
+                            }
                         >
                             {category}
                         </Dropdown.Item>

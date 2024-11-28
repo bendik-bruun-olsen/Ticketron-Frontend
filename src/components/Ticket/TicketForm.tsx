@@ -29,7 +29,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
         endDate: new Date(),
     })
 
-    const [selected, setSelected] = useState<(User | Group)[]>([])
+    const [selected, setSelected] = useState<(User | Group | undefined)[]>([])
 
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
@@ -41,15 +41,21 @@ const TicketForm: React.FC<TicketFormProps> = ({
         const fetchOptions = async () => {
             try {
                 const data = await fetchData(`/booking/${bookingId}`)
-                setOptions([...data.users, data.createdBy])
+                setOptions([
+                    ...data.users,
+                    data.createdBy,
+                    ...data.unregUsers,
+                    ...data.groups.map((group: Group) => group.users).flat(),
+                ])
             } catch (error) {
                 console.log(error)
             }
         }
         fetchOptions()
-        console.log(initialData)
         if (initialData) {
-            setSelected([initialData.assignedUser])
+            setSelected([
+                initialData.assignedUser ?? initialData.assignedUnregUser,
+            ])
             setDateRange({
                 startDate: new Date(initialData.startDate || ''),
                 endDate: new Date(initialData.endDate || ''),
@@ -72,14 +78,14 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
         const ticket = {
             title,
-            category: selectedCategory,
+            category: selectedCategory ?? categoriesArray[5],
             price,
             purchasedDate,
             purchasedBy,
             startDate: dateRange.startDate?.toISOString(),
             endDate: dateRange.endDate?.toISOString(),
             bookingId,
-            assignedUser: selected.map((user) => user.id),
+            assignedUser: selected[0],
             imageUrl,
         }
 

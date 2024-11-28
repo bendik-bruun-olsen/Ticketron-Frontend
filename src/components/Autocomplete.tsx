@@ -1,14 +1,17 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { TextInput } from 'flowbite-react'
-import { fetchData, postData } from '../utils'
+import { fetchData, postData, uniqueUsers } from '../utils'
 import { Group, User } from './types'
 import { PlusIcon, UserGroupIcon, UserIcon } from '@heroicons/react/24/solid'
 import { UserMinusIcon } from '@heroicons/react/24/outline'
+import { useMsal } from '@azure/msal-react'
 
 interface Props {
     field: string
-    selected: Array<User | Group>
-    setSelected: React.Dispatch<React.SetStateAction<Array<User | Group>>>
+    selected: Array<User | Group | undefined>
+    setSelected: React.Dispatch<
+        React.SetStateAction<Array<User | Group | undefined>>
+    >
     multiple?: boolean
     options: Array<User>
     placeholder?: string
@@ -30,12 +33,15 @@ export const Autocomplete = ({
         useState<Array<User> | null>(null)
     const [showSuggestions, setShowSuggestions] = useState(false)
     const [userInput, setUserInput] = useState('')
+    const { accounts } = useMsal()
+    const [user, setUser] = useState<User | null>(null)
 
     const handleInputChange = (e) => {
+        const uniqueOptions = uniqueUsers(options)
         setUserInput(e.target.value)
         if (userInput.length !== 0 || userInput !== '') {
             setFilteredSuggestions(
-                options.filter(
+                uniqueOptions.filter(
                     (option) =>
                         option.name
                             ?.toLocaleLowerCase()
@@ -46,7 +52,7 @@ export const Autocomplete = ({
             setShowSuggestions(true)
         } else {
             setShowSuggestions(false)
-            setFilteredSuggestions(options)
+            setFilteredSuggestions(uniqueOptions)
         }
     }
 
@@ -70,6 +76,14 @@ export const Autocomplete = ({
         }
     }
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            const user = await fetchData(`/User/${accounts[0].localAccountId}`)
+            setUser(user)
+        }
+        fetchUser()
+    }, [])
+
     const handleRemove = (suggestion) => {
         setSelected(selected.filter((s) => s !== suggestion))
     }
@@ -80,18 +94,32 @@ export const Autocomplete = ({
         if (refetchOptions) refetchOptions()
     }
 
+    const handleBlur = (event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+            setTimeout(() => setShowSuggestions(false), 80)
+        }
+    }
+
     return (
-        <div className="relative">
+        <div className="relative" onBlur={handleBlur}>
             <div className="flex gap-2 mb-2 flex-wrap">
-                {selected.map((s) => (
-                    <div
-                        key={s.id}
-                        className="chip flex gap-2"
-                        onClick={() => handleRemove(s)}
-                    >
-                        {s.name} <div>x</div>
+                {multiple && (
+                    <div key={user?.id} className="chip flex gap-2">
+                        {user?.name}
                     </div>
-                ))}
+                )}
+                {selected.map((s) => {
+                    if (multiple && user?.id === s?.id) return null
+                    return (
+                        <div
+                            key={s?.id}
+                            className="chip flex gap-2"
+                            onClick={() => handleRemove(s)}
+                        >
+                            {s?.name} <div>x</div>
+                        </div>
+                    )
+                })}
             </div>
 
             <input
@@ -102,13 +130,12 @@ export const Autocomplete = ({
                 aria-label="Search"
             />
             {filteredSuggestions && showSuggestions && (
-                <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
+                <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-72 overflow-scroll">
                     {filteredSuggestions.map((suggestion, index) => (
                         <div
                             className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex gap-2 justify-between"
                             key={index}
                             onClick={() => handleSelect(suggestion)}
-                            onBlur={() => setShowSuggestions(false)}
                         >
                             <div className="flex gap-2 items-center width-full">
                                 {multiple && (

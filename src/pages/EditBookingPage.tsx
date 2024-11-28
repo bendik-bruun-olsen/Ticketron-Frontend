@@ -43,7 +43,11 @@ const EditBookingPage: React.FC = () => {
                 })
 
                 setBooking(data)
-                setSelectedUsers(data.users)
+                setSelectedUsers([
+                    ...data.users,
+                    ...data.unregUsers,
+                    ...data.groups,
+                ])
             } catch (error) {
                 console.error(error)
                 setSnackbar({
@@ -57,7 +61,12 @@ const EditBookingPage: React.FC = () => {
     }, [bookingId])
 
     useEffect(() => {
-        if (booking) setSelectedUsers(booking.users)
+        if (booking)
+            setSelectedUsers([
+                ...booking.users,
+                ...booking.unregUsers,
+                ...booking.groups,
+            ])
     }, [booking])
 
     const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -71,7 +80,15 @@ const EditBookingPage: React.FC = () => {
             title: title,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
-            userIds: selectedUsers.map((user) => user.id),
+            userIds: selectedUsers
+                .filter((user) => user.email)
+                .map((user) => user.id),
+            groupIds: selectedUsers
+                .filter((user) => user.users)
+                .map((user) => user.id),
+            unregUsersIds: selectedUsers
+                .filter((user) => !user.users && !user.email)
+                .map((user) => user.id),
         }
 
         try {
@@ -106,7 +123,9 @@ const EditBookingPage: React.FC = () => {
                 visible: true,
             })
             setIsModalVisible(false)
-            navigate(`/bookings`)
+            navigate('/bookings', {
+                replace: true,
+            })
         } catch (error) {
             console.error('Error deleting ticket:', error)
             setSnackbar({
