@@ -72,7 +72,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
 
         const ticket = {
             title,
-            category: selectedCategory,
+            category: selectedCategory ?? categoriesArray[5],
             price,
             purchasedDate,
             purchasedBy,
