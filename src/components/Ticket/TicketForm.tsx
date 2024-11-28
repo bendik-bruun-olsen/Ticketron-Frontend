@@ -41,7 +41,12 @@ const TicketForm: React.FC<TicketFormProps> = ({
         const fetchOptions = async () => {
             try {
                 const data = await fetchData(`/booking/${bookingId}`)
-                setOptions([...data.users, data.createdBy])
+                setOptions([
+                    ...data.users,
+                    data.createdBy,
+                    ...data.unregUsers,
+                    ...data.groups.map((group: Group) => group.users).flat(),
+                ])
             } catch (error) {
                 console.log(error)
             }
@@ -77,7 +82,6 @@ const TicketForm: React.FC<TicketFormProps> = ({
             assignedUser: selected.map((user) => user.id),
         }
 
-
         if (selectedFile) {
             onSubmit({ ...ticket, selectedFile })
         }
@@ -107,10 +111,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
                 required
                 className="input-contained"
                 name="title"
-
                 placeholder="Ticket Title"
-
-
                 defaultValue={initialData?.title}
             />
             <div className="relative">

@@ -18,7 +18,11 @@ const BookingDetailsPage: React.FC = () => {
     const { bookingId } = useParams<{ bookingId: string }>()
     const navigate = useNavigate()
     const [tickets, setTickets] = useState<any[]>([])
-    const [filteredTickets, setFilteredTickets] = useState<any[]>([])
+
+    // This can be optimised with useMemo, but isn't strictly necessary
+    const filteredTickets = category
+        ? tickets.filter((ticket) => ticket.category === category)
+        : tickets
 
     const [snackbar, setSnackbar] = useState<{
         message: string
@@ -35,7 +39,6 @@ const BookingDetailsPage: React.FC = () => {
             try {
                 const data = await fetchData(`/Ticket/booking/${bookingId}`)
                 setTickets(data)
-                setFilteredTickets(data)
 
                 setSnackbar({
                     message: 'Tickets fetched successfully!',
@@ -53,22 +56,6 @@ const BookingDetailsPage: React.FC = () => {
         }
         fetchTickets()
     }, [bookingId])
-
-    useEffect(() => {
-        filterTicketsByCategory(category)
-    }, [])
-
-    const filterTicketsByCategory = (newCategory) => {
-        setSearchParams({ category: newCategory })
-        if (newCategory) {
-            const filtered = tickets.filter(
-                (ticket) => ticket.category === category
-            )
-            setFilteredTickets(filtered)
-        } else {
-            setFilteredTickets(tickets)
-        }
-    }
 
     const goToAddTicketPage = () => {
         navigate(`/booking/${bookingId}/add-ticket`)
@@ -91,14 +78,20 @@ const BookingDetailsPage: React.FC = () => {
                 <Dropdown inline>
                     <Dropdown.Item
                         key={'all'}
-                        onClick={() => filterTicketsByCategory(null)}
+                        // This clears all of the searchParams, if there is more than one (e.g. category), this will not work as intended
+                        onClick={() => setSearchParams({}, { replace: true })}
                     >
                         All
                     </Dropdown.Item>
                     {categoriesArray.map((category) => (
                         <Dropdown.Item
                             key={category}
-                            onClick={() => filterTicketsByCategory(category)}
+                            onClick={() =>
+                                setSearchParams(
+                                    { category: category },
+                                    { replace: true }
+                                )
+                            }
                         >
                             {category}
                         </Dropdown.Item>
