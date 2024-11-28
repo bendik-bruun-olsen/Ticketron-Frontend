@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { TextInput } from 'flowbite-react'
-import { fetchData, postData } from '../utils'
+import { fetchData, postData, uniqueUsers } from '../utils'
 import { Group, User } from './types'
 import { PlusIcon, UserGroupIcon, UserIcon } from '@heroicons/react/24/solid'
 import { UserMinusIcon } from '@heroicons/react/24/outline'
@@ -32,10 +32,11 @@ export const Autocomplete = ({
     const [userInput, setUserInput] = useState('')
 
     const handleInputChange = (e) => {
+        const uniqueOptions = uniqueUsers(options)
         setUserInput(e.target.value)
         if (userInput.length !== 0 || userInput !== '') {
             setFilteredSuggestions(
-                options.filter(
+                uniqueOptions.filter(
                     (option) =>
                         option.name
                             ?.toLocaleLowerCase()
@@ -46,7 +47,7 @@ export const Autocomplete = ({
             setShowSuggestions(true)
         } else {
             setShowSuggestions(false)
-            setFilteredSuggestions(options)
+            setFilteredSuggestions(uniqueOptions)
         }
     }
 

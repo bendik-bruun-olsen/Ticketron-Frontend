@@ -1,7 +1,7 @@
 import { useMsal } from '@azure/msal-react'
 import { loginRequest } from './authConfig'
 import { msalInstance } from './main'
-import { Categories } from './components/types'
+import { Categories, Group, UnregUser, User } from './components/types'
 
 const API_KEY = import.meta.env.VITE_PEXELS_API_KEY
 const BASE_URL = 'https://api.pexels.com/v1/search'
@@ -196,4 +196,16 @@ export const deleteData = async (url: string): Promise<void> => {
         console.log('Error during deletion', error)
         throw new Error('Failed to delete data')
     }
+}
+
+export const uniqueUsers = (users: Array<any>) => {
+    const ids = new Set()
+    const uniqueUsers: Array<User | UnregUser | Group> = []
+    users.forEach((user) => {
+        if (!ids.has(user.id)) {
+            ids.add(user.id)
+            uniqueUsers.push(user)
+        }
+    })
+    return uniqueUsers
 }
