@@ -4,6 +4,7 @@ import { fetchData, postData, uniqueUsers } from '../utils'
 import { Group, User } from './types'
 import { PlusIcon, UserGroupIcon, UserIcon } from '@heroicons/react/24/solid'
 import { UserMinusIcon } from '@heroicons/react/24/outline'
+import { useMsal } from '@azure/msal-react'
 
 interface Props {
     field: string
@@ -30,6 +31,8 @@ export const Autocomplete = ({
         useState<Array<User> | null>(null)
     const [showSuggestions, setShowSuggestions] = useState(false)
     const [userInput, setUserInput] = useState('')
+    const { accounts } = useMsal()
+    const [user, setUser] = useState<User | null>(null)
 
     const handleInputChange = (e) => {
         const uniqueOptions = uniqueUsers(options)
@@ -71,6 +74,14 @@ export const Autocomplete = ({
         }
     }
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            const user = await fetchData(`/User/${accounts[0].localAccountId}`)
+            setUser(user)
+        }
+        fetchUser()
+    }, [])
+
     const handleRemove = (suggestion) => {
         setSelected(selected.filter((s) => s !== suggestion))
     }
@@ -90,15 +101,23 @@ export const Autocomplete = ({
     return (
         <div className="relative" onBlur={handleBlur}>
             <div className="flex gap-2 mb-2 flex-wrap">
-                {selected.map((s) => (
-                    <div
-                        key={s.id}
-                        className="chip flex gap-2"
-                        onClick={() => handleRemove(s)}
-                    >
-                        {s.name} <div>x</div>
+                {multiple && (
+                    <div key={user?.id} className="chip flex gap-2">
+                        {user?.name}
                     </div>
-                ))}
+                )}
+                {selected.map((s) => {
+                    if (multiple && user?.id === s.id) return null
+                    return (
+                        <div
+                            key={s.id}
+                            className="chip flex gap-2"
+                            onClick={() => handleRemove(s)}
+                        >
+                            {s.name} <div>x</div>
+                        </div>
+                    )
+                })}
             </div>
 
             <input
