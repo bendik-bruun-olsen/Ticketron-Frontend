@@ -29,6 +29,7 @@ const AddTicketPage: React.FC = () => {
             price: ticket.price,
             purchasedDate: ticket.purchasedDate,
             purchasedBy: ticket.purchasedBy?.name,
+            imageUrl: ticket.imageUrl,
         }
 
         if (!ticket.assignedUser?.email) {

@@ -148,6 +148,43 @@ export const getPicture = async (
     }
 }
 
+export const uploadImage = async (file: File): Promise<string | undefined> => {
+    try {
+        const account = msalInstance.getActiveAccount()
+        if (!account) {
+            throw Error(
+                'No active account! Verify a user has been signed in and setActiveAccount has been called.'
+            )
+        }
+        const recievedToken = await msalInstance.acquireTokenSilent({
+            ...loginRequest,
+            account: account,
+        })
+        const token = `Bearer ${recievedToken.accessToken}`
+        const formData = new FormData()
+        formData.append('image', file)
+
+        const options = {
+            method: 'POST',
+            headers: {
+                Authorization: token,
+            },
+            body: formData,
+        }
+        const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/Blob/upload`,
+            options
+        )
+            .then((response) => response.json())
+            .catch((error) => {
+                console.error('Error Uploading the Image', error)
+            })
+        return response?.blobUrl
+    } catch (error) {
+        console.error('Error Uploading the Image', error)
+    }
+}
+
 export const categoriesArray = [
     'Plane',
     'Concert',

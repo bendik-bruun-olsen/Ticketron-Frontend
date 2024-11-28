@@ -110,7 +110,7 @@ const TicketDetailsPage: React.FC = () => {
     return (
         <div className="w-full">
             <img
-                src="https://placehold.co/173x173"
+                src={ticketDetails.imageUrl || 'https://placehold.co/173x173'}
                 className="w-full h-64 object-cover"
             />
             <div className="p-4 flex flex-col gap-6">

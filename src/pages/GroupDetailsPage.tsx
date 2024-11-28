@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react'
 import GroupComponent from '../components/Group/Group'
 import { fetchData } from '../utils'
 import { useMsal } from '@azure/msal-react'
-import { Group } from '../components/types'
+import { Group, UnregUser, User } from '../components/types'
+import { PlusIcon } from '@heroicons/react/24/solid'
+import { useNavigate } from 'react-router-dom'
+import { Paths } from '../../paths'
 
 const GroupDetailsPage: React.FC = () => {
     const { accounts } = useMsal()
@@ -11,16 +14,28 @@ const GroupDetailsPage: React.FC = () => {
         code: number
         message: string
     } | null>(null)
-
+    const navigate = useNavigate()
     useEffect(() => {
         const fetchGroups = async () => {
             try {
-                const data = await fetchData(
-                    `/Group/user/${accounts[0]?.localAccountId}`
-                )
+                const data = await fetchData(`/Group`)
                 console.log(data)
-                setGroups(data)
+                if (data.length === 0) {
+                    console.log('No groups found')
+                }
+                const groupData = data.map((group: Group) => ({
+                    ...group,
+                    users: [
+                        ...group.users.map((user: User) => ({
+                            id: user.id,
+                            name: user.name,
+                        })),
+                    ],
+                }))
+                console.log('GroupData', groupData)
+                setGroups(groupData)
             } catch (error) {
+                console.error('Error fetching groups', error)
                 setError({
                     code: (error as any).code,
                     message: (error as any).message,
@@ -30,15 +45,20 @@ const GroupDetailsPage: React.FC = () => {
         fetchGroups()
     }, [accounts])
 
+    const handleClick = () => {
+        navigate(Paths.NEW_GROUP)
+    }
+
     return (
         <div className="p-4 flex flex-col gap-4">
             {groups?.map((group) => (
-                <GroupComponent
-                    key={group.id}
-                    name={group.name}
-                    users={group.users}
-                />
-            ))}
+                <div key={group.id}>
+                    <GroupComponent name={group.name} users={group.users} />
+                </div>
+            ))}{' '}
+            <button className="fab bottom-6 right-6" onClick={handleClick}>
+                <PlusIcon className="text-white size-6" />
+            </button>
             {error && <div>Error: {error.message}</div>}
         </div>
     )

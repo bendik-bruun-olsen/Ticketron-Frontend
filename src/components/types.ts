@@ -44,6 +44,7 @@ type TicketType = {
     price: number
     purchasedBy?: User
     purchasedDate: string
+    imageUrl?: string
 }
 
 export type Participant = {

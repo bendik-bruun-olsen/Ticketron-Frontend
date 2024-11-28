@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import DaterangePicker from '../Datepicker'
-import { categoriesArray, fetchData } from '../../utils'
+import { categoriesArray, fetchData, uploadImage } from '../../utils'
 import { useParams } from 'react-router-dom'
 import { Autocomplete } from '../Autocomplete'
 import { User, Group, Ticket } from '../types'
@@ -64,13 +64,18 @@ const TicketForm: React.FC<TicketFormProps> = ({
         }
     }, [initialData])
 
-    const handleSubmit = (e: React.FormEvent): void => {
+    const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault()
 
         const formData = new FormData(e.target as HTMLFormElement)
         const formProps = Object.fromEntries(formData)
         const { title, category, price, purchasedDate, purchasedBy } =
             formProps as HTMLFormElement
+
+        let imageUrl: string | undefined
+        if (selectedFile) {
+            imageUrl = await uploadImage(selectedFile)
+        }
 
         const ticket = {
             title,
@@ -82,6 +87,7 @@ const TicketForm: React.FC<TicketFormProps> = ({
             endDate: dateRange.endDate?.toISOString(),
             bookingId,
             assignedUser: selected[0],
+            imageUrl,
         }
 
         if (selectedFile) {
