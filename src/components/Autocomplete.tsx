@@ -81,8 +81,14 @@ export const Autocomplete = ({
         if (refetchOptions) refetchOptions()
     }
 
+    const handleBlur = (event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+            setTimeout(() => setShowSuggestions(false), 80)
+        }
+    }
+
     return (
-        <div className="relative">
+        <div className="relative" onBlur={handleBlur}>
             <div className="flex gap-2 mb-2 flex-wrap">
                 {selected.map((s) => (
                     <div
@@ -109,7 +115,6 @@ export const Autocomplete = ({
                             className="px-4 py-2 cursor-pointer hover:bg-gray-200 flex gap-2 justify-between"
                             key={index}
                             onClick={() => handleSelect(suggestion)}
-                            onBlur={() => setShowSuggestions(false)}
                         >
                             <div className="flex gap-2 items-center width-full">
                                 {multiple && (
