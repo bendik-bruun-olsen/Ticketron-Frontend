@@ -30,6 +30,7 @@ const AddTicketPage: React.FC = () => {
             price: ticket.price,
             purchasedDate: ticket.purchasedDate,
             purchasedBy: ticket.purchasedBy?.name,
+            imageUrl: ticket.imageUrl,
         }
         try {
             const newTicket = await postData(`/Ticket/create`, body)
