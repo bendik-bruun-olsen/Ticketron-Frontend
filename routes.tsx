@@ -24,13 +24,36 @@ import EditGroupPage from './src/pages/EditGroupPage'
 const routes = [
     {
         path: Paths.LOGIN,
-        element: <LoginPage />,
+        element: (
+            <>
+                <Navbar
+                    title={''}
+                    leftAction={
+                        <img
+                            src="./src/assets/Logo.png"
+                            width="60px"
+                            className="rounded-xl"
+                        ></img>
+                    }
+                />
+                <LoginPage />
+            </>
+        ),
     },
     {
         path: Paths.HOME,
         element: (
             <ProtectedRoute>
-                <Navbar title={'Home'} leftAction={<div></div>} />
+                <Navbar
+                    title={'Home'}
+                    leftAction={
+                        <img
+                            src="./src/assets/Logo.png"
+                            width="60px"
+                            className="rounded-xl"
+                        ></img>
+                    }
+                />
                 <Homepage />
             </ProtectedRoute>
         ),
