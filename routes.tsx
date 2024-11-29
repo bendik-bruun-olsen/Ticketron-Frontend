@@ -26,16 +26,7 @@ const routes = [
         path: Paths.LOGIN,
         element: (
             <>
-                <Navbar
-                    title={''}
-                    leftAction={
-                        <img
-                            src="./src/assets/Logo.png"
-                            width="60px"
-                            className="rounded-xl"
-                        ></img>
-                    }
-                />
+                <Navbar title={'Ticketron'} leftAction={<div></div>} />
                 <LoginPage />
             </>
         ),
@@ -44,16 +35,7 @@ const routes = [
         path: Paths.HOME,
         element: (
             <ProtectedRoute>
-                <Navbar
-                    title={'Home'}
-                    leftAction={
-                        <img
-                            src="./src/assets/Logo.png"
-                            width="60px"
-                            className="rounded-xl"
-                        ></img>
-                    }
-                />
+                <Navbar title={'Home'} leftAction={<div></div>} />
                 <Homepage />
             </ProtectedRoute>
         ),
