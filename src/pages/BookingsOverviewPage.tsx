@@ -112,7 +112,7 @@ function BookingsOverviewPage() {
             if (fetchedImage) {
                 setImageUrl(fetchedImage)
             } else {
-                console.log('No image found for this title')
+                console.warn('No image found for this title')
             }
         }
         fetchImage()

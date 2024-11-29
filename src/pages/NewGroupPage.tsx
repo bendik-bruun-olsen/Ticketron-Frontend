@@ -49,7 +49,6 @@ const NewGroupPage: React.FC = () => {
             }
             const result = await postData('/Group/create', data)
             alert('Group created successfully')
-            console.log('createdgroup:', result)
             navigate('/groups', { replace: true })
         } catch (error) {
             console.log(error)

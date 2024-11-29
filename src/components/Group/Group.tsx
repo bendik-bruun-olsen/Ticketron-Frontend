@@ -35,8 +35,6 @@ const GroupComponent: React.FC<GroupProps> = ({
         visible: false,
     })
 
-    console.log('GroupComponent', users)
-
     const handleEdit = (id) => {
         navigate('/edit-group/' + id)
     }

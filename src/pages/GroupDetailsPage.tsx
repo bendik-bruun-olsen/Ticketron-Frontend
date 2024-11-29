@@ -19,9 +19,8 @@ const GroupDetailsPage: React.FC = () => {
         const fetchGroups = async () => {
             try {
                 const data = await fetchData(`/Group`)
-                console.log(data)
                 if (data.length === 0) {
-                    console.log('No groups found')
+                    console.warn('No groups found')
                 }
                 const groupData = data.map((group: Group) => ({
                     ...group,
@@ -36,7 +35,6 @@ const GroupDetailsPage: React.FC = () => {
                         })),
                     ],
                 }))
-                console.log('GroupData', groupData)
                 setGroups(groupData)
             } catch (error) {
                 console.error('Error fetching groups', error)
